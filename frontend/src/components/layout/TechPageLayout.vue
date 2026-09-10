@@ -79,7 +79,7 @@ withDefaults(defineProps<Props>(), {
   align-items: flex-end;
   margin-bottom: 32px;
   padding-bottom: 24px;
-  border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+  border-bottom: 1px solid var(--border-default);
   position: relative;
 
   &::after {
@@ -89,14 +89,13 @@ withDefaults(defineProps<Props>(), {
     left: 0;
     width: 200px;
     height: 2px;
-    background: linear-gradient(90deg, var(--tech-neon-cyan), var(--tech-neon-magenta), transparent);
-    box-shadow: 0 0 10px var(--tech-neon-cyan);
+    background: linear-gradient(90deg, var(--color-primary), #391c57, transparent);
   }
 }
 
 .header-left {
   .page-title {
-    font-family: var(--tech-font-cyber);
+    font-family: var(--font-family-base);
     font-size: 42px;
     font-weight: 900;
     margin: 0 0 8px 0;
@@ -105,18 +104,17 @@ withDefaults(defineProps<Props>(), {
     position: relative;
 
     .gradient-text {
-      background: linear-gradient(135deg, var(--tech-neon-cyan), var(--tech-neon-magenta));
+      background: linear-gradient(135deg, var(--color-primary), #391c57);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
     }
   }
 
   .page-subtitle {
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
     font-size: 14px;
-    color: var(--tech-text-secondary);
+    color: var(--text-secondary);
     margin: 0;
     font-weight: 400;
     letter-spacing: 0.1em;

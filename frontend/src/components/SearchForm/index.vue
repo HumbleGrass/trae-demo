@@ -126,9 +126,9 @@ function handleReset() {
     margin-bottom: 16px;
 
     :deep(.el-form-item__label) {
-      font-family: var(--tech-font-mono);
+      font-family: var(--font-family-base);
       font-size: 13px;
-      color: var(--tech-text-secondary);
+      color: var(--text-secondary);
       font-weight: 500;
       letter-spacing: 0.05em;
     }
@@ -149,10 +149,8 @@ function handleReset() {
     }
 
     :deep(.el-input__wrapper) {
-      background: rgba(10, 10, 26, 0.95) !important;
-      background-color: rgba(10, 10, 26, 0.95) !important;
-      border: 1px solid rgba(0, 243, 255, 0.25) !important;
-      border-color: rgba(0, 243, 255, 0.25) !important;
+      background: var(--color-surface) !important;
+      border: 1px solid var(--border-default) !important;
       border-radius: 2px !important;
       box-shadow: none !important;
       height: 32px !important;
@@ -161,34 +159,30 @@ function handleReset() {
       transition: all 0.25s ease !important;
 
       &:hover {
-        border-color: #00f3ff !important;
-        box-shadow: 0 0 8px rgba(0, 245, 255, 0.15) !important;
+        border-color: var(--color-primary) !important;
       }
     }
 
     :deep(.el-input.is-focus .el-input__wrapper),
     :deep(.el-input__wrapper:focus-within),
     :deep(.el-input__wrapper:focus-visible) {
-      border-color: #00f3ff !important;
-      box-shadow:
-        0 0 12px rgba(0, 245, 255, 0.22),
-        inset 0 0 6px rgba(0, 245, 255, 0.04) !important;
+      border-color: var(--color-primary) !important;
     }
 
     :deep(.el-input__inner) {
-      color: #e0e0ff !important;
+      color: var(--text-primary) !important;
       font-family: var(--font-family-base);
       font-size: 14px;
       height: 30px !important;
       line-height: 30px !important;
 
       &::placeholder {
-        color: #606099 !important;
+        color: var(--text-muted) !important;
       }
     }
 
     :deep(.el-input__prefix) {
-      color: #606099 !important;
+      color: var(--text-muted) !important;
 
       .el-icon {
         font-size: 14px;
@@ -196,10 +190,10 @@ function handleReset() {
     }
 
     :deep(.el-input__clear) {
-      color: #8080a0 !important;
+      color: var(--text-muted) !important;
 
       &:hover {
-        color: #00f3ff !important;
+        color: var(--color-primary) !important;
       }
     }
 
@@ -223,10 +217,8 @@ function handleReset() {
     }
 
     :deep(.el-select__wrapper) {
-      background: rgba(10, 10, 26, 0.95) !important;
-      background-color: rgba(10, 10, 26, 0.95) !important;
-      border: 1px solid rgba(0, 243, 255, 0.25) !important;
-      border-color: rgba(0, 243, 255, 0.25) !important;
+      background: var(--color-surface) !important;
+      border: 1px solid var(--border-default) !important;
       border-radius: 2px !important;
       box-shadow: none !important;
       height: 32px !important;
@@ -234,21 +226,17 @@ function handleReset() {
       transition: all 0.25s ease !important;
 
       &:hover {
-        border-color: #00f3ff !important;
-        box-shadow: 0 0 8px rgba(0, 245, 255, 0.15) !important;
+        border-color: var(--color-primary) !important;
       }
     }
 
     :deep(.el-select.is-focused .el-select__wrapper),
     :deep(.el-select__wrapper.is-focused) {
-      border-color: #00f3ff !important;
-      box-shadow:
-        0 0 12px rgba(0, 245, 255, 0.22),
-        inset 0 0 6px rgba(0, 245, 255, 0.04) !important;
+      border-color: var(--color-primary) !important;
     }
 
     :deep(.el-select__placeholder) {
-      color: #606099 !important;
+      color: var(--text-muted) !important;
       font-family: var(--font-family-base);
       font-size: 14px;
       line-height: 32px !important;
@@ -256,7 +244,7 @@ function handleReset() {
 
     :deep(.el-select__caret),
     :deep(.el-select__icon) {
-      color: #00f3ff !important;
+      color: var(--color-primary) !important;
       font-size: 13px;
     }
 
@@ -271,26 +259,25 @@ function handleReset() {
 
   .tech-date-picker {
     :deep(.el-input__wrapper) {
-      background: rgba(10, 10, 26, 0.95) !important;
-      background-color: rgba(10, 10, 26, 0.95) !important;
-      border: 1px solid rgba(0, 243, 255, 0.25) !important;
+      background: var(--color-surface) !important;
+      border: 1px solid var(--border-default) !important;
       border-radius: 2px !important;
       box-shadow: none !important;
       height: 32px !important;
     }
 
     :deep(.el-input__inner) {
-      color: #e0e0ff !important;
+      color: var(--text-primary) !important;
       font-family: var(--font-family-base);
       font-size: 14px;
 
       &::placeholder {
-        color: #606099 !important;
+        color: var(--text-muted) !important;
       }
     }
 
     :deep(.el-input__suffix) {
-      color: #00f3ff !important;
+      color: var(--color-primary) !important;
     }
   }
 }

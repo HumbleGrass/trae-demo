@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 /**
- * StatusTag 组件 - 状态标签 (科技风格)
- * @description 根据状态值显示不同颜色的标签，用于借阅状态、书籍状态等
+ * StatusTag 组件 - 状态标签
+ * @description 根据状态值显示不同颜色的 Notion 风格标签，用于借阅状态、书籍状态等
  */
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -95,117 +95,6 @@ const statusText = computed(() => {
 
 const handleClose = () => { emit('close') }
 </script>
-
-<style lang="scss" scoped>
-@media not all {
-.status-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 2px;
-  font-family: var(--tech-font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  position: relative;
-  overflow: hidden;
-  transition: all var(--tech-transition-fast);
-
-  .tag-icon {
-    font-size: 10px;
-    line-height: 1;
-  }
-
-  .tag-text {
-    line-height: 1;
-  }
-
-  .tag-close {
-    margin-left: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    line-height: 1;
-    opacity: 0.7;
-    transition: opacity var(--tech-transition-fast);
-
-    &:hover {
-      opacity: 1;
-    }
-  }
-
-  // Cyan (借阅中, 已通知)
-  &.status-tag--cyan {
-    background: rgba(0, 245, 255, 0.1);
-    border: 1px solid var(--tech-neon-cyan);
-    color: var(--tech-neon-cyan);
-    box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
-      animation: shimmer 2s infinite;
-    }
-  }
-
-  // Green (已归还, 可借, 已完成, 已缴纳)
-  &.status-tag--green {
-    background: rgba(190, 242, 100, 0.1);
-    border: 1px solid var(--tech-neon-green);
-    color: var(--tech-neon-green);
-    box-shadow: 0 0 10px rgba(190, 242, 100, 0.2);
-  }
-
-  // Red (已逾期, 已过期, 未缴纳)
-  &.status-tag--red {
-    background: rgba(255, 0, 110, 0.1);
-    border: 1px solid var(--tech-neon-red);
-    color: var(--tech-neon-red);
-    box-shadow: 0 0 10px rgba(255, 0, 110, 0.2);
-    animation: pulse-red 2s ease-in-out infinite;
-  }
-
-  // Yellow (已续借, 已借出, 待处理)
-  &.status-tag--yellow {
-    background: rgba(255, 190, 11, 0.1);
-    border: 1px solid var(--tech-neon-yellow);
-    color: var(--tech-neon-yellow);
-    box-shadow: 0 0 10px rgba(255, 190, 11, 0.2);
-  }
-
-  // Magenta (已预约)
-  &.status-tag--magenta {
-    background: rgba(131, 56, 236, 0.1);
-    border: 1px solid var(--tech-neon-magenta);
-    color: var(--tech-neon-magenta);
-    box-shadow: 0 0 10px rgba(131, 56, 236, 0.2);
-  }
-
-  // Muted (已取消, 默认)
-  &.status-tag--muted {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--tech-border-color);
-    color: var(--tech-text-muted);
-  }
-}
-
-@keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
-}
-
-@keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 110, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(255, 0, 110, 0.5); }
-}
-}
-</style>
 
 <style lang="scss" scoped>
 .status-tag {

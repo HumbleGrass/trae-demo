@@ -57,11 +57,7 @@
         <!-- 借阅趋势图 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              借阅趋势分析
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">借阅趋势分析</h3>
           </template>
           <Chart 
             :options="borrowTrendOptions" 
@@ -73,11 +69,7 @@
         <!-- 图书分类统计 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              图书分类分布
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">图书分类分布</h3>
           </template>
           <Chart 
             :options="categoryPieOptions" 
@@ -92,11 +84,7 @@
         <!-- 月度借阅量 -->
         <TechCard class="chart-card full-width">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              月度借阅统计
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">月度借阅统计</h3>
           </template>
           <Chart 
             :options="monthlyBorrowOptions" 
@@ -128,13 +116,13 @@ const stats = reactive({
   activeBorrows: 0
 })
 
-// 借阅趋势图配置 - 科技风格
+// 借阅趋势图配置
 const borrowTrendOptions = ref<any>({
   title: {
     text: '',
     left: 'center',
     textStyle: {
-      color: '#e0e0ff',
+      color: '#000000',
       fontFamily: 'Inter, sans-serif',
       fontSize: 16,
       fontWeight: 700
@@ -142,12 +130,12 @@ const borrowTrendOptions = ref<any>({
   },
   tooltip: {
     trigger: 'axis',
-    backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)',
+    backgroundColor: '#ffffff',
+    borderColor: '#e6e6e6',
     borderWidth: 1,
     padding: [12, 16],
     textStyle: {
-      color: '#e0e0ff',
+      color: '#31302e',
       fontFamily: 'Inter, sans-serif',
       fontSize: 13
     }
@@ -163,11 +151,11 @@ const borrowTrendOptions = ref<any>({
     type: 'category',
     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
     axisLine: {
-      lineStyle: { color: 'rgba(0, 243, 255, 0.2)' }
+      lineStyle: { color: '#e6e6e6' }
     },
     axisLabel: {
-      color: '#8080a0',
-      fontFamily: 'JetBrains Mono, monospace'
+      color: '#615d59',
+      fontFamily: 'Inter, sans-serif'
     }
   },
   yAxis: {
@@ -175,12 +163,12 @@ const borrowTrendOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: {
-      color: '#8080a0',
-      fontFamily: 'JetBrains Mono, monospace'
+      color: '#615d59',
+      fontFamily: 'Inter, sans-serif'
     },
     splitLine: {
       lineStyle: { 
-        color: 'rgba(0, 243, 255, 0.1)',
+        color: '#e6e6e6',
         type: 'dashed' as const
       }
     }
@@ -191,14 +179,12 @@ const borrowTrendOptions = ref<any>({
     type: 'line',
     smooth: true,
     lineStyle: {
-      color: '#00f3ff',
-      width: 3,
-      shadowColor: '#00f3ff',
-      shadowBlur: 10
+      color: '#0075de',
+      width: 3
     },
     itemStyle: {
-      color: '#00f3ff',
-      borderColor: '#fff',
+      color: '#0075de',
+      borderColor: '#ffffff',
       borderWidth: 2
     },
     areaStyle: {
@@ -206,28 +192,28 @@ const borrowTrendOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: 'rgba(0, 243, 255, 0.25)' },
-          { offset: 1, color: 'rgba(0, 243, 255, 0.02)' }
+          { offset: 0, color: 'rgba(0, 117, 222, 0.18)' },
+          { offset: 1, color: 'rgba(0, 117, 222, 0.02)' }
         ]
       }
     }
   }]
 })
 
-// 图书分类饼图 - 科技风格
+// 图书分类饼图配置
 const categoryPieOptions = ref<any>({
   tooltip: {
     trigger: 'item',
     formatter: '{b}: {c} ({d}%)',
-    backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)'
+    backgroundColor: '#ffffff',
+    borderColor: '#e6e6e6'
   },
   legend: {
     orient: 'vertical',
     right: 20,
     top: 'center',
     textStyle: {
-      color: '#b0b0d0',
+      color: '#31302e',
       fontFamily: 'Inter, sans-serif'
     }
   },
@@ -238,7 +224,7 @@ const categoryPieOptions = ref<any>({
     avoidLabelOverlap: false,
     itemStyle: {
       borderRadius: 6,
-      borderColor: '#0a0a1a',
+      borderColor: '#ffffff',
       borderWidth: 2
     },
     label: { show: false },
@@ -248,7 +234,7 @@ const categoryPieOptions = ref<any>({
         fontSize: 14,
         fontWeight: 'bold',
         fontFamily: 'Inter, sans-serif',
-        color: '#00f3ff'
+        color: '#0075de'
       }
     },
     data: [
@@ -258,16 +244,16 @@ const categoryPieOptions = ref<any>({
       { value: 484, name: '经济管理' },
       { value: 300, name: '艺术设计' }
     ],
-    color: ['#00f3ff', '#ff00ff', '#00ff88', '#ffaa00', '#ff3366']
+    color: ['#0075de', '#391c57', '#1a7f37', '#9a6700', '#cf222e']
   }]
 })
 
-// 月度借阅柱状图 - 科技风格
+// 月度借阅柱状图配置
 const monthlyBorrowOptions = ref<any>({
   tooltip: {
     trigger: 'axis',
-    backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)'
+    backgroundColor: '#ffffff',
+    borderColor: '#e6e6e6'
   },
   grid: {
     left: '3%',
@@ -280,11 +266,11 @@ const monthlyBorrowOptions = ref<any>({
     type: 'category',
     data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
     axisLine: {
-      lineStyle: { color: 'rgba(0, 243, 255, 0.2)' }
+      lineStyle: { color: '#e6e6e6' }
     },
     axisLabel: {
-      color: '#8080a0',
-      fontFamily: 'JetBrains Mono, monospace',
+      color: '#615d59',
+      fontFamily: 'Inter, sans-serif',
       rotate: 30
     }
   },
@@ -293,12 +279,12 @@ const monthlyBorrowOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: {
-      color: '#8080a0',
-      fontFamily: 'JetBrains Mono, monospace'
+      color: '#615d59',
+      fontFamily: 'Inter, sans-serif'
     },
     splitLine: {
       lineStyle: { 
-        color: 'rgba(0, 243, 255, 0.1)',
+        color: '#e6e6e6',
         type: 'dashed' as const
       }
     }
@@ -314,12 +300,10 @@ const monthlyBorrowOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: '#33e0ff' },
-          { offset: 1, color: '#00c8d4' }
+          { offset: 0, color: '#0075de' },
+          { offset: 1, color: '#62aef0' }
         ]
-      },
-      shadowColor: 'rgba(0, 243, 255, 0.4)',
-      shadowBlur: 12
+      }
     }
   }]
 })
@@ -368,11 +352,11 @@ onMounted(() => {
   gap: 16px;
 
   .stat-card {
-    transition: all var(--tech-transition-base);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 
     &:hover {
-      transform: translateY(-4px);
-      border-color: var(--tech-border-strong);
+      border-color: var(--color-ink-faint);
+      box-shadow: var(--shadow-soft);
     }
 
     .stat-content {
@@ -385,53 +369,49 @@ onMounted(() => {
     .stat-icon {
       width: 56px;
       height: 56px;
-      border-radius: var(--tech-radius-md);
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
 
       &.books {
-        background: rgba(0, 245, 255, 0.1);
-        color: var(--tech-neon-cyan);
-        border: 1px solid var(--tech-neon-cyan);
-        box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+        background: var(--color-info-soft);
+        color: var(--color-primary);
+        border: 1px solid var(--color-info-border);
       }
 
       &.members {
-        background: rgba(255, 0, 255, 0.1);
-        color: var(--tech-neon-magenta);
-        border: 1px solid var(--tech-neon-magenta);
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        background: var(--color-accent-purple);
+        color: var(--color-accent-purple-deep);
+        border: 1px solid rgba(57, 28, 87, 0.3);
       }
 
       &.borrows {
-        background: rgba(0, 255, 136, 0.1);
-        color: var(--tech-neon-green);
-        border: 1px solid var(--tech-neon-green);
-        box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        background: var(--color-success-soft);
+        color: var(--color-success);
+        border: 1px solid var(--color-success-border);
       }
 
       &.active-borrows {
-        background: rgba(255, 190, 11, 0.1);
-        color: var(--tech-neon-yellow);
-        border: 1px solid var(--tech-neon-yellow);
-        box-shadow: 0 0 15px rgba(255, 190, 11, 0.2);
+        background: var(--color-warning-soft);
+        color: var(--color-warning);
+        border: 1px solid var(--color-warning-border);
       }
     }
 
     .stat-info {
       .stat-value {
-        font-family: var(--tech-font-display);
+        font-family: var(--font-family-base);
         font-size: 26px;
         font-weight: 700;
-        color: var(--tech-text-primary);
+        color: var(--text-primary);
         line-height: 1.2;
       }
 
       .stat-label {
         font-size: 12px;
-        color: var(--tech-text-muted);
+        color: var(--text-muted);
         margin-top: 4px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -451,35 +431,16 @@ onMounted(() => {
 }
 
 .chart-card {
-  
   .chart-title {
     margin: 0;
     font-size: 16px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    .title-icon {
-      color: var(--tech-neon-cyan);
-      font-size: 14px;
-    }
-
-    .data-stream {
-      color: var(--tech-neon-cyan);
-      opacity: 0.5;
-      animation: blink 1s ease-in-out infinite;
-    }
+    color: var(--text-primary);
   }
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
 .code-text {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
 }
 
 @media (max-width: 1200px) {

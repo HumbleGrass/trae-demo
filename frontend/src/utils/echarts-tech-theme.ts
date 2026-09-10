@@ -1,163 +1,67 @@
 /**
- * ECharts 科技风格主题配置
- * @description 提供完整的深色科技风格 ECharts 主题
+ * ECharts Notion 浅色主题 — 颜色与 src/styles/_notion-values.scss 对齐
+ *
+ * 注意：本文件当前未被任何组件直接引用。
+ * 实际主题注入由 components/Chart/index.vue 的 applyNotionTheme() 完成。
+ * 本文件作为主题常量的参考来源和手动使用时的工具。
  */
 
-export const techChartTheme = {
-  backgroundColor: 'transparent',
-  
-  // 文字颜色
-  textColor: '#e0e0ff',
-  textSecondary: '#b0b0d0',
-  textMuted: '#8080a0',
-  
-  // 颜色系统
-  colors: [
-    '#00f3ff', // 霓虹青蓝
-    '#ff00ff', // 品红
-    '#00ff88', // 霓虹绿
-    '#ffaa00', // 琥珀黄
-    '#ff3366', // 霓虹红
-    '#0066ff', // 科技蓝
-    '#beec5a', // 黄绿
-    '#ff6b9d'  // 粉红
-  ],
-  
-  // 系列配色
-  seriesColors: [
-    { type: 'line', color: '#00f3ff', areaColor: 'rgba(0, 243, 255, 0.15)' },
-    { type: 'bar', color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-      { offset: 0, color: '#33e0ff' },
-      { offset: 1, color: '#00c8d4' }
-    ])},
-    { type: 'pie', colors: ['#00f3ff', '#ff00ff', '#00ff88', '#ffaa00', '#ff3366'] }
-  ]
+import * as echarts from 'echarts'
+
+export const notionChartColors = {
+  textPrimary: '#000000',
+  textSecondary: '#31302e',
+  textMuted: '#615d59',
+  textFaint: '#a39e98',
+  axisLine: '#e6e6e6',
+  axisLabel: '#615d59',
+  splitLine: '#f6f5f4',
+  primary: '#0075de',
+  primaryActive: '#005bab',
+  success: '#1a7f37',
+  warning: '#9a6700',
+  danger: '#cf222e',
+  accentSky: '#62aef0',
+  accentTeal: '#2a9d99',
+  accentPurpleDeep: '#391c57',
+  accentOrange: '#dd5b00'
 }
 
-/**
- * 获取通用的 ECharts 科技风格配置选项
- */
-export function getTechChartOptions(): Record<string, any> {
-  return {
-    backgroundColor: 'transparent',
-    
-    // 标题样式
-    title: {
-      textStyle: {
-        color: '#e0e0ff',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: 16,
-        fontWeight: 700,
-        textShadowColor: '#00f3ff',
-        textShadowBlur: 10
-      }
-    },
-    
-    // 图例样式
-    legend: {
-      textStyle: {
-        color: '#b0b0d0',
-        fontFamily: 'Inter, sans-serif'
-      }
-    },
-    
-    // 提示框样式
-    tooltip: {
-      backgroundColor: 'rgba(20, 20, 40, 0.95)',
-      borderColor: 'rgba(0, 243, 255, 0.3)',
-      borderWidth: 1,
-      padding: [12, 16],
-      textStyle: {
-        color: '#e0e0ff',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: 13
-      },
-      extraCssText: 'box-shadow: 0 4px 20px rgba(0, 243, 255, 0.2); backdrop-filter: blur(10px);'
-    },
-    
-    // 网格样式
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      top: '10%',
-      containLabel: true
-    },
-    
-    // X轴样式
-    xAxis: {
-      axisLine: {
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.2)' 
-        }
-      },
-      axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'JetBrains Mono, monospace',
-        fontSize: 12
-      },
-      splitLine: {
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.05)',
-          type: 'dashed'
-        }
-      }
-    },
-    
-    // Y轴样式
-    yAxis: {
-      axisLine: { show: false },
-      axisTick: { show: false },
-      axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'JetBrains Mono, monospace',
-        fontSize: 12
-      },
-      splitLine: {
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.1)',
-          type: 'dashed'
-        }
-      }
-    }
-  }
-}
+export const notionPalette = [
+  '#0075de', '#62aef0', '#2a9d99', '#1aae39', '#9a6700', '#cf222e',
+  '#d6b6f6', '#ff64c8', '#dd5b00'
+]
+
+export const notionFontFamily = '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
 
 /**
- * 获取折线图的科技风格系列配置
+ * 获取折线图 Notion 风格配置
  */
-export function getTechLineSeries(data: number[], name?: string): Record<string, any> {
+export function getNotionLineSeries(data: number[], name?: string, color?: string) {
+  const c = color || notionChartColors.primary
   return {
     name,
     data,
     type: 'line',
     smooth: true,
     symbol: 'circle',
-    symbolSize: 8,
-    lineStyle: {
-      color: '#00f3ff',
-      width: 3,
-      shadowColor: '#00f3ff',
-      shadowBlur: 10
-    },
-    itemStyle: {
-      color: '#00f3ff',
-      borderColor: '#fff',
-      borderWidth: 2
-    },
+    symbolSize: 6,
+    lineStyle: { color: c, width: 2.5 },
+    itemStyle: { color: c, borderColor: '#fff', borderWidth: 2 },
     areaStyle: {
       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color: 'rgba(0, 243, 255, 0.25)' },
-        { offset: 1, color: 'rgba(0, 243, 255, 0.02)' }
+        { offset: 0, color: `rgba(0, 117, 222, 0.12)` },
+        { offset: 1, color: 'rgba(0, 117, 222, 0.02)' }
       ])
     }
   }
 }
 
 /**
- * 获取柱状图的科技风格系列配置
+ * 获取柱状图 Notion 风格配置
  */
-export function getTechBarSeries(data: number[], name?: string): Record<string, any> {
+export function getNotionBarSeries(data: number[], name?: string, color?: string) {
+  const c = color || notionChartColors.primary
   return {
     name,
     data,
@@ -165,60 +69,21 @@ export function getTechBarSeries(data: number[], name?: string): Record<string, 
     barWidth: '50%',
     itemStyle: {
       borderRadius: [4, 4, 0, 0],
-      color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-        { offset: 0, color: '#33e0ff' },
-        { offset: 1, color: '#00c8d4' }
-      ]),
-      shadowColor: 'rgba(0, 243, 255, 0.4)',
-      shadowBlur: 12
+      color: c
     }
   }
 }
 
 /**
- * 获取饼图的科技风格配置
+ * 获取饼图 Notion 风格默认颜色序列
  */
-export function getTechPieOptions(data: Array<{value: number; name: string}>, title?: string): Record<string, any> {
-  const baseOptions = getTechChartOptions()
-  
-  return {
-    ...baseOptions,
-    title: title ? { ...baseOptions.title, text: title } : undefined,
-    tooltip: {
-      ...baseOptions.tooltip,
-      formatter: '{b}: {c} ({d}%)'
-    },
-    legend: {
-      orient: 'vertical',
-      right: 20,
-      top: 'center',
-      textStyle: {
-        color: '#b0b0d0',
-        fontFamily: 'Inter, sans-serif'
-      }
-    },
-    series: [{
-      type: 'pie',
-      radius: ['45%', '70%'],
-      center: ['40%', '50%'],
-      avoidLabelOverlap: false,
-      itemStyle: {
-        borderRadius: 6,
-        borderColor: '#0a0a1a',
-        borderWidth: 2
-      },
-      label: { show: false },
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: 14,
-          fontWeight: 'bold',
-          fontFamily: 'Inter, sans-serif',
-          color: '#00f3ff'
-        }
-      },
-      data: data.length > 0 ? data : [{ value: 1, name: '暂无数据' }],
-      color: ['#00f3ff', '#ff00ff', '#00ff88', '#ffaa00', '#ff3366']
-    }]
-  }
+export function getNotionPieColors() {
+  return [
+    notionChartColors.primary,
+    notionChartColors.accentSky,
+    notionChartColors.accentTeal,
+    notionChartColors.success,
+    notionChartColors.warning,
+    notionChartColors.danger
+  ]
 }

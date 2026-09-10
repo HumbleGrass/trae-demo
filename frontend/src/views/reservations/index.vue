@@ -64,7 +64,7 @@
       <TechCard class="table-section fade-in-up delay-3">
         <template #header>
           <div class="table-header">
-            <h3 class="table-title neon-text">预约记录</h3>
+            <h3 class="table-title">预约记录</h3>
             <span class="data-count code-text">{{ pagination.total }} 条记录</span>
           </div>
         </template>
@@ -275,11 +275,11 @@ onMounted(() => {
   gap: 16px;
 
   .stat-card {
-    transition: all var(--tech-transition-base);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 
     &:hover {
-      transform: translateY(-4px);
-      border-color: var(--tech-border-strong);
+      border-color: var(--color-ink-faint);
+      box-shadow: var(--shadow-soft);
     }
 
     .stat-content {
@@ -292,53 +292,49 @@ onMounted(() => {
     .stat-icon {
       width: 48px;
       height: 48px;
-      border-radius: var(--tech-radius-md);
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
 
       &.total {
-        background: rgba(0, 245, 255, 0.1);
-        color: var(--tech-neon-cyan);
-        border: 1px solid var(--tech-neon-cyan);
-        box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+        background: var(--color-info-soft);
+        color: var(--color-primary);
+        border: 1px solid var(--color-info-border);
       }
 
       &.pending {
-        background: rgba(255, 190, 11, 0.1);
-        color: var(--tech-neon-yellow);
-        border: 1px solid var(--tech-neon-yellow);
-        box-shadow: 0 0 15px rgba(255, 190, 11, 0.2);
+        background: var(--color-warning-soft);
+        color: var(--color-warning);
+        border: 1px solid var(--color-warning-border);
       }
 
       &.active {
-        background: rgba(0, 255, 136, 0.1);
-        color: var(--tech-neon-green);
-        border: 1px solid var(--tech-neon-green);
-        box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        background: var(--color-success-soft);
+        color: var(--color-success);
+        border: 1px solid var(--color-success-border);
       }
 
       &.completed {
-        background: rgba(138, 201, 38, 0.1);
-        color: var(--tech-neon-lime);
-        border: 1px solid var(--tech-neon-lime);
-        box-shadow: 0 0 15px rgba(138, 201, 38, 0.2);
+        background: rgba(26, 127, 55, 0.08);
+        color: #1a7f37;
+        border: 1px solid rgba(26, 127, 55, 0.25);
       }
     }
 
     .stat-info {
       .stat-value {
-        font-family: var(--tech-font-display);
+        font-family: var(--font-family-base);
         font-size: 26px;
         font-weight: 700;
-        color: var(--tech-text-primary);
+        color: var(--text-primary);
         line-height: 1.2;
       }
 
       .stat-label {
         font-size: 12px;
-        color: var(--tech-text-muted);
+        color: var(--text-muted);
         margin-top: 4px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
@@ -363,7 +359,7 @@ onMounted(() => {
 
   .data-count {
     font-size: 12px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
@@ -383,8 +379,8 @@ onMounted(() => {
     font-weight: var(--font-weight-title);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--tech-text-secondary);
-    border-bottom: 2px solid var(--tech-border-color);
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border-default);
 
     .cell {
       padding: 16px 12px;
@@ -410,7 +406,7 @@ onMounted(() => {
 }
 
 .id-cell {
-  color: var(--tech-neon-cyan);
+  color: var(--color-primary);
   font-weight: 700;
 }
 
@@ -421,12 +417,12 @@ onMounted(() => {
 
   .book-name {
     font-weight: 500;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
   }
 
   .book-isbn {
     font-size: 11px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
@@ -437,17 +433,17 @@ onMounted(() => {
 
   .member-name {
     font-weight: 500;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
   }
 
   .member-phone {
     font-size: 11px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
 .date-cell {
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -458,7 +454,7 @@ onMounted(() => {
 }
 
 .code-text {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
 }
 
 @media (max-width: 1024px) {

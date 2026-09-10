@@ -72,8 +72,7 @@
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
               </svg>
             </div>
-            <span class="neon-text">会员列表</span>
-            <span class="data-stream">▋</span>
+            <span>会员列表</span>
           </div>
           <div class="table-actions">
             <el-button link class="export-btn tech-link" size="default">
@@ -94,7 +93,6 @@
               <template #default="{ row }">
                 <div class="member-info-cell">
                   <div class="member-avatar" :style="{ background: avatarGradient(row.name) }">
-                    <div class="avatar-glow"></div>
                     <span class="avatar-text">{{ row.name?.charAt(0) || 'U' }}</span>
                   </div>
                   <div class="member-details">
@@ -163,12 +161,11 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon">
-            <div class="icon-glow"></div>
             <el-icon :size="28"><User /></el-icon>
           </div>
           <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">{{ t('members.editMember') }}</h3>
-            <p class="dialog-subtitle">// 编辑会员信息</p>
+            <h3 class="dialog-title">{{ t('members.editMember') }}</h3>
+            <p class="dialog-subtitle">编辑会员信息</p>
           </div>
         </div>
 
@@ -368,40 +365,28 @@ onMounted(() => {
 .table-header {
   justify-content: space-between;
   padding: 20px 28px;
-  border-bottom: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--tech-neon-cyan), transparent);
-  }
+  border-bottom: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .table-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--tech-font-cyber);
+  font-family: var(--font-family-base);
   font-size: 18px;
   font-weight: 700;
 
   .title-icon {
     width: 40px;
     height: 40px;
-    border-radius: 2px;
-    background: rgba(0, 245, 255, 0.1);
-    color: var(--tech-neon-cyan);
-    border: 1px solid var(--tech-neon-cyan);
+    border-radius: var(--radius-md);
+    background: var(--color-info-soft);
+    color: var(--color-primary);
+    border: 1px solid var(--color-info-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
 
     svg {
       width: 20px;
@@ -411,11 +396,11 @@ onMounted(() => {
 }
 
 .export-btn {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
   font-weight: 600;
   padding: 8px 16px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .table-container {
@@ -432,30 +417,19 @@ onMounted(() => {
 .member-avatar {
   width: 44px;
   height: 44px;
-  border-radius: 2px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  position: relative;
   overflow: hidden;
-  transition: all var(--tech-transition-fast);
-
-  .avatar-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-  }
+  transition: transform var(--transition-fast);
 
   .avatar-text {
-    font-family: var(--tech-font-cyber);
+    font-family: var(--font-family-base);
     font-size: 18px;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.95);
-    z-index: 1;
   }
 
   &:hover {
@@ -467,28 +441,28 @@ onMounted(() => {
   min-width: 0;
 
   .member-name {
-    font-family: var(--tech-font-body);
+    font-family: var(--font-family-base);
     font-size: 15px;
     font-weight: 600;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
 
   .member-phone {
     font-size: 12px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
 .id-card-text {
   font-size: 13px;
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
 }
 
 .email-text {
-  font-family: var(--tech-font-body);
+  font-family: var(--font-family-base);
   font-size: 14px;
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
 }
 
 .borrow-limit {
@@ -497,21 +471,21 @@ onMounted(() => {
   gap: 6px;
 
   .limit-icon {
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
     font-size: 12px;
   }
 
   .limit-value {
-    font-family: var(--tech-font-cyber);
+    font-family: var(--font-family-base);
     font-size: 18px;
     font-weight: 700;
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
   }
 
   .limit-unit {
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
     font-size: 12px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
@@ -520,22 +494,22 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 28px;
-  border-top: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
+  border-top: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .pagination-info {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
-  color: var(--tech-text-muted);
+  color: var(--text-muted);
   font-weight: 500;
 
   .info-label {
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 
   .info-value {
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
     margin: 0 4px;
   }
 }

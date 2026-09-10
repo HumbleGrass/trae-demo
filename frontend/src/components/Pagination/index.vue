@@ -76,22 +76,22 @@ function handleCurrentChange(val: number) {
   justify-content: space-between;
   align-items: center;
   padding: 20px 28px;
-  border-top: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
+  border-top: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .pagination-info {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
-  color: var(--tech-text-muted);
+  color: var(--text-muted);
   font-weight: 500;
   
   .info-label {
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
   
   .info-value {
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
     margin: 0 4px;
     font-weight: 600;
   }
@@ -99,49 +99,43 @@ function handleCurrentChange(val: number) {
 
 .tech-pagination {
   :deep(.el-pager li) {
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
     font-weight: 500;
     border-radius: 2px !important;
     margin: 0 2px;
-    background: var(--tech-bg-dark);
-    color: var(--tech-text-secondary);
-    border: 1px solid var(--tech-border-color);
+    background: var(--color-surface);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-default);
     min-width: 32px !important;
     height: 32px !important;
     line-height: 30px !important;
-    transition: all var(--tech-transition-fast);
+    transition: all var(--transition-fast);
     
     &:hover {
-      color: var(--tech-neon-cyan) !important;
-      border-color: var(--tech-neon-cyan) !important;
-      box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+      color: var(--color-primary) !important;
+      border-color: var(--color-primary) !important;
     }
   }
   
   :deep(.btn-prev),
   :deep(.btn-next) {
     border-radius: 2px !important;
-    background: var(--tech-bg-dark);
-    border: 1px solid var(--tech-border-color);
-    color: var(--tech-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--border-default);
+    color: var(--text-secondary);
     min-width: 32px !important;
     height: 32px !important;
-    transition: all var(--tech-transition-fast);
+    transition: all var(--transition-fast);
     
     &:hover {
-      color: var(--tech-neon-cyan) !important;
-      border-color: var(--tech-neon-cyan) !important;
-      box-shadow: 0 0 8px rgba(0, 245, 255, 0.3);
+      color: var(--color-primary) !important;
+      border-color: var(--color-primary) !important;
     }
   }
   
   :deep(.is-active) {
-    background: rgba(0, 245, 255, 0.15) !important;
-    color: var(--tech-neon-cyan) !important;
-    border-color: var(--tech-neon-cyan) !important;
-    box-shadow: 
-      0 0 10px rgba(0, 245, 255, 0.3),
-      inset 0 0 10px rgba(0, 245, 255, 0.1) !important;
+    color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
     font-weight: 700;
   }
   
@@ -149,46 +143,35 @@ function handleCurrentChange(val: number) {
     margin-left: 8px;
 
     .el-select__wrapper {
-      background: rgba(10, 10, 26, 0.98) !important;
-      background-color: rgba(10, 10, 26, 0.98) !important;
-      border: 1px solid rgba(0, 243, 255, 0.3) !important;
-      border-color: rgba(0, 243, 255, 0.3) !important;
-      box-shadow: none !important;
       border-radius: 2px !important;
       height: 32px !important;
       min-height: 32px !important;
       transition: all 0.25s ease !important;
 
       &:hover {
-        border-color: #00f3ff !important;
-        box-shadow: 0 0 12px rgba(0, 245, 255, 0.25) !important;
-        background: rgba(8, 8, 22, 1) !important;
-        background-color: rgba(8, 8, 22, 1) !important;
+        border-color: var(--color-primary) !important;
       }
     }
 
     .el-select__placeholder {
-      color: var(--tech-text-secondary) !important;
-      font-family: var(--tech-font-mono);
+      color: var(--text-secondary) !important;
+      font-family: var(--font-family-base);
       font-size: 13px !important;
     }
 
     .el-select__caret,
     .el-select__icon {
-      color: var(--tech-neon-cyan) !important;
+      color: var(--color-primary) !important;
     }
 
     &.is-focused .el-select__wrapper {
-      border-color: var(--tech-neon-cyan) !important;
-      box-shadow:
-        0 0 14px rgba(0, 245, 255, 0.3),
-        inset 0 0 10px rgba(0, 245, 255, 0.06) !important;
+      border-color: var(--color-primary) !important;
     }
   }
 }
 
 .code-text {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
 }
 }
 </style>

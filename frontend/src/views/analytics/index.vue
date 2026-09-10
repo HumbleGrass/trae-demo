@@ -6,11 +6,7 @@
         <!-- 借阅趋势 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              借阅趋势
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">借阅趋势</h3>
           </template>
           <Chart 
             :options="borrowTrendOptions" 
@@ -22,11 +18,7 @@
         <!-- 图书分类占比 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              分类占比
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">分类占比</h3>
           </template>
           <Chart 
             :options="categoryPieOptions" 
@@ -41,11 +33,7 @@
         <!-- 会员活跃度 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              会员活跃度
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">会员活跃度</h3>
           </template>
           <Chart 
             :options="memberActivityOptions" 
@@ -57,11 +45,7 @@
         <!-- 借阅时长分布 -->
         <TechCard class="chart-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              借阅时长分布
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">借阅时长分布</h3>
           </template>
           <Chart 
             :options="durationDistributionOptions" 
@@ -75,11 +59,7 @@
       <div class="insights-section fade-in-up delay-3">
         <TechCard class="insights-card">
           <template #header>
-            <h3 class="chart-title neon-text">
-              <span class="title-icon">▸</span>
-              关键数据洞察
-              <span class="data-stream">▋</span>
-            </h3>
+            <h3 class="chart-title">关键数据洞察</h3>
           </template>
           
           <div class="insights-grid">
@@ -160,7 +140,7 @@ const borrowTrendOptions = ref<any>({
   xAxis: {
     type: 'category',
     data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-    axisLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.2)' } },
+    axisLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.2)' } },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' }
   },
   yAxis: {
@@ -168,7 +148,7 @@ const borrowTrendOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' },
-    splitLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.1)', type: 'dashed' as const } }
+    splitLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.1)', type: 'dashed' as const } }
   },
   series: [{
     name: '借阅量',
@@ -176,13 +156,11 @@ const borrowTrendOptions = ref<any>({
     type: 'line',
     smooth: true,
     lineStyle: {
-      color: '#00f3ff',
-      width: 3,
-      shadowColor: '#00f3ff',
-      shadowBlur: 10
+      color: '#0075de',
+      width: 3
     },
     itemStyle: {
-      color: '#00f3ff',
+      color: '#0075de',
       borderColor: '#fff',
       borderWidth: 2
     },
@@ -191,8 +169,8 @@ const borrowTrendOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: 'rgba(0, 243, 255, 0.25)' },
-          { offset: 1, color: 'rgba(0, 243, 255, 0.02)' }
+          { offset: 0, color: 'rgba(0, 117, 222, 0.12)' },
+          { offset: 1, color: 'rgba(0, 117, 222, 0.02)' }
         ]
       }
     }
@@ -205,7 +183,7 @@ const categoryPieOptions = ref<any>({
     trigger: 'item',
     formatter: '{b}: {c} ({d}%)',
     backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)'
+    borderColor: 'rgba(0, 117, 222, 0.3)'
   },
   legend: {
     orient: 'vertical',
@@ -230,7 +208,7 @@ const categoryPieOptions = ref<any>({
         fontSize: 14,
         fontWeight: 'bold',
         fontFamily: 'Inter, sans-serif',
-        color: '#00f3ff'
+        color: '#0075de'
       }
     },
     data: [
@@ -240,7 +218,7 @@ const categoryPieOptions = ref<any>({
       { value: 300, name: '经济管理' },
       { value: 200, name: '艺术设计' }
     ],
-    color: ['#00f3ff', '#ff00ff', '#00ff88', '#ffaa00', '#ff3366']
+    color: ['#0075de', '#62aef0', '#2a9d99', '#1aae39', '#9a6700', '#cf222e']
   }]
 })
 
@@ -249,7 +227,7 @@ const memberActivityOptions = ref<any>({
   tooltip: {
     trigger: 'axis',
     backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)'
+    borderColor: 'rgba(0, 117, 222, 0.3)'
   },
   grid: {
     left: '3%',
@@ -261,7 +239,7 @@ const memberActivityOptions = ref<any>({
   xAxis: {
     type: 'category',
     data: ['新用户', '轻度活跃', '中度活跃', '高度活跃', '核心用户'],
-    axisLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.2)' } },
+    axisLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.2)' } },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' }
   },
   yAxis: {
@@ -269,7 +247,7 @@ const memberActivityOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' },
-    splitLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.1)', type: 'dashed' as const } }
+    splitLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.1)', type: 'dashed' as const } }
   },
   series: [{
     name: '人数',
@@ -282,12 +260,10 @@ const memberActivityOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: '#33e0ff' },
-          { offset: 1, color: '#00c8d4' }
+          { offset: 0, color: '#62aef0' },
+          { offset: 1, color: '#0075de' }
         ]
-      },
-      shadowColor: 'rgba(0, 243, 255, 0.4)',
-      shadowBlur: 12
+      }
     }
   }]
 })
@@ -297,7 +273,7 @@ const durationDistributionOptions = ref<any>({
   tooltip: {
     trigger: 'axis',
     backgroundColor: 'rgba(20, 20, 40, 0.95)',
-    borderColor: 'rgba(0, 243, 255, 0.3)'
+    borderColor: 'rgba(0, 117, 222, 0.3)'
   },
   grid: {
     left: '3%',
@@ -309,7 +285,7 @@ const durationDistributionOptions = ref<any>({
   xAxis: {
     type: 'category',
     data: ['1-5天', '6-10天', '11-15天', '16-20天', '21-25天', '26-30天', '>30天'],
-    axisLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.2)' } },
+    axisLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.2)' } },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' }
   },
   yAxis: {
@@ -317,7 +293,7 @@ const durationDistributionOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: { color: '#8080a0', fontFamily: 'JetBrains Mono, monospace' },
-    splitLine: { lineStyle: { color: 'rgba(0, 243, 255, 0.1)', type: 'dashed' as const } }
+    splitLine: { lineStyle: { color: 'rgba(0, 117, 222, 0.1)', type: 'dashed' as const } }
   },
   series: [{
     name: '数量',
@@ -330,12 +306,10 @@ const durationDistributionOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: '#ff00ff' },
-          { offset: 1, color: '#cc00cc' }
+          { offset: 0, color: '#391c57' },
+          { offset: 1, color: '#0075de' }
         ]
-      },
-      shadowColor: 'rgba(255, 0, 255, 0.4)',
-      shadowBlur: 12
+      }
     }
   }]
 })
@@ -349,60 +323,33 @@ onMounted(() => {
 .analytics-content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-lg);
 }
 
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: var(--space-lg);
 }
 
 .chart-card {
-  
   .chart-title {
     margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    .title-icon {
-      color: var(--tech-neon-cyan);
-      font-size: 14px;
-    }
-
-    .data-stream {
-      color: var(--tech-neon-cyan);
-      opacity: 0.5;
-      animation: blink 1s ease-in-out infinite;
-    }
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-heading);
+    color: var(--text-primary);
   }
 }
 
 .insights-section {
-  
   .insights-card {
-    
     .chart-title {
       margin: 0;
-      font-size: 16px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-
-      .title-icon {
-        color: var(--tech-neon-cyan);
-        font-size: 14px;
-      }
-
-      .data-stream {
-        color: var(--tech-neon-cyan);
-        opacity: 0.5;
-        animation: blink 1s ease-in-out infinite;
-      }
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-title);
+      font-weight: var(--font-weight-heading);
+      color: var(--text-primary);
     }
   }
 }
@@ -410,61 +357,58 @@ onMounted(() => {
 .insights-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  padding: 8px;
+  gap: var(--space-lg);
+  padding: var(--space-xs);
 }
 
 .insight-item {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  padding: 20px;
-  background: var(--tech-bg-dark);
-  border: 1px solid var(--tech-border-color);
-  border-radius: var(--tech-radius-sm);
-  transition: all var(--tech-transition-base);
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
 
   &:hover {
-    border-color: var(--tech-primary-400);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 245, 255, 0.1);
+    box-shadow: var(--shadow-soft);
   }
 
   .insight-icon {
     width: 44px;
     height: 44px;
-    border-radius: var(--tech-radius-md);
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    border: 1px solid transparent;
 
     &.trend-up {
-      background: rgba(0, 255, 136, 0.1);
-      color: var(--tech-neon-green);
-      border: 1px solid var(--tech-neon-green);
-      box-shadow: 0 0 10px rgba(0, 255, 136, 0.2);
+      background: var(--color-success-soft);
+      color: var(--color-success);
+      border-color: var(--color-success-border);
     }
 
     &.hot-book {
-      background: rgba(0, 245, 255, 0.1);
-      color: var(--tech-neon-cyan);
-      border: 1px solid var(--tech-neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 245, 255, 0.2);
+      background: var(--color-info-soft);
+      color: var(--color-primary);
+      border-color: var(--color-info-border);
     }
 
     &.active-users {
-      background: rgba(255, 0, 255, 0.1);
-      color: var(--tech-neon-magenta);
-      border: 1px solid var(--tech-neon-magenta);
-      box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+      background: var(--color-warning-soft);
+      color: var(--color-warning);
+      border-color: var(--color-warning-border);
     }
 
     &.avg-duration {
-      background: rgba(255, 190, 11, 0.1);
-      color: var(--tech-neon-yellow);
-      border: 1px solid var(--tech-neon-yellow);
-      box-shadow: 0 0 10px rgba(255, 190, 11, 0.2);
+      background: rgba(108, 70, 255, 0.08);
+      color: var(--color-accent-purple-deep);
+      border-color: rgba(108, 70, 255, 0.2);
     }
   }
 
@@ -472,41 +416,32 @@ onMounted(() => {
     flex: 1;
 
     .insight-label {
-      font-size: 11px;
-      color: var(--tech-text-muted);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-caption);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 6px;
     }
 
     .insight-value {
-      font-family: var(--tech-font-display);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--tech-text-primary);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-heading-3);
+      font-weight: var(--font-weight-heading);
+      color: var(--text-primary);
       margin-bottom: 4px;
 
       &.positive {
-        color: var(--tech-neon-green);
-        text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        color: var(--color-success);
       }
     }
 
     .insight-desc {
-      font-size: 13px;
-      color: var(--tech-text-secondary);
-      font-family: var(--tech-font-body);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-body-sm);
+      color: var(--text-secondary);
     }
   }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.code-text {
-  font-family: var(--tech-font-mono);
 }
 
 @media (max-width: 1200px) {

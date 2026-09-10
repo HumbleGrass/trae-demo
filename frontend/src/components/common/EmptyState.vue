@@ -8,13 +8,13 @@
         <svg v-else viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" style="stop-color:var(--tech-neon-cyan);stop-opacity:0.3" />
-              <stop offset="100%" style="stop-color:var(--tech-neon-magenta);stop-opacity:0.3" />
+              <stop offset="0%" style="stop-color:var(--color-primary);stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:#391c57;stop-opacity:0.3" />
             </linearGradient>
             <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:var(--tech-neon-cyan)" />
-              <stop offset="50%" style="stop-color:var(--tech-neon-magenta)" />
-              <stop offset="100%" style="stop-color:var(--tech-neon-cyan)" />
+              <stop offset="0%" style="stop-color:var(--color-primary)" />
+              <stop offset="50%" style="stop-color:#391c57" />
+              <stop offset="100%" style="stop-color:var(--color-primary)" />
             </linearGradient>
           </defs>
 
@@ -32,16 +32,16 @@
           <!-- Glitchy empty signal -->
           <g transform="translate(85, 60)">
             <rect x="0" y="0" width="70" height="80" fill="none" stroke="url(#borderGrad)" stroke-width="2" rx="2"/>
-            <text x="35" y="45" text-anchor="middle" font-family="var(--tech-font-mono)" font-size="24" fill="var(--tech-neon-cyan)">NO</text>
-            <text x="35" y="70" text-anchor="middle" font-family="var(--tech-font-mono)" font-size="12" fill="var(--tech-text-muted)">DATA</text>
-            <rect x="5" y="5" width="60" height="10" fill="var(--tech-neon-cyan)" opacity="0.3" class="scan-line"/>
+            <text x="35" y="45" text-anchor="middle" font-family="var(--font-family-base)" font-size="24" fill="var(--color-primary)">NO</text>
+            <text x="35" y="70" text-anchor="middle" font-family="var(--font-family-base)" font-size="12" fill="var(--text-muted)">DATA</text>
+            <rect x="5" y="5" width="60" height="10" fill="var(--color-primary)" opacity="0.3" class="scan-line"/>
           </g>
 
           <!-- Corner decorations -->
-          <path d="M20 40 L20 20 L40 20" stroke="var(--tech-neon-cyan)" stroke-width="2" fill="none"/>
-          <path d="M200 20 L220 20 L220 40" stroke="var(--tech-neon-magenta)" stroke-width="2" fill="none"/>
-          <path d="M20 140 L20 160 L40 160" stroke="var(--tech-neon-magenta)" stroke-width="2" fill="none"/>
-          <path d="M200 160 L220 160 L220 140" stroke="var(--tech-neon-cyan)" stroke-width="2" fill="none"/>
+          <path d="M20 40 L20 20 L40 20" stroke="var(--color-primary)" stroke-width="2" fill="none"/>
+          <path d="M200 20 L220 20 L220 40" stroke="#391c57" stroke-width="2" fill="none"/>
+          <path d="M20 140 L20 160 L40 160" stroke="#391c57" stroke-width="2" fill="none"/>
+          <path d="M200 160 L220 160 L220 140" stroke="var(--color-primary)" stroke-width="2" fill="none"/>
         </svg>
       </div>
 

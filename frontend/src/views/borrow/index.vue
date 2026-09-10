@@ -94,8 +94,7 @@
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
               </svg>
             </div>
-            <span class="neon-text">借阅记录</span>
-            <span class="data-stream">▋</span>
+            <span>借阅记录</span>
           </div>
           <div class="table-actions">
             <el-button link class="export-btn tech-link" size="default" @click="exportData">
@@ -116,7 +115,6 @@
               <template #default="{ row }">
                 <div class="member-info-cell">
                   <div class="member-avatar" :style="{ background: avatarGradient(row.member?.name) }">
-                    <div class="avatar-glow"></div>
                     <span class="avatar-text">{{ row.member?.name?.charAt(0) || 'U' }}</span>
                   </div>
                   <div class="member-details">
@@ -130,7 +128,6 @@
               <template #default="{ row }">
                 <div class="book-info-cell">
                   <div class="book-cover-mini" :style="{ background: coverColor(row.book?.category) }">
-                    <div class="cover-glow"></div>
                     <el-icon><Notebook /></el-icon>
                   </div>
                   <div class="book-details">
@@ -235,13 +232,12 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon">
-            <div class="icon-glow"></div>
-            <el-icon :size="28"><Reading /></el-icon>
-          </div>
-          <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">新增借阅</h3>
-            <p class="dialog-subtitle">// 为会员办理图书借阅</p>
-          </div>
+              <el-icon :size="28"><Reading /></el-icon>
+            </div>
+            <div class="dialog-title-section">
+              <h3 class="dialog-title">新增借阅</h3>
+              <p class="dialog-subtitle">为会员办理图书借阅</p>
+            </div>
         </div>
 
         <el-form ref="borrowFormRef" :model="borrowForm" :rules="borrowRules" label-width="90px" class="borrow-form tech-form">
@@ -328,12 +324,11 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon success">
-            <div class="icon-glow"></div>
             <el-icon :size="28"><CircleCheck /></el-icon>
           </div>
           <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">确认归还</h3>
-            <p class="dialog-subtitle">// 确认归还以下图书</p>
+            <h3 class="dialog-title">确认归还</h3>
+            <p class="dialog-subtitle">确认归还以下图书</p>
           </div>
         </div>
 
@@ -381,12 +376,11 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon warning">
-            <div class="icon-glow"></div>
             <el-icon :size="28"><Refresh /></el-icon>
           </div>
           <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">确认续借</h3>
-            <p class="dialog-subtitle">// 延长借阅期限7天</p>
+            <h3 class="dialog-title">确认续借</h3>
+            <p class="dialog-subtitle">延长借阅期限7天</p>
           </div>
         </div>
 
@@ -426,12 +420,11 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon danger">
-            <div class="icon-glow"></div>
             <el-icon :size="28"><Warning /></el-icon>
           </div>
           <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">逾期罚金</h3>
-            <p class="dialog-subtitle">// 逾期费用计算</p>
+            <h3 class="dialog-title">逾期罚金</h3>
+            <p class="dialog-subtitle">逾期费用计算</p>
           </div>
         </div>
 
@@ -743,40 +736,28 @@ onMounted(async () => {
 .table-header {
   justify-content: space-between;
   padding: 20px 28px;
-  border-bottom: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--tech-neon-cyan), transparent);
-  }
+  border-bottom: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .table-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--tech-font-cyber);
+  font-family: var(--font-family-base);
   font-size: 18px;
   font-weight: 700;
 
   .title-icon {
     width: 40px;
     height: 40px;
-    border-radius: 2px;
-    background: rgba(0, 245, 255, 0.1);
-    color: var(--tech-neon-cyan);
-    border: 1px solid var(--tech-neon-cyan);
+    border-radius: var(--radius-md);
+    background: var(--color-info-soft);
+    color: var(--color-primary);
+    border: 1px solid var(--color-info-border);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
 
     svg {
       width: 20px;
@@ -786,11 +767,11 @@ onMounted(async () => {
 }
 
 .export-btn {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
   font-weight: 600;
   padding: 8px 16px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .table-container {
@@ -807,30 +788,19 @@ onMounted(async () => {
 .member-avatar {
   width: 40px;
   height: 40px;
-  border-radius: 2px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  position: relative;
   overflow: hidden;
-  transition: all var(--tech-transition-fast);
-
-  .avatar-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-  }
+  transition: transform var(--transition-fast);
 
   .avatar-text {
-    font-family: var(--tech-font-cyber);
+    font-family: var(--font-family-base);
     font-size: 16px;
     font-weight: 700;
     color: rgba(255, 255, 255, 0.95);
-    z-index: 1;
   }
 
   &:hover {
@@ -842,16 +812,16 @@ onMounted(async () => {
   min-width: 0;
 
   .member-name {
-    font-family: var(--tech-font-body);
+    font-family: var(--font-family-base);
     font-size: 14px;
     font-weight: 600;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
     margin-bottom: 4px;
   }
 
   .member-phone {
     font-size: 12px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
@@ -864,27 +834,16 @@ onMounted(async () => {
 .book-cover-mini {
   width: 40px;
   height: 52px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.85);
   flex-shrink: 0;
-  position: relative;
   overflow: hidden;
-
-  .cover-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-  }
 
   .el-icon {
     font-size: 18px;
-    z-index: 1;
   }
 }
 
@@ -892,10 +851,10 @@ onMounted(async () => {
   min-width: 0;
 
   .book-name {
-    font-family: var(--tech-font-body);
+    font-family: var(--font-family-base);
     font-size: 14px;
     font-weight: 600;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
@@ -903,15 +862,15 @@ onMounted(async () => {
   }
 
   .book-author-meta {
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
     font-size: 12px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 }
 
 .date-text {
   font-size: 14px;
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
 }
 
 .due-date-cell {
@@ -921,7 +880,7 @@ onMounted(async () => {
 
   &.overdue {
     .date-text {
-      color: var(--tech-neon-red);
+      color: var(--color-danger);
       font-weight: 600;
     }
   }
@@ -932,11 +891,11 @@ onMounted(async () => {
     gap: 4px;
     font-size: 11px;
     padding: 3px 8px;
-    background: rgba(255, 0, 110, 0.15);
-    color: var(--tech-neon-red);
-    border: 1px solid var(--tech-neon-red);
-    border-radius: 2px;
-    font-family: var(--tech-font-mono);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family-base);
     font-weight: 600;
     text-transform: uppercase;
 
@@ -954,14 +913,14 @@ onMounted(async () => {
   gap: 6px;
 
   .count-icon {
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
     font-size: 14px;
   }
 
   .count-value {
-    font-family: var(--tech-font-cyber);
+    font-family: var(--font-family-base);
     font-size: 14px;
-    color: var(--tech-text-secondary);
+    color: var(--text-secondary);
   }
 }
 
@@ -970,22 +929,22 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 28px;
-  border-top: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
+  border-top: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .pagination-info {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
-  color: var(--tech-text-muted);
+  color: var(--text-muted);
   font-weight: 500;
 
   .info-label {
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 
   .info-value {
-    color: var(--tech-neon-cyan);
+    color: var(--color-primary);
     margin: 0 4px;
   }
 }
@@ -999,21 +958,21 @@ onMounted(async () => {
   .member-option-name,
   .book-option-title {
     font-weight: 500;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
   }
 
   .member-option-phone {
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
     font-size: 12px;
   }
 
   .book-option-stock {
-    color: var(--tech-neon-green);
+    color: var(--color-success);
     font-size: 12px;
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
 
     &.unavailable {
-      color: var(--tech-neon-red);
+      color: var(--color-danger);
     }
   }
 }
@@ -1022,9 +981,9 @@ onMounted(async () => {
   display: flex;
   gap: 24px;
   padding: 16px 20px;
-  background: var(--tech-bg-dark);
-  border: 1px solid var(--tech-border-color);
-  border-radius: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
 
   .info-item {
     display: flex;
@@ -1033,15 +992,15 @@ onMounted(async () => {
 
     .info-label {
       font-size: 13px;
-      color: var(--tech-text-muted);
-      font-family: var(--tech-font-mono);
+      color: var(--text-muted);
+      font-family: var(--font-family-base);
     }
 
     .info-value {
       font-size: 15px;
       font-weight: 600;
-      color: var(--tech-neon-cyan);
-      font-family: var(--tech-font-cyber);
+      color: var(--color-primary);
+      font-family: var(--font-family-base);
     }
   }
 }
@@ -1049,9 +1008,9 @@ onMounted(async () => {
 .return-info,
 .renew-info,
 .overdue-info-detail {
-  background: var(--tech-bg-dark);
-  border: 1px solid var(--tech-border-color);
-  border-radius: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
   padding: 20px;
   margin-bottom: 24px;
 }
@@ -1060,48 +1019,47 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-default);
 
   &:last-child {
     border-bottom: none;
   }
 
   .info-label {
-    font-family: var(--tech-font-mono);
+    font-family: var(--font-family-base);
     font-size: 13px;
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 
   .info-value {
-    font-family: var(--tech-font-body);
+    font-family: var(--font-family-base);
     font-size: 14px;
     font-weight: 500;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
 
     &.overdue,
     &.danger {
-      color: var(--tech-neon-red);
+      color: var(--color-danger);
     }
   }
 
   &.highlight {
-    background: rgba(0, 245, 255, 0.08);
+    background: var(--color-info-soft);
     margin: 12px -20px -12px;
     padding: 14px 20px;
-    border-radius: 0;
 
     .info-value {
-      color: var(--tech-neon-cyan);
-      font-family: var(--tech-font-cyber);
+      color: var(--color-primary);
+      font-family: var(--font-family-base);
     }
   }
 }
 
 .overdue-info {
-  background: rgba(255, 0, 110, 0.1);
+  background: var(--color-danger-soft);
   margin: 12px -20px -20px;
   padding: 14px 20px;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
 
 .renew-notice {
@@ -1110,18 +1068,18 @@ onMounted(async () => {
   gap: 8px;
   margin-top: 16px;
   padding: 12px 16px;
-  background: rgba(255, 190, 11, 0.1);
-  border: 1px solid rgba(255, 190, 11, 0.3);
-  border-radius: 4px;
-  color: var(--tech-neon-yellow);
+  background: var(--color-warning-soft);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-md);
+  color: var(--color-warning);
   font-size: 13px;
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
 }
 
 .fine-summary {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px dashed var(--tech-border-color);
+  border-top: 1px dashed var(--border-default);
 
   .fine-row {
     display: flex;
@@ -1130,30 +1088,30 @@ onMounted(async () => {
 
     .fine-label {
       font-size: 14px;
-      color: var(--tech-text-muted);
-      font-family: var(--tech-font-mono);
+      color: var(--text-muted);
+      font-family: var(--font-family-base);
     }
 
     .fine-value {
       font-size: 14px;
-      color: var(--tech-text-primary);
-      font-family: var(--tech-font-cyber);
+      color: var(--text-primary);
+      font-family: var(--font-family-base);
     }
 
     &.total {
       margin-top: 8px;
       padding-top: 12px;
-      border-top: 1px solid var(--tech-border-color);
+      border-top: 1px solid var(--border-default);
 
       .fine-label {
         font-weight: 500;
-        color: var(--tech-text-primary);
+        color: var(--text-primary);
       }
 
       .fine-value {
         font-size: 20px;
         font-weight: 700;
-        color: var(--tech-neon-red);
+        color: var(--color-danger);
       }
     }
   }

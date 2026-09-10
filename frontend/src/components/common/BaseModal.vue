@@ -27,11 +27,9 @@
         <slot name="footer">
           <el-button class="tech-btn tech-btn--secondary" size="default" @click="handleClose">
             <span class="btn-text">{{ t('common.cancel') }}</span>
-            <span class="btn-glow"></span>
           </el-button>
           <el-button type="primary" class="tech-btn" size="default" :loading="confirmLoading" @click="handleConfirm">
             <span class="btn-text">{{ t('common.confirm') }}</span>
-            <span class="btn-glow"></span>
           </el-button>
         </slot>
       </div>
@@ -86,24 +84,12 @@ const handleConfirm = () => {
 @media not all {
 .tech-modal {
   :deep(.el-dialog) {
-    background: var(--tech-bg-card);
-    border: 1px solid var(--tech-border-color);
+    background: var(--color-surface);
+    border: 1px solid var(--border-default);
     border-radius: 4px;
     overflow: visible;
     position: relative;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--tech-neon-cyan), var(--tech-neon-magenta), var(--tech-neon-cyan));
-      background-size: 200% 100%;
-      animation: border-flow 3s linear infinite;
-    }
   }
 
   :deep(.el-dialog__header) {
@@ -116,7 +102,7 @@ const handleConfirm = () => {
 
   :deep(.el-dialog__footer) {
     padding: 0;
-    border-top: 1px solid var(--tech-border-color);
+    border-top: 1px solid var(--border-default);
   }
 }
 
@@ -130,14 +116,12 @@ const handleConfirm = () => {
     width: 56px;
     height: 56px;
     border-radius: 2px;
-    background: rgba(0, 245, 255, 0.1);
-    color: var(--tech-neon-cyan);
-    border: 1px solid var(--tech-neon-cyan);
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.2);
 
     svg {
       width: 28px;
@@ -152,18 +136,18 @@ const handleConfirm = () => {
 }
 
 .modal-title {
-  font-family: var(--tech-font-cyber);
+  font-family: var(--font-family-base);
   font-size: 22px;
   font-weight: 800;
-  color: var(--tech-text-primary);
+  color: var(--text-primary);
   margin: 0 0 4px 0;
   letter-spacing: 0.05em;
 }
 
 .modal-subtitle {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
-  color: var(--tech-text-muted);
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -176,12 +160,7 @@ const handleConfirm = () => {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  background: var(--tech-bg-dark);
-}
-
-@keyframes border-flow {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  background: var(--color-surface);
 }
 }
 </style>

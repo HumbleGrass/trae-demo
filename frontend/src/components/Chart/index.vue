@@ -1,10 +1,10 @@
 <template>
-  <div class="tech-chart-container">
+  <div class="notion-chart-container">
     <div ref="chartRef" :style="{ width: width, height: height }"></div>
     <div v-if="loading" class="chart-loading-overlay">
       <div class="loading-spinner">
         <span class="spinner-ring"></span>
-        <span class="loading-text">LOADING DATA</span>
+        <span class="loading-text">加载中</span>
       </div>
     </div>
     <div v-if="!loading && isEmpty" class="chart-empty-state">
@@ -41,67 +41,57 @@ const isEmpty = ref(false)
 function initChart() {
   if (chartRef.value) {
     chartInstance = echarts.init(chartRef.value)
-    
-    // 应用科技风格配置
-    const techOptions = applyTechTheme(props.options)
-    chartInstance.setOption(techOptions, true)
-    
-    // 检查是否有数据
+    chartInstance.setOption(applyNotionTheme(props.options), true)
     checkDataEmpty(props.options)
-    
-    // 添加窗口大小变化监听
     window.addEventListener('resize', resizeChart)
   }
 }
 
 /**
- * 应用科技风格主题到 ECharts 配置
+ * 应用 Notion 浅色主题到 ECharts 配置
+ * 颜色值与 src/styles/_notion-values.scss 对齐
  */
-function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
+function applyNotionTheme(options: echarts.EChartsOption): echarts.EChartsOption {
+  const fontFamily = '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+
   return {
     backgroundColor: 'transparent',
-    
-    // 标题样式
+
     title: {
       ...options.title,
       textStyle: {
-        color: '#e0e0ff',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: (options.title as any)?.textSize || 16,
-        fontWeight: 700,
-        textShadowColor: '#00f3ff',
-        textShadowBlur: 10,
+        color: '#000000',
+        fontFamily,
+        fontSize: 20,
+        fontWeight: 600,
         ...(options.title as any)?.textStyle || {}
       }
     },
-    
-    // 图例样式
+
     legend: {
       ...options.legend,
       textStyle: {
-        color: '#b0b0d0',
-        fontFamily: 'Inter, sans-serif',
+        color: '#615d59',
+        fontFamily,
         ...(options.legend as any)?.textStyle || {}
       }
     },
-    
-    // 提示框 - 玻璃态科技风格
+
     tooltip: {
       ...options.tooltip,
-      backgroundColor: 'rgba(20, 20, 40, 0.95)',
-      borderColor: 'rgba(0, 243, 255, 0.3)',
+      backgroundColor: '#ffffff',
+      borderColor: '#e6e6e6',
       borderWidth: 1,
-      padding: [12, 16],
+      padding: [10, 14],
       textStyle: {
-        color: '#e0e0ff',
-        fontFamily: 'Inter, sans-serif',
-        fontSize: 13,
+        color: '#000000',
+        fontFamily,
+        fontSize: 14,
         ...(options.tooltip as any)?.textStyle || {}
       },
-      extraCssText: 'box-shadow: 0 4px 20px rgba(0, 243, 255, 0.2); backdrop-filter: blur(10px); border-radius: 4px;'
+      extraCssText: 'box-shadow: 0 0.175px 1.041px rgba(0,0,0,0.01), 0 0.8px 2.925px rgba(0,0,0,0.02), 0 2.025px 7.847px rgba(0,0,0,0.027), 0 4px 18px rgba(0,0,0,0.04); border-radius: 8px;'
     },
-    
-    // 网格
+
     grid: {
       left: '3%',
       right: '4%',
@@ -110,50 +100,37 @@ function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
       containLabel: true,
       ...options.grid
     },
-    
-    // X轴
+
     xAxis: {
-      ...options.xAxis as any,
-      axisLine: {
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.2)' 
-        }
-      },
+      ...(options.xAxis as any),
+      axisLine: { lineStyle: { color: '#e6e6e6' } },
       axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'JetBrains Mono, monospace',
+        color: '#615d59',
+        fontFamily,
         fontSize: 12,
         ...(options.xAxis as any)?.axisLabel || {}
       },
       splitLine: {
         show: true,
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.05)',
-          type: 'dashed' as const
-        }
+        lineStyle: { color: '#f6f5f4', type: 'solid' }
       }
     } as any,
-    
-    // Y轴
+
     yAxis: {
-      ...options.yAxis as any,
+      ...(options.yAxis as any),
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'JetBrains Mono, monospace',
+        color: '#615d59',
+        fontFamily,
         fontSize: 12,
         ...(options.yAxis as any)?.axisLabel || {}
       },
       splitLine: {
-        lineStyle: { 
-          color: 'rgba(0, 243, 255, 0.1)',
-          type: 'dashed' as const
-        }
+        lineStyle: { color: '#f6f5f4', type: 'solid' }
       }
     } as any,
-    
-    // 系列 - 自动应用霓虹发光效果
+
     series: (options.series as any[])?.map((series) => {
       if (series.type === 'line') {
         return {
@@ -162,22 +139,20 @@ function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
           symbol: 'circle',
           symbolSize: 6,
           lineStyle: {
-            color: series.color || '#00f3ff',
+            color: series.color || '#0075de',
             width: 2.5,
-            shadowColor: series.color || '#00f3ff',
-            shadowBlur: 10,
             ...series.lineStyle
           },
           itemStyle: {
-            color: series.color || '#00f3ff',
-            borderColor: '#fff',
+            color: series.color || '#0075de',
+            borderColor: '#ffffff',
             borderWidth: 2,
             ...series.itemStyle
           },
           areaStyle: series.areaStyle || {
             color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: `rgba(0, 243, 255, ${series.areaOpacity || 0.15})` },
-              { offset: 1, color: `rgba(0, 243, 255, 0.02)` }
+              { offset: 0, color: `rgba(0, 117, 222, ${series.areaOpacity || 0.12})` },
+              { offset: 1, color: 'rgba(0, 117, 222, 0.02)' }
             ])
           }
         }
@@ -186,24 +161,16 @@ function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
           ...series,
           itemStyle: {
             borderRadius: [4, 4, 0, 0],
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: '#33e0ff' },
-              { offset: 1, color: '#00c8d4' }
-            ]),
-            shadowColor: 'rgba(0, 243, 255, 0.4)',
-            shadowBlur: 12,
+            color: series.color || '#0075de',
             ...series.itemStyle
           }
         }
       } else if (series.type === 'pie') {
         return {
           ...series,
-          radius: ['45%', '70%'],
-          center: ['40%', '50%'],
-          avoidLabelOverlap: false,
           itemStyle: {
-            borderRadius: 6,
-            borderColor: '#0a0a1a',
+            borderRadius: 4,
+            borderColor: '#ffffff',
             borderWidth: 2,
             ...series.itemStyle
           },
@@ -212,12 +179,12 @@ function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
             label: {
               show: true,
               fontSize: 14,
-              fontWeight: 'bold',
-              fontFamily: 'Inter, sans-serif',
-              color: '#00f3ff'
+              fontWeight: 600,
+              fontFamily,
+              color: '#000000'
             }
           },
-          color: ['#00f3ff', '#ff00ff', '#00ff88', '#ffaa00', '#ff3366']
+          color: ['#0075de', '#62aef0', '#2a9d99', '#1aae39', '#9a6700', '#cf222e']
         }
       }
       return series
@@ -225,23 +192,18 @@ function applyTechTheme(options: echarts.EChartsOption): echarts.EChartsOption {
   }
 }
 
-/**
- * 检查数据是否为空
- */
 function checkDataEmpty(options: echarts.EChartsOption) {
   const series = options.series as any[]
   if (!series || series.length === 0) {
     isEmpty.value = true
     return
   }
-  
   const hasData = series.some(s => {
     if (Array.isArray(s.data)) {
       return s.data.some(d => d !== undefined && d !== null && d !== 0)
     }
     return false
   })
-  
   isEmpty.value = !hasData
 }
 
@@ -251,31 +213,25 @@ function resizeChart() {
 
 watch(() => props.options, (newOptions) => {
   if (chartInstance) {
-    const techOptions = applyTechTheme(newOptions)
-    chartInstance.setOption(techOptions, true)
+    chartInstance.setOption(applyNotionTheme(newOptions), true)
     checkDataEmpty(newOptions)
   }
 }, { deep: true })
 
-onMounted(() => {
-  initChart()
-})
-
+onMounted(() => { initChart() })
 onUnmounted(() => {
   window.removeEventListener('resize', resizeChart)
   chartInstance?.dispose()
 })
 
-defineExpose({
-  resize: resizeChart
-})
+defineExpose({ resize: resizeChart })
 </script>
 
 <style scoped lang="scss">
-.tech-chart-container {
+.notion-chart-container {
   position: relative;
   width: 100%;
-  
+
   > div:first-child {
     width: 100% !important;
   }
@@ -287,12 +243,12 @@ defineExpose({
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 10, 26, 0.9);
-  backdrop-filter: blur(5px);
+  background: rgba(246, 245, 244, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10;
+  border-radius: inherit;
 }
 
 .loading-spinner {
@@ -303,12 +259,12 @@ defineExpose({
 }
 
 .spinner-ring {
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--tech-border-color);
-  border-top-color: var(--tech-neon-cyan);
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e6e6e6;
+  border-top-color: #0075de;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -316,16 +272,10 @@ defineExpose({
 }
 
 .loading-text {
-  font-family: var(--tech-font-mono);
+  font-family: var(--font-family-base);
   font-size: 13px;
-  color: var(--tech-neon-cyan);
-  letter-spacing: 0.1em;
-  animation: pulse-text 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse-text {
-  0%, 100% { opacity: 0.7; }
-  50% { opacity: 1; }
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .chart-empty-state {

@@ -1,10 +1,8 @@
 <template>
   <TechCard class="profile-card fade-in-up delay-3">
     <div class="card-header">
-      <h3 class="card-title neon-text">
-        <span class="title-icon">▸</span>
+      <h3 class="card-title">
         个人信息
-        <span class="data-stream">▋</span>
       </h3>
       <div class="card-actions">
         <TechButton
@@ -62,54 +60,38 @@
     <!-- 编辑模式 -->
     <el-form v-else :model="formData" label-width="100px" class="tech-form">
       <el-form-item label="用户名" class="form-item">
-        <div class="tech-input-wrapper">
-          <el-input
-            v-model="formData.username"
-            size="default"
-            class="tech-input"
-            placeholder="请输入用户名"
-          />
-          <span class="input-border"></span>
-        </div>
+        <el-input
+          v-model="formData.username"
+          size="default"
+          placeholder="请输入用户名"
+        />
       </el-form-item>
 
       <el-form-item label="电子邮箱" class="form-item">
-        <div class="tech-input-wrapper">
-          <el-input
-            v-model="formData.email"
-            size="default"
-            class="tech-input"
-            placeholder="请输入邮箱地址"
-            type="email"
-          />
-          <span class="input-border"></span>
-        </div>
+        <el-input
+          v-model="formData.email"
+          size="default"
+          placeholder="请输入邮箱地址"
+          type="email"
+        />
       </el-form-item>
 
       <el-form-item label="手机号码" class="form-item">
-        <div class="tech-input-wrapper">
-          <el-input
-            v-model="formData.phone"
-            size="default"
-            class="tech-input"
-            placeholder="请输入手机号"
-          />
-          <span class="input-border"></span>
-        </div>
+        <el-input
+          v-model="formData.phone"
+          size="default"
+          placeholder="请输入手机号"
+        />
       </el-form-item>
 
       <el-form-item label="个人简介" class="form-item">
-        <div class="tech-textarea-wrapper">
-          <el-input
-            v-model="formData.bio"
-            type="textarea"
-            :rows="4"
-            size="default"
-            class="tech-textarea"
-            placeholder="介绍一下自己..."
-          />
-          <span class="textarea-border"></span>
-        </div>
+        <el-input
+          v-model="formData.bio"
+          type="textarea"
+          :rows="4"
+          size="default"
+          placeholder="介绍一下自己..."
+        />
       </el-form-item>
     </el-form>
   </TechCard>
@@ -202,20 +184,8 @@ const saveProfile = async () => {
     margin: 0;
     font-size: 16px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    .title-icon {
-      color: var(--tech-neon-cyan);
-      font-size: 14px;
-    }
-
-    .data-stream {
-      color: var(--tech-neon-cyan);
-      opacity: 0.5;
-      animation: blink 1s ease-in-out infinite;
-    }
+    color: var(--text-primary);
+    font-family: var(--font-family-base);
   }
 
   .card-actions {
@@ -236,29 +206,26 @@ const saveProfile = async () => {
     display: flex;
     margin-bottom: 20px;
     padding: 12px;
-    background: var(--tech-bg-card);
-    border-radius: var(--tech-radius-sm);
-    border: 1px solid var(--tech-border-color);
-    transition: all var(--tech-transition-fast);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-default);
+    transition: border-color var(--transition-fast);
 
     &:hover {
-      border-color: var(--tech-neon-cyan);
-      box-shadow: 0 0 10px rgba(0, 245, 255, 0.1);
+      border-color: var(--color-primary);
     }
 
     .field-label {
       width: 120px;
-      font-family: var(--tech-font-mono);
+      font-family: var(--font-family-base);
       font-size: 13px;
-      color: var(--tech-text-secondary);
+      color: var(--text-secondary);
       font-weight: 500;
-      letter-spacing: 0.05em;
     }
 
     .field-value {
       flex: 1;
-      color: var(--tech-text-primary);
-      font-family: var(--tech-font-body);
+      color: var(--text-primary);
       font-size: 14px;
       line-height: 1.5;
     }
@@ -277,115 +244,15 @@ const saveProfile = async () => {
     margin-bottom: 20px;
 
     :deep(.el-form-item__label) {
-      font-family: var(--tech-font-mono);
+      font-family: var(--font-family-base);
       font-size: 13px;
-      color: var(--tech-text-primary) !important;
+      color: var(--text-primary) !important;
       font-weight: 500;
-      letter-spacing: 0.05em;
     }
   }
-}
-
-.tech-input-wrapper {
-  position: relative;
-  width: 400px;
-
-  .tech-input {
-
-    :deep(.el-input__wrapper) {
-      background: var(--tech-bg-dark) !important;
-      border: 1px solid var(--tech-border-color) !important;
-      box-shadow: none !important;
-      border-radius: var(--tech-radius-sm) !important;
-      transition: all var(--tech-transition-fast);
-
-      &:hover,
-      &.is-focus {
-        border-color: var(--tech-neon-cyan) !important;
-        box-shadow: 0 0 10px rgba(0, 245, 255, 0.15) !important;
-      }
-    }
-
-    :deep(.el-input__inner) {
-      color: var(--tech-text-primary) !important;
-      font-family: var(--tech-font-body);
-      font-size: 14px;
-      caret-color: var(--tech-neon-cyan) !important;
-    }
-  }
-
-  .input-border {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--tech-neon-cyan), transparent);
-    transition: width var(--tech-transition-base);
-  }
-
-  &:hover .input-border {
-    width: 80%;
-  }
-}
-
-.tech-textarea-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-
-  .tech-textarea {
-
-    :deep(.el-textarea__inner) {
-      background: var(--tech-bg-dark) !important;
-      border: 1px solid var(--tech-border-color) !important;
-      box-shadow: none !important;
-      border-radius: var(--tech-radius-sm) !important;
-      color: var(--tech-text-primary) !important;
-      font-family: var(--tech-font-body);
-      font-size: 14px;
-      transition: all var(--tech-transition-fast);
-      caret-color: var(--tech-neon-cyan) !important;
-
-      &:hover,
-      &:focus {
-        border-color: var(--tech-neon-cyan) !important;
-        box-shadow: 0 0 10px rgba(0, 245, 255, 0.15) !important;
-      }
-    }
-  }
-
-  .textarea-border {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--tech-neon-cyan), transparent);
-    transition: width var(--tech-transition-base);
-  }
-
-  &:hover .textarea-border {
-    width: 80%;
-  }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.code-text {
-  font-family: var(--tech-font-mono);
 }
 
 @media (max-width: 768px) {
-  .tech-input-wrapper {
-    width: 100%;
-  }
-
   .profile-field {
     flex-direction: column;
 

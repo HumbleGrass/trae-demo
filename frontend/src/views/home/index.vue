@@ -1,21 +1,13 @@
 <template>
-  <div class="tech-home-page">
-    <!-- 网格背景 -->
-    <div class="tech-grid-bg"></div>
-
-    <!-- 扫描线效果 -->
-    <div class="scanline-effect"></div>
-
+  <div class="home-page">
     <!-- 页面头部 -->
     <div class="page-header tech-fade-in-up">
       <div class="welcome-section">
-        <h1 class="welcome-title">
-          <span class="glitch-text" data-text="知阅阁">知阅阁</span>
-        </h1>
+        <h1 class="welcome-title">知阅阁</h1>
         <p class="welcome-subtitle">{{ greetingText }}</p>
       </div>
       <div class="date-section">
-        <div class="tech-time-display">
+        <div class="time-display">
           <span class="current-time">{{ currentTime }}</span>
           <span class="current-date">{{ currentDate }}</span>
         </div>
@@ -24,12 +16,11 @@
 
     <!-- 统计卡片区域 -->
     <div class="stats-section tech-fade-in-up" style="animation-delay: 0.1s;">
-      <div class="tech-stat-card today-borrow">
+      <div class="stat-card stat-card--blue">
         <div class="stat-icon-wrapper">
           <div class="stat-icon">
-            <el-icon :size="28"><Reading /></el-icon>
+            <el-icon :size="20"><Reading /></el-icon>
           </div>
-          <div class="icon-glow"></div>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ stats.todayBorrow }}</div>
@@ -41,12 +32,11 @@
         </div>
       </div>
 
-      <div class="tech-stat-card today-return">
+      <div class="stat-card stat-card--green">
         <div class="stat-icon-wrapper">
           <div class="stat-icon">
-            <el-icon :size="28"><CircleCheck /></el-icon>
+            <el-icon :size="20"><CircleCheck /></el-icon>
           </div>
-          <div class="icon-glow"></div>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ stats.todayReturn }}</div>
@@ -58,12 +48,11 @@
         </div>
       </div>
 
-      <div class="tech-stat-card overdue">
+      <div class="stat-card stat-card--red">
         <div class="stat-icon-wrapper">
           <div class="stat-icon">
-            <el-icon :size="28"><Warning /></el-icon>
+            <el-icon :size="20"><Warning /></el-icon>
           </div>
-          <div class="icon-glow"></div>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ stats.overdueCount }}</div>
@@ -75,12 +64,11 @@
         </div>
       </div>
 
-      <div class="tech-stat-card total-books">
+      <div class="stat-card stat-card--purple">
         <div class="stat-icon-wrapper">
           <div class="stat-icon">
-            <el-icon :size="28"><Collection /></el-icon>
+            <el-icon :size="20"><Collection /></el-icon>
           </div>
-          <div class="icon-glow"></div>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ stats.totalBooks }}</div>
@@ -97,7 +85,7 @@
     <div class="content-grid tech-fade-in-up" style="animation-delay: 0.2s;">
       <div class="grid-main">
         <!-- 图表卡片 -->
-        <div class="tech-chart-card">
+        <div class="content-card">
           <div class="card-header">
             <h3 class="card-title">{{ t('home.borrowTrend') }}</h3>
             <div class="card-actions">
@@ -113,7 +101,7 @@
         </div>
 
         <!-- 最近活动卡片 -->
-        <div class="tech-activities-card">
+        <div class="content-card">
           <div class="card-header">
             <h3 class="card-title">{{ t('home.recentActivities') }}</h3>
             <el-button type="primary" link class="view-all-btn" size="default" @click="$router.push('/borrow')">
@@ -140,50 +128,46 @@
 
       <div class="grid-sidebar">
         <!-- 快捷操作卡片 -->
-        <div class="tech-quick-actions-card">
+        <div class="content-card">
           <div class="card-header">
             <h3 class="card-title">{{ t('home.quickActions') }}</h3>
           </div>
           <div class="quick-actions-grid">
-            <button class="tech-quick-action-btn" @click="$router.push('/borrow')">
+            <button class="quick-action-btn" @click="$router.push('/borrow')">
               <div class="action-icon">
-                <el-icon :size="24"><Reading /></el-icon>
+                <el-icon :size="22"><Reading /></el-icon>
               </div>
               <span class="action-label">{{ t('home.borrowBook') }}</span>
-              <div class="action-glow"></div>
             </button>
-            <button class="tech-quick-action-btn" @click="$router.push('/books')">
+            <button class="quick-action-btn" @click="$router.push('/books')">
               <div class="action-icon">
-                <el-icon :size="24"><Plus /></el-icon>
+                <el-icon :size="22"><Plus /></el-icon>
               </div>
               <span class="action-label">{{ t('home.addBook') }}</span>
-              <div class="action-glow"></div>
             </button>
-            <button class="tech-quick-action-btn" @click="$router.push('/members')">
+            <button class="quick-action-btn" @click="$router.push('/members')">
               <div class="action-icon">
-                <el-icon :size="24"><User /></el-icon>
+                <el-icon :size="22"><User /></el-icon>
               </div>
               <span class="action-label">{{ t('home.addMember') }}</span>
-              <div class="action-glow"></div>
             </button>
-            <button class="tech-quick-action-btn" @click="$router.push('/reports')">
+            <button class="quick-action-btn" @click="$router.push('/reports')">
               <div class="action-icon">
-                <el-icon :size="24"><Document /></el-icon>
+                <el-icon :size="22"><Document /></el-icon>
               </div>
               <span class="action-label">{{ t('home.viewReport') }}</span>
-              <div class="action-glow"></div>
             </button>
           </div>
         </div>
 
         <!-- 热门图书卡片 -->
-        <div class="tech-popular-books-card">
+        <div class="content-card">
           <div class="card-header">
             <h3 class="card-title">{{ t('home.popularBooks') }}</h3>
           </div>
           <div class="popular-books-list">
             <div class="popular-book-item" v-for="(book, index) in popularBooks" :key="index" @click="goToBookDetail(book.id)">
-              <div class="book-rank">{{ index + 1 }}</div>
+              <div class="book-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</div>
               <div class="book-cover">
                 <div class="cover-placeholder" :style="{ background: book.coverColor }">
                   <el-icon><Notebook /></el-icon>
@@ -393,23 +377,28 @@ const initTrendChart = () => {
 
   trendChart = echarts.init(trendChartRef.value)
 
+  const NOTION_BORDER = '#e6e6e6'
+  const NOTION_MUTED = '#615d59'
+  const NOTION_BLUE = '#0075de'
+  const NOTION_GREEN = '#1a7f37'
+
   const option = {
     tooltip: {
       trigger: 'axis',
-      backgroundColor: 'rgba(15, 15, 35, 0.95)',
-      borderColor: 'rgba(0, 243, 255, 0.3)',
+      backgroundColor: '#ffffff',
+      borderColor: NOTION_BORDER,
       borderWidth: 1,
       textStyle: {
-        color: '#e0e0ff',
-        fontFamily: 'Inter, sans-serif'
+        color: '#000000',
+        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
       }
     },
     legend: {
       data: ['借阅', '归还'],
       top: 0,
       textStyle: {
-        color: '#8080a0',
-        fontFamily: 'Inter, sans-serif'
+        color: NOTION_MUTED,
+        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
       }
     },
     grid: {
@@ -425,19 +414,19 @@ const initTrendChart = () => {
       data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       axisLine: {
         lineStyle: {
-          color: 'rgba(0, 243, 255, 0.2)'
+          color: NOTION_BORDER
         }
       },
       axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'Inter, sans-serif'
+        color: NOTION_MUTED,
+        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
       }
     },
     yAxis: {
       type: 'value',
       splitLine: {
         lineStyle: {
-          color: 'rgba(0, 243, 255, 0.05)',
+          color: NOTION_BORDER,
           type: 'dashed'
         }
       },
@@ -448,8 +437,8 @@ const initTrendChart = () => {
         show: false
       },
       axisLabel: {
-        color: '#8080a0',
-        fontFamily: 'Inter, sans-serif'
+        color: NOTION_MUTED,
+        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
       }
     },
     series: [
@@ -460,13 +449,11 @@ const initTrendChart = () => {
         stack: 'Total',
         data: [12, 19, 15, 25, 18, 22, 24],
         lineStyle: {
-          color: '#00f3ff',
-          width: 3,
-          shadowColor: 'rgba(0, 243, 255, 0.5)',
-          shadowBlur: 10
+          color: NOTION_BLUE,
+          width: 2
         },
         itemStyle: {
-          color: '#00f3ff'
+          color: NOTION_BLUE
         },
         areaStyle: {
           color: {
@@ -476,8 +463,8 @@ const initTrendChart = () => {
             x2: 0,
             y2: 1,
             colorStops: [
-              { offset: 0, color: 'rgba(0, 243, 255, 0.3)' },
-              { offset: 1, color: 'rgba(0, 243, 255, 0)' }
+              { offset: 0, color: 'rgba(0, 117, 222, 0.15)' },
+              { offset: 1, color: 'rgba(0, 117, 222, 0)' }
             ]
           }
         }
@@ -489,13 +476,11 @@ const initTrendChart = () => {
         stack: 'Total',
         data: [8, 12, 10, 18, 14, 16, 18],
         lineStyle: {
-          color: '#00ff88',
-          width: 3,
-          shadowColor: 'rgba(0, 255, 136, 0.5)',
-          shadowBlur: 10
+          color: NOTION_GREEN,
+          width: 2
         },
         itemStyle: {
-          color: '#00ff88'
+          color: NOTION_GREEN
         },
         areaStyle: {
           color: {
@@ -505,8 +490,8 @@ const initTrendChart = () => {
             x2: 0,
             y2: 1,
             colorStops: [
-              { offset: 0, color: 'rgba(0, 255, 136, 0.3)' },
-              { offset: 1, color: 'rgba(0, 255, 136, 0)' }
+              { offset: 0, color: 'rgba(26, 127, 55, 0.15)' },
+              { offset: 1, color: 'rgba(26, 127, 55, 0)' }
             ]
           }
         }
@@ -588,321 +573,177 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.tech-home-page {
+.home-page {
   position: relative;
   min-height: 100%;
   padding: 32px;
-  z-index: 1;
+  background: var(--surface-page);
 }
 
-// 网格背景
-.tech-grid-bg {
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-// 扫描线效果
-.scanline-effect {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 10;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(
-      transparent,
-      rgba(0, 243, 255, 0.08),
-      transparent
-    );
-    animation: scanline 8s linear infinite;
-  }
-}
-
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
-}
-
+// ============ Page Header ============
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 28px;
 }
 
 .welcome-section {
   .welcome-title {
     font-family: var(--font-family-base);
-    font-size: 36px;
-    font-weight: 800;
-    margin: 0 0 8px 0;
-    letter-spacing: 4px;
-    background: linear-gradient(135deg, #00f3ff 0%, #00c8d4 50%, #00ff88 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 0 40px rgba(0, 243, 255, 0.3);
-    line-height: 1.2;
+    font-size: var(--font-size-heading-1);
+    font-weight: var(--font-weight-heading);
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+    line-height: var(--line-height-heading-1);
+    letter-spacing: var(--letter-spacing-default);
   }
 
   .welcome-subtitle {
     font-family: var(--font-family-base);
-    font-size: 15px;
-    color: #8080a0;
+    font-size: var(--font-size-body-sm);
+    color: var(--text-muted);
     margin: 0;
-    font-weight: 400;
+    font-weight: var(--font-weight-body);
   }
-}
-
-// 故障文字效果
-.glitch-text {
-  position: relative;
-  display: inline-block;
-}
-
-.glitch-text::before,
-.glitch-text::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.glitch-text::before {
-  color: #ff00ff;
-  animation: glitch-1 2s infinite linear alternate-reverse;
-  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-}
-
-.glitch-text::after {
-  color: #00f3ff;
-  animation: glitch-2 3s infinite linear alternate-reverse;
-  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
-}
-
-@keyframes glitch-1 {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-}
-
-@keyframes glitch-2 {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(2px, -2px); }
-  40% { transform: translate(2px, 2px); }
-  60% { transform: translate(-2px, -2px); }
-  80% { transform: translate(-2px, 2px); }
 }
 
 .date-section {
   text-align: right;
 }
 
-.tech-time-display {
+.time-display {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 
   .current-time {
     font-family: var(--font-family-base);
-    font-size: 28px;
-    font-weight: 700;
-    color: #00f3ff;
-    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
     line-height: 1.2;
     margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
   }
 
   .current-date {
     font-family: var(--font-family-base);
-    font-size: 13px;
-    color: #8080a0;
+    font-size: var(--font-size-caption);
+    color: var(--text-muted);
     line-height: 1.2;
   }
 }
 
+// ============ Stats Section ============
 .stats-section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 16px;
   margin-bottom: 24px;
-  position: relative;
-  z-index: 1;
 }
 
-.tech-stat-card {
-  background: rgba(20, 20, 40, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  border-radius: 20px;
-  padding: 24px;
+.stat-card {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
   display: flex;
   align-items: center;
-  gap: 16px;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #00f3ff, #ff00ff, #00ff88, #00f3ff);
-    background-size: 300% 100%;
-    animation: gradient-shift 3s linear infinite;
-  }
+  gap: 14px;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
 
   &:hover {
-    transform: translateY(-4px);
-    border-color: rgba(0, 243, 255, 0.4);
-    box-shadow:
-      0 20px 48px rgba(0, 0, 0, 0.5),
-      0 0 40px rgba(0, 243, 255, 0.1);
+    box-shadow: var(--shadow-soft);
+    border-color: var(--color-ink-faint);
   }
-}
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
+  // Sticker-palette icon backgrounds (decorative, no glow)
+  &--blue {
+    .stat-icon {
+      background: var(--color-info-soft);
+      color: var(--color-primary);
+    }
+  }
+  &--green {
+    .stat-icon {
+      background: var(--color-success-soft);
+      color: var(--color-success);
+    }
+  }
+  &--red {
+    .stat-icon {
+      background: var(--color-danger-soft);
+      color: var(--color-danger);
+    }
+  }
+  &--purple {
+    .stat-icon {
+      background: #f1edff;
+      color: var(--color-accent-purple-deep);
+    }
+  }
 }
 
 .stat-icon-wrapper {
   flex-shrink: 0;
-  position: relative;
 }
 
 .stat-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  z-index: 2;
-}
-
-.icon-glow {
-  position: absolute;
-  inset: -10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 243, 255, 0.3) 0%, transparent 70%);
-  animation: pulse-neon 2s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes pulse-neon {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.1); }
-}
-
-.today-borrow {
-  .stat-icon {
-    background: linear-gradient(135deg, rgba(0, 102, 255, 0.2) 0%, rgba(0, 102, 255, 0.1) 100%);
-    color: #0066ff;
-  }
-  .icon-glow {
-    background: radial-gradient(circle, rgba(0, 102, 255, 0.3) 0%, transparent 70%);
-  }
-}
-
-.today-return {
-  .stat-icon {
-    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 255, 136, 0.1) 100%);
-    color: #00ff88;
-  }
-  .icon-glow {
-    background: radial-gradient(circle, rgba(0, 255, 136, 0.3) 0%, transparent 70%);
-  }
-}
-
-.overdue {
-  .stat-icon {
-    background: linear-gradient(135deg, rgba(255, 51, 102, 0.2) 0%, rgba(255, 51, 102, 0.1) 100%);
-    color: #ff3366;
-  }
-  .icon-glow {
-    background: radial-gradient(circle, rgba(255, 51, 102, 0.3) 0%, transparent 70%);
-  }
-}
-
-.total-books {
-  .stat-icon {
-    background: linear-gradient(135deg, rgba(0, 243, 255, 0.2) 0%, rgba(0, 243, 255, 0.1) 100%);
-    color: #00f3ff;
-  }
-  .icon-glow {
-    background: radial-gradient(circle, rgba(0, 243, 255, 0.3) 0%, transparent 70%);
-  }
 }
 
 .stat-content {
   flex: 1;
+  min-width: 0;
 
   .stat-value {
     font-family: var(--font-family-base);
     font-size: 32px;
     font-weight: 700;
-    color: #e0e0ff;
-    line-height: 1.2;
-    margin-bottom: 4px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 2px;
+    font-variant-numeric: tabular-nums;
   }
 
   .stat-label {
     font-family: var(--font-family-base);
     font-size: 13px;
-    color: #8080a0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    color: var(--text-muted);
+    font-weight: var(--font-weight-body);
   }
 }
 
 .stat-trend {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   font-family: var(--font-family-base);
-  font-size: 13px;
-  color: #00ff88;
-  padding: 6px 10px;
-  background: rgba(0, 255, 136, 0.1);
-  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-success);
+  padding: 4px 8px;
+  background: var(--color-success-soft);
+  border-radius: var(--radius-sm);
+  font-variant-numeric: tabular-nums;
 
   &.negative {
-    color: #ff3366;
-    background: rgba(255, 51, 102, 0.1);
+    color: var(--color-danger);
+    background: var(--color-danger-soft);
   }
 }
 
+// ============ Content Grid ============
 .content-grid {
   display: grid;
-  grid-template-columns: 1fr 360px;
+  grid-template-columns: 1fr 340px;
   gap: 24px;
-  position: relative;
-  z-index: 1;
 }
 
 .grid-main {
@@ -917,21 +758,15 @@ onUnmounted(() => {
   gap: 24px;
 }
 
-.tech-chart-card,
-.tech-activities-card,
-.tech-quick-actions-card,
-.tech-popular-books-card {
-  background: rgba(20, 20, 40, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  border-radius: 20px;
+.content-card {
+  background: var(--surface-panel);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
 
   &:hover {
-    border-color: rgba(0, 243, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--shadow-soft);
   }
 }
 
@@ -939,33 +774,31 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+  padding: 16px 22px;
+  border-bottom: 1px solid var(--border-default);
 
   .card-title {
     font-family: var(--font-family-base);
-    font-size: 18px;
-    font-weight: 600;
-    color: #e0e0ff;
+    font-size: var(--font-size-title);
+    font-weight: var(--font-weight-title);
+    color: var(--text-primary);
     margin: 0;
-    letter-spacing: 1px;
   }
 }
 
 .view-all-btn {
   font-family: var(--font-family-base);
-  font-size: 13px;
+  font-size: var(--font-size-caption);
   padding: 4px 8px;
-  color: #8080a0;
+  color: var(--color-primary);
 
   &:hover {
-    color: #00f3ff;
-    background: rgba(0, 243, 255, 0.05);
+    background: var(--color-info-soft);
   }
 }
 
 .chart-container {
-  padding: 24px;
+  padding: 20px 22px;
 
   .chart {
     width: 100%;
@@ -973,39 +806,40 @@ onUnmounted(() => {
   }
 }
 
+// ============ Activities ============
 .activities-list {
-  padding: 8px 0;
+  padding: 6px 0;
 }
 
 .activity-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 24px;
-  transition: all 0.2s ease;
+  gap: 12px;
+  padding: 12px 22px;
+  transition: background var(--transition-fast);
 
   &:hover {
-    background: rgba(0, 243, 255, 0.05);
+    background: var(--color-canvas-soft);
   }
 }
 
 .activity-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 
   &.borrow {
-    background: rgba(0, 102, 255, 0.15);
-    color: #0066ff;
+    background: var(--color-info-soft);
+    color: var(--color-primary);
   }
 
   &.return {
-    background: rgba(0, 255, 136, 0.15);
-    color: #00ff88;
+    background: var(--color-success-soft);
+    color: var(--color-success);
   }
 }
 
@@ -1015,9 +849,9 @@ onUnmounted(() => {
 
   .activity-title {
     font-family: var(--font-family-base);
-    font-size: 14px;
-    color: #e0e0ff;
-    margin-bottom: 4px;
+    font-size: var(--font-size-body-md);
+    color: var(--text-primary);
+    margin-bottom: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1025,8 +859,8 @@ onUnmounted(() => {
 
   .activity-time {
     font-family: var(--font-family-base);
-    font-size: 12px;
-    color: #8080a0;
+    font-size: var(--font-size-caption);
+    color: var(--text-muted);
   }
 }
 
@@ -1034,115 +868,99 @@ onUnmounted(() => {
   flex-shrink: 0;
 }
 
+// ============ Quick Actions ============
 .quick-actions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 20px;
+  gap: 10px;
+  padding: 18px 20px;
 }
 
-.tech-quick-action-btn {
+.quick-action-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 20px 16px;
-  background: rgba(10, 10, 26, 0.6);
-  border: 1px solid rgba(0, 243, 255, 0.15);
-  border-radius: 12px;
+  gap: 8px;
+  padding: 18px 14px;
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
   font-family: var(--font-family-base);
-  position: relative;
-  overflow: hidden;
 
   &:hover {
-    background: rgba(0, 243, 255, 0.08);
-    border-color: rgba(0, 243, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    background: #eeeeec;
+    border-color: var(--color-ink-faint);
+  }
+
+  &:active {
+    background: #e8e7e5;
   }
 
   .action-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #00f3ff 0%, #00c8d4 100%);
-    color: #000;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--color-info-soft);
+    color: var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    z-index: 2;
-  }
-
-  .action-glow {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, rgba(0, 243, 255, 0.3) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  &:hover .action-glow {
-    opacity: 1;
   }
 
   .action-label {
-    font-size: 13px;
-    color: #e0e0ff;
+    font-size: var(--font-size-caption);
+    color: var(--text-secondary);
     font-weight: 500;
-    position: relative;
-    z-index: 2;
   }
 }
 
+// ============ Popular Books ============
 .popular-books-list {
-  padding: 8px 0;
+  padding: 6px 0;
 }
 
 .popular-book-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 20px;
-  transition: background 0.2s ease;
+  gap: 12px;
+  padding: 12px 20px;
+  transition: background var(--transition-fast);
   cursor: pointer;
 
   &:hover {
-    background: rgba(0, 243, 255, 0.05);
+    background: var(--color-canvas-soft);
   }
 }
 
 .book-rank {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, #00f3ff 0%, #00c8d4 100%);
-  color: #000;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-family-base);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(0, 243, 255, 0.3);
 
-  .popular-book-item:nth-child(2) & {
-    background: linear-gradient(135deg, #c0c0c0 0%, #a0a0a0 100%);
-    box-shadow: 0 0 12px rgba(192, 192, 192, 0.3);
+  &.rank-1 {
+    background: #fff4dc;
+    color: #b35900;
   }
-
-  .popular-book-item:nth-child(3) & {
-    background: linear-gradient(135deg, #cd9a6a 0%, #ad7a4a 100%);
-    box-shadow: 0 0 12px rgba(205, 154, 106, 0.3);
+  &.rank-2 {
+    background: #e9e9e7;
+    color: #5f5f5c;
   }
-
-  .popular-book-item:nth-child(n+4) & {
-    background: rgba(0, 243, 255, 0.15);
-    color: #00f3ff;
-    box-shadow: none;
+  &.rank-3 {
+    background: #f3e3d3;
+    color: #8c4a1f;
+  }
+  &.rank-4 {
+    background: var(--color-canvas-soft);
+    color: var(--text-muted);
   }
 }
 
@@ -1151,15 +969,14 @@ onUnmounted(() => {
 }
 
 .cover-placeholder {
-  width: 44px;
-  height: 56px;
-  border-radius: 8px;
+  width: 40px;
+  height: 52px;
+  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
   color: rgba(255, 255, 255, 0.9);
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .book-info {
@@ -1168,10 +985,10 @@ onUnmounted(() => {
 
   .book-title {
     font-family: var(--font-family-base);
-    font-size: 14px;
+    font-size: var(--font-size-body-md);
     font-weight: 500;
-    color: #e0e0ff;
-    margin-bottom: 4px;
+    color: var(--text-primary);
+    margin-bottom: 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1179,50 +996,48 @@ onUnmounted(() => {
 
   .book-author {
     font-family: var(--font-family-base);
-    font-size: 12px;
-    color: #8080a0;
+    font-size: var(--font-size-caption);
+    color: var(--text-muted);
   }
 }
 
 .book-borrow-count {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   font-family: var(--font-family-base);
-  font-size: 13px;
-  color: #8080a0;
+  font-size: var(--font-size-caption);
+  color: var(--text-muted);
   flex-shrink: 0;
 }
 
-// 动画类
+// ============ Fade-in animation (opacity only, no blur) ============
 .tech-fade-in-up {
-  animation: tech-fade-in-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: fade-in-up 0.4s var(--ease-standard) forwards;
   opacity: 0;
 }
 
-@keyframes tech-fade-in-up {
+@keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(20px);
-    filter: blur(4px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
-// Radio button styling
+// ============ Radio button styling ============
 :deep(.el-radio-group) {
   .el-radio-button__inner {
-    background: var(--color-surface);
+    background: var(--color-canvas-soft);
     border: 1px solid var(--border-default);
     color: var(--text-muted);
     font-family: var(--font-family-base);
 
     &:hover {
-      color: #00f3ff;
+      color: var(--text-primary);
     }
   }
 
@@ -1230,11 +1045,11 @@ onUnmounted(() => {
     background: var(--color-info-soft);
     border-color: var(--color-primary);
     color: var(--color-primary);
-    box-shadow: 0 0 12px rgba(0, 243, 255, 0.2);
+    box-shadow: none;
   }
 }
 
-// 响应式
+// ============ Responsive ============
 @media (max-width: 1200px) {
   .stats-section {
     grid-template-columns: repeat(2, 1fr);
@@ -1248,14 +1063,14 @@ onUnmounted(() => {
     flex-direction: row;
   }
 
-  .tech-quick-actions-card,
-  .tech-popular-books-card {
+  .quick-actions-card,
+  .popular-books-card {
     flex: 1;
   }
 }
 
 @media (max-width: 768px) {
-  .tech-home-page {
+  .home-page {
     padding: 20px;
   }
 

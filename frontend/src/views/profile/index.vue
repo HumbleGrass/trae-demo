@@ -7,8 +7,6 @@
           <!-- 头像区域 -->
           <div class="avatar-section">
             <div class="avatar-wrapper">
-              <div class="avatar-glow"></div>
-              <div class="avatar-scanline"></div>
               <el-avatar :size="100" :icon="UserFilled" class="user-avatar" />
             </div>
             <div class="status-badge online">
@@ -19,20 +17,20 @@
 
           <!-- 用户基本信息 -->
           <div class="user-info">
-            <h1 class="username neon-text">{{ userStore.userInfo?.username || '用户' }}</h1>
-            <p class="user-email code-text">{{ userStore.userInfo?.email || '未设置邮箱' }}</p>
+            <h1 class="username">{{ userStore.userInfo?.username || '用户' }}</h1>
+            <p class="user-email">{{ userStore.userInfo?.email || '未设置邮箱' }}</p>
             
             <div class="user-meta-grid">
               <div class="meta-item">
-                <span class="meta-label code-text">角色</span>
+                <span class="meta-label">角色</span>
                 <span class="meta-value">{{ userStore.userInfo?.role === 'admin' ? '管理员' : '普通用户' }}</span>
               </div>
               <div class="meta-item">
-                <span class="meta-label code-text">注册时间</span>
-                <span class="meta-value code-text">{{ formatDate(userStore.userInfo?.createdAt) }}</span>
+                <span class="meta-label">注册时间</span>
+                <span class="meta-value">{{ formatDate(userStore.userInfo?.createdAt) }}</span>
               </div>
               <div class="meta-item">
-                <span class="meta-label code-text">账户状态</span>
+                <span class="meta-label">账户状态</span>
                 <StatusTag status="active" />
               </div>
             </div>
@@ -48,7 +46,7 @@
               <el-icon :size="24"><Reading /></el-icon>
             </div>
             <div class="stat-info">
-              <div class="stat-value code-text">{{ userStats.totalBorrows }}</div>
+              <div class="stat-value">{{ userStats.totalBorrows }}</div>
               <div class="stat-label">总借阅数</div>
             </div>
           </div>
@@ -60,7 +58,7 @@
               <el-icon :size="24"><Collection /></el-icon>
             </div>
             <div class="stat-info">
-              <div class="stat-value code-text">{{ userStats.activeBorrows }}</div>
+              <div class="stat-value">{{ userStats.activeBorrows }}</div>
               <div class="stat-label">当前借阅</div>
             </div>
           </div>
@@ -72,7 +70,7 @@
               <el-icon :size="24"><Bell /></el-icon>
             </div>
             <div class="stat-info">
-              <div class="stat-value code-text">{{ userStats.reservations }}</div>
+              <div class="stat-value">{{ userStats.reservations }}</div>
               <div class="stat-label">预约数量</div>
             </div>
           </div>
@@ -84,7 +82,7 @@
               <el-icon :size="24"><Star /></el-icon>
             </div>
             <div class="stat-info">
-              <div class="stat-value code-text">{{ userStats.favorites }}</div>
+              <div class="stat-value">{{ userStats.favorites }}</div>
               <div class="stat-label">收藏图书</div>
             </div>
           </div>
@@ -146,7 +144,6 @@ onMounted(() => {
 }
 
 .profile-card {
-  
   .profile-header {
     display: flex;
     gap: 40px;
@@ -163,39 +160,9 @@ onMounted(() => {
 }
 
 .avatar-wrapper {
-  padding-top: 4px;
-  padding-left: 4px;
   position: relative;
   width: 120px;
   height: 120px;
-
-  .avatar-glow {
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--tech-neon-cyan), var(--tech-neon-magenta), var(--tech-neon-cyan));
-    animation: rotate-glow 3s linear infinite;
-    opacity: 0.6;
-  }
-
-  .avatar-scanline {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(transparent, rgba(255, 255, 255, 0.6), transparent);
-    animation: avatar-scan 2s linear infinite;
-  }
-
-  @keyframes rotate-glow {
-    to { transform: rotate(360deg); }
-  }
-
-  @keyframes avatar-scan {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(117px); }
-  }
 
   .user-avatar {
     position: relative;
@@ -203,10 +170,9 @@ onMounted(() => {
     width: 112px !important;
     height: 112px !important;
     font-size: 48px !important;
-    background: var(--tech-bg-dark) !important;
-    color: var(--tech-neon-cyan) !important;
-    border: 2px solid var(--tech-neon-cyan) !important;
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+    background: var(--color-surface) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-default) !important;
   }
 }
 
@@ -215,30 +181,15 @@ onMounted(() => {
   align-items: center;
   gap: 6px;
   padding: 6px 14px;
-  border-radius: var(--tech-radius-full);
-  font-family: var(--tech-font-mono);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family-base);
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 
   &.online {
-    background: rgba(0, 255, 136, 0.15);
-    color: var(--tech-neon-green);
-    border: 1px solid var(--tech-neon-green);
-  }
-
-  .status-dot {
-    width: 6px;
-    height: 6px;
-    background: currentColor;
-    border-radius: 50%;
-    animation: pulse-dot 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.5); }
+    background: var(--color-success-soft);
+    color: var(--color-success);
+    border: 1px solid var(--color-success-border);
   }
 }
 
@@ -248,17 +199,16 @@ onMounted(() => {
 }
 
 .username {
-  font-family: var(--tech-font-display);
+  font-family: var(--font-family-base);
   font-size: 32px;
   font-weight: 700;
-  color: var(--tech-text-primary);
+  color: var(--text-primary);
   margin: 0 0 8px 0;
-  letter-spacing: 1px;
 }
 
 .user-email {
   font-size: 14px;
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
   margin: 0 0 24px 0;
 }
 
@@ -270,22 +220,20 @@ onMounted(() => {
 
 .meta-item {
   padding: 14px;
-  background: var(--tech-bg-dark);
-  border: 1px solid var(--tech-border-color);
-  border-radius: var(--tech-radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
 
   .meta-label {
     display: block;
-    font-size: 11px;
-    color: var(--tech-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: 12px;
+    color: var(--text-muted);
     margin-bottom: 6px;
   }
 
   .meta-value {
     font-size: 14px;
-    color: var(--tech-text-primary);
+    color: var(--text-primary);
     font-weight: 500;
   }
 }
@@ -296,11 +244,11 @@ onMounted(() => {
   gap: 16px;
 
   .stat-card {
-    transition: all var(--tech-transition-base);
+    transition: all var(--transition-base);
 
     &:hover {
       transform: translateY(-4px);
-      border-color: var(--tech-border-strong);
+      border-color: var(--border-default);
     }
 
     .stat-content {
@@ -313,64 +261,49 @@ onMounted(() => {
     .stat-icon {
       width: 48px;
       height: 48px;
-      border-radius: var(--tech-radius-md);
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
 
       &.borrows {
-        background: rgba(0, 245, 255, 0.1);
-        color: var(--tech-neon-cyan);
-        border: 1px solid var(--tech-neon-cyan);
-        box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+        background: var(--color-info-soft);
+        color: var(--color-info);
       }
 
       &.active {
-        background: rgba(0, 255, 136, 0.1);
-        color: var(--tech-neon-green);
-        border: 1px solid var(--tech-neon-green);
-        box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        background: var(--color-success-soft);
+        color: var(--color-success);
       }
 
       &.reservations {
-        background: rgba(255, 190, 11, 0.1);
-        color: var(--tech-neon-yellow);
-        border: 1px solid var(--tech-neon-yellow);
-        box-shadow: 0 0 15px rgba(255, 190, 11, 0.2);
+        background: var(--color-warning-soft);
+        color: var(--color-warning);
       }
 
       &.favorites {
-        background: rgba(255, 0, 255, 0.1);
-        color: var(--tech-neon-magenta);
-        border: 1px solid var(--tech-neon-magenta);
-        box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
+        background: var(--color-danger-soft);
+        color: var(--color-danger);
       }
     }
 
     .stat-info {
       .stat-value {
-        font-family: var(--tech-font-display);
+        font-family: var(--font-family-base);
         font-size: 26px;
         font-weight: 700;
-        color: var(--tech-text-primary);
+        color: var(--text-primary);
         line-height: 1.2;
       }
 
       .stat-label {
         font-size: 12px;
-        color: var(--tech-text-muted);
+        color: var(--text-muted);
         margin-top: 4px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
       }
     }
   }
-}
-
-
-.code-text {
-  font-family: var(--tech-font-mono);
 }
 
 @media (max-width: 768px) {

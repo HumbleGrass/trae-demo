@@ -36,8 +36,8 @@ console.warn('[Deprecated] Modal component is deprecated. Please use BaseModal i
   padding: 40px;
   text-align: center;
   background: rgba(255, 170, 0, 0.1);
-  border: 2px dashed var(--tech-neon-yellow);
-  border-radius: var(--tech-radius-md);
+  border: 2px dashed var(--color-warning);
+  border-radius: var(--radius-md);
 }
 
 .notice-icon {
@@ -46,27 +46,27 @@ console.warn('[Deprecated] Modal component is deprecated. Please use BaseModal i
 }
 
 .notice-title {
-  font-family: var(--tech-font-display);
+  font-family: var(--font-family-base);
   font-size: 20px;
-  color: var(--tech-neon-yellow);
+  color: var(--color-warning);
   margin-bottom: 12px;
 }
 
 .notice-text {
-  font-family: var(--tech-font-body);
+  font-family: var(--font-family-base);
   font-size: 14px;
-  color: var(--tech-text-secondary);
+  color: var(--text-secondary);
   margin-bottom: 16px;
 }
 
 .notice-code {
   display: inline-block;
   padding: 8px 16px;
-  background: var(--tech-bg-dark);
-  color: var(--tech-neon-cyan);
-  font-family: var(--tech-font-mono);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-family: var(--font-family-base);
   font-size: 13px;
   border-radius: 4px;
-  border: 1px solid var(--tech-border-color);
+  border: 1px solid var(--border-default);
 }
 </style>

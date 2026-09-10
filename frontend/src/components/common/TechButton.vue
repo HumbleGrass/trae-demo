@@ -2,7 +2,6 @@
   <el-button :type="btnType" :size="size" :loading="loading" class="tech-btn" :class="btnClass" @click="handleClick">
     <span v-if="icon" class="btn-icon"><component :is="icon" /></span>
     <span v-if="$slots.default" class="btn-text"><slot></slot></span>
-    <span class="btn-glow"></span>
   </el-button>
 </template>
 
@@ -70,10 +69,6 @@ const handleClick = () => {
     background-color var(--transition-fast),
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
-
-  .btn-glow {
-    display: none;
-  }
 
   &:hover {
     color: var(--color-on-primary);

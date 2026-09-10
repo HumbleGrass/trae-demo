@@ -79,8 +79,7 @@
                 <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
               </svg>
             </div>
-            <span class="neon-text">图书列表</span>
-            <span class="data-stream">▋</span>
+            <span>图书列表</span>
           </div>
           <div class="table-actions">
             <el-button link class="export-btn tech-link" size="default">
@@ -106,7 +105,6 @@
               <template #default="{ row }">
                 <div class="book-info-cell">
                   <div class="book-cover-mini" :style="{ background: coverColor(row.category) }">
-                    <div class="cover-glow"></div>
                     <el-icon><Notebook /></el-icon>
                   </div>
                   <div class="book-details">
@@ -119,7 +117,6 @@
             <el-table-column prop="category" :label="t('books.category')" width="110">
               <template #default="{ row }">
                 <el-tag size="small" class="category-tag tech-tag" :type="getCategoryType(row.category)">
-                  <span class="tag-icon">◆</span>
                   {{ row.category }}
                 </el-tag>
               </template>
@@ -177,15 +174,14 @@
       <div class="dialog-content">
         <div class="dialog-header">
           <div class="dialog-icon">
-            <div class="icon-glow"></div>
             <el-icon :size="28">
               <Notebook v-if="!isEdit" />
               <Edit v-else />
             </el-icon>
           </div>
           <div class="dialog-title-section">
-            <h3 class="dialog-title neon-text">{{ isEdit ? t('books.editBook') : t('books.addBook') }}</h3>
-            <p class="dialog-subtitle">// {{ isEdit ? '编辑图书信息' : '添加新图书到馆藏' }}</p>
+            <h3 class="dialog-title">{{ isEdit ? t('books.editBook') : t('books.addBook') }}</h3>
+            <p class="dialog-subtitle">{{ isEdit ? '编辑图书信息' : '添加新图书到馆藏' }}</p>
           </div>
         </div>
 
@@ -445,40 +441,28 @@ onMounted(() => {
 .table-header {
   justify-content: space-between;
   padding: 20px 28px;
-  border-bottom: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--tech-neon-cyan), transparent);
-  }
+  border-bottom: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .table-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--tech-font-cyber);
+  font-family: var(--font-family-base);
   font-size: 18px;
-  font-weight: 700;
+  font-weight: var(--font-weight-heading);
 
   .title-icon {
     width: 40px;
     height: 40px;
-    border-radius: 2px;
-    background: rgba(0, 245, 255, 0.1);
-    color: var(--tech-neon-cyan);
-    border: 1px solid var(--tech-neon-cyan);
+    border-radius: var(--radius-sm);
+    background: var(--color-canvas-soft);
+    color: var(--color-primary);
+    border: 1px solid var(--border-default);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
 
     svg {
       width: 20px;
@@ -488,11 +472,11 @@ onMounted(() => {
 }
 
 .export-btn {
-  font-family: var(--tech-font-mono);
-  font-size: 13px;
-  font-weight: 600;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-body);
   padding: 8px 16px;
-  border-radius: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .table-container {
@@ -509,7 +493,7 @@ onMounted(() => {
 .book-cover-mini {
   width: 44px;
   height: 56px;
-  border-radius: 2px;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -517,16 +501,7 @@ onMounted(() => {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  transition: all var(--tech-transition-fast);
-
-  .cover-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
-  }
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
 
   .el-icon {
     font-size: 20px;
@@ -535,7 +510,7 @@ onMounted(() => {
 
   &:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-soft);
   }
 }
 
@@ -543,10 +518,10 @@ onMounted(() => {
   min-width: 0;
 
   .book-name {
-    font-family: var(--tech-font-body);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--tech-text-primary);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-body-md);
+    font-weight: var(--font-weight-title);
+    color: var(--text-primary);
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
@@ -554,33 +529,28 @@ onMounted(() => {
   }
 
   .book-author-meta {
-    font-family: var(--tech-font-mono);
-    font-size: 12px;
-    color: var(--tech-text-muted);
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-caption);
+    color: var(--text-muted);
   }
 }
 
 .isbn-text {
-  font-family: var(--tech-font-mono);
-  font-size: 13px;
-  color: var(--tech-text-secondary);
-  font-weight: 500;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-body);
 }
 
 .category-tag {
-  font-family: var(--tech-font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 2px;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-button);
+  border-radius: var(--radius-sm);
   padding: 4px 10px;
-  background: rgba(0, 245, 255, 0.1);
-  border: 1px solid var(--tech-neon-cyan);
-  color: var(--tech-neon-cyan);
-
-  .tag-icon {
-    margin-right: 4px;
-    font-size: 10px;
-  }
+  background: var(--color-info-soft);
+  border: 1px solid var(--color-info-border);
+  color: var(--color-primary);
 }
 
 .stock-status {
@@ -592,27 +562,24 @@ onMounted(() => {
 .stock-dot {
   width: 10px;
   height: 10px;
-  border-radius: 50%;
-  background: var(--tech-neon-red);
-  box-shadow: 0 0 10px var(--tech-neon-red);
-  transition: all var(--tech-transition-fast);
+  border-radius: var(--radius-full);
+  background: var(--color-danger);
+  transition: background-color var(--transition-fast);
 
   &.available {
-    background: var(--tech-neon-green);
-    box-shadow: 0 0 10px var(--tech-neon-green);
-    animation: pulse-glow 2s ease-in-out infinite;
+    background: var(--color-success);
   }
 }
 
 .stock-text {
-  font-family: var(--tech-font-mono);
-  font-size: 14px;
-  color: var(--tech-text-secondary);
-  font-weight: 500;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-md);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-body);
 
   &.available {
-    color: var(--tech-neon-green);
-    font-weight: 700;
+    color: var(--color-success);
+    font-weight: var(--font-weight-title);
   }
 }
 
@@ -621,28 +588,24 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   padding: 20px 28px;
-  border-top: 1px solid var(--tech-border-color);
-  background: var(--tech-bg-dark);
+  border-top: 1px solid var(--border-default);
+  background: var(--color-surface);
 }
 
 .pagination-info {
-  font-family: var(--tech-font-mono);
-  font-size: 13px;
-  color: var(--tech-text-muted);
-  font-weight: 500;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-sm);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-body);
 
   .info-label {
-    color: var(--tech-text-muted);
+    color: var(--text-muted);
   }
 
   .info-value {
-    color: var(--tech-neon-cyan);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-title);
     margin: 0 4px;
   }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
 }
 </style>
