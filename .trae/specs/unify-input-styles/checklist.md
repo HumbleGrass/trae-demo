@@ -1,0 +1,7 @@
+- [x] 全局样式文件 `index.scss` 已创建并包含 CSS 变量
+- [x] 全局样式文件包含 Element Plus 输入框样式覆盖
+- [x] 登录页面输入框已移除 `size="large"` 属性
+- [x] 登录页面 `.custom-input` 样式 padding 为 `10px 14px`
+- [x] 登录页面 `.custom-input` 样式字体大小为 `14px`
+- [x] 前端服务可正常启动
+- [x] 所有页面输入框高度统一为 40px

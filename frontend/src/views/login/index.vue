@@ -56,7 +56,7 @@
             class="login-form"
             @submit.prevent="handleLogin"
           >
-            <div class="form-field">
+            <el-form-item prop="username" :error="loginErrors.username">
               <div class="field-label">
                 <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -70,11 +70,12 @@
                   v-model="form.username"
                   placeholder="请输入用户名"
                   class="tech-input"
+                  @input="loginErrors.username = ''"
                 />
               </div>
-            </div>
+            </el-form-item>
 
-            <div class="form-field">
+            <el-form-item prop="password" :error="loginErrors.password">
               <div class="field-label">
                 <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -90,14 +91,15 @@
                   placeholder="请输入密码"
                   show-password
                   class="tech-input"
+                  @input="loginErrors.password = ''"
                   @keyup.enter="handleLogin"
                 />
               </div>
-            </div>
+            </el-form-item>
 
             <div class="form-options">
               <el-checkbox v-model="rememberMe">记住密码</el-checkbox>
-              <a class="forgot-link" @click="showForgotDialog = true">忘记密码？</a>
+              <button type="button" class="forgot-link" @click="showForgotDialog = true">忘记密码？</button>
             </div>
 
             <button
@@ -122,32 +124,9 @@
             </button>
           </el-form>
 
-          <div class="divider">
-            <span class="divider-text">快速登录</span>
-          </div>
-
-          <div class="social-login">
-            <button class="social-btn" title="微信登录">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8.4 13.5c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm7.2 0c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zM12 2C6.5 2 2 5.6 2 10c0 2.2 1.2 4.2 3.2 5.5L4 18l2.8-1.4c1.2.5 2.5.9 4.2.9 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/>
-              </svg>
-            </button>
-            <button class="social-btn" title="QQ登录">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.5 5c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5S9 9.3 9 8.5 9.7 7 10.5 7zm3 0c.8 0 1.5.7 1.5 1.5s-.7 1.5-1.5 1.5S12 9.3 12 8.5 12.7 7 13.5 7zm-6 7c0-1.1.9-2 2-2h5c1.1 0 2 .9 2 2v1h-9v-1z"/>
-              </svg>
-            </button>
-            <button class="social-btn" title="邮箱登录">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-            </button>
-          </div>
-
           <div class="register-section">
             <span>还没有账号？</span>
-            <a class="register-link" @click="showRegisterDialog = true">立即注册</a>
+            <button type="button" class="register-link" @click="showRegisterDialog = true">立即注册</button>
           </div>
         </div>
 
@@ -302,6 +281,11 @@ const form = reactive({
   password: ''
 })
 
+const loginErrors = reactive({
+  username: '',
+  password: ''
+})
+
 const registerForm = reactive({
   username: '',
   password: '',
@@ -387,6 +371,11 @@ const startTyping = () => {
 
 const handleLogin = async () => {
   if (!formRef.value) return
+
+  loginErrors.username = form.username.trim() ? '' : t('login.usernameRequired')
+  loginErrors.password = form.password ? '' : t('login.passwordRequired')
+
+  if (loginErrors.username || loginErrors.password) return
 
   await formRef.value.validate(async (valid) => {
     if (!valid) return
@@ -688,7 +677,7 @@ onUnmounted(() => {
 }
 
 .system-title {
-  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-family-base);
   font-size: 36px;
   font-weight: 800;
   margin: 0 0 8px 0;
@@ -701,7 +690,7 @@ onUnmounted(() => {
 }
 
 .system-subtitle {
-  font-family: 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-family-base);
   font-size: 12px;
   color: #8080a0;
   letter-spacing: 4px;
@@ -724,7 +713,7 @@ onUnmounted(() => {
 }
 
 .typing-text {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: var(--font-family-base);
 }
 
 .blink-cursor {
@@ -745,7 +734,7 @@ onUnmounted(() => {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-family: 'Rajdhani', sans-serif;
+      font-family: var(--font-family-base);
       font-size: 11px;
       font-weight: 600;
       color: #b0b0d0;
@@ -797,7 +786,7 @@ onUnmounted(() => {
     :deep(.el-input__inner) {
       background: transparent !important;
       color: #e0e0ff !important;
-      font-family: 'Rajdhani', sans-serif;
+      font-family: var(--font-family-base);
       font-size: 14px !important;
       font-weight: 500;
 
@@ -837,7 +826,7 @@ onUnmounted(() => {
 .login-button {
   width: 100%;
   height: 40px;
-  font-family: 'Orbitron', sans-serif;
+  font-family: var(--font-family-base);
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -940,65 +929,6 @@ onUnmounted(() => {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
-}
-
-.divider {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 16px 0;
-
-  &::before,
-  &::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.2), transparent);
-  }
-
-  .divider-text {
-    padding: 0 12px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 11px;
-    color: #606099;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-}
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.social-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(20, 20, 40, 0.6);
-  border: 1px solid rgba(0, 243, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #00f3ff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  &:hover {
-    background: rgba(0, 243, 255, 0.1);
-    border-color: #00f3ff;
-    transform: translateY(-2px);
-    box-shadow: 0 0 16px rgba(0, 243, 255, 0.3);
-  }
 }
 
 .register-section {
@@ -1111,7 +1041,7 @@ onUnmounted(() => {
     margin-bottom: 28px;
 
     h3 {
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-family-base);
       font-size: 24px;
       font-weight: 700;
       color: #e0e0ff;
@@ -1120,7 +1050,7 @@ onUnmounted(() => {
     }
 
     p {
-      font-family: 'Rajdhani', sans-serif;
+      font-family: var(--font-family-base);
       font-size: 13px;
       color: #8080a0;
       margin: 0;
@@ -1135,7 +1065,7 @@ onUnmounted(() => {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: 'Rajdhani', sans-serif;
+        font-family: var(--font-family-base);
         font-size: 12px;
         font-weight: 600;
         color: #b0b0d0;
@@ -1186,7 +1116,7 @@ onUnmounted(() => {
       :deep(.el-input__inner) {
         background: transparent !important;
         color: #e0e0ff !important;
-        font-family: 'Rajdhani', sans-serif;
+        font-family: var(--font-family-base);
         font-size: 14px !important;
 
         &::placeholder {
@@ -1229,10 +1159,10 @@ onUnmounted(() => {
     .confirm-btn {
       flex: 1;
       height: 44px;
-      font-family: 'Orbitron', sans-serif;
+      font-family: var(--font-family-base);
       font-size: 13px !important;
       font-weight: 700 !important;
-      border-radius: 10px !important;
+      border-radius: 8px !important;
       transition: all 0.2s ease !important;
       letter-spacing: 1px;
       cursor: pointer;
@@ -1472,7 +1402,7 @@ onUnmounted(() => {
   gap: var(--space-md);
 }
 
-.form-field,
+.login-form :deep(.el-form-item),
 .register-form :deep(.el-form-item) {
   width: 100%;
 }
@@ -1546,7 +1476,14 @@ onUnmounted(() => {
 
 .forgot-link,
 .register-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-height-lg);
+  padding: 0 var(--space-xs);
   color: var(--color-primary);
+  font: inherit;
+  background: transparent;
+  border: 0;
   cursor: pointer;
   border-radius: var(--radius-xs);
   transition: color var(--transition-fast), background-color var(--transition-fast);
@@ -1565,7 +1502,7 @@ onUnmounted(() => {
   justify-content: center;
   min-height: var(--control-height-lg);
   padding: 0 20px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-md);
   font-family: var(--font-family-base);
   font-size: var(--font-size-button);
   font-weight: var(--font-weight-button);
@@ -1634,60 +1571,8 @@ onUnmounted(() => {
   to { transform: rotate(360deg); }
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin: var(--space-lg) 0 var(--space-md);
-  color: var(--text-placeholder);
-  font-size: var(--font-size-eyebrow);
-}
-
-.divider::before,
-.divider::after {
-  flex: 1;
-  height: 1px;
-  content: '';
-  background: var(--border-default);
-}
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-xs);
-}
-
-.social-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  color: var(--text-muted);
-  background: var(--color-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition:
-    color var(--transition-fast),
-    background-color var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.social-btn:hover {
-  color: var(--text-primary);
-  background: var(--color-canvas-soft);
-  border-color: var(--color-ink-faint);
-}
-
-.social-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
 .register-section {
-  margin-top: var(--space-lg);
+  margin-top: var(--space-md);
   color: var(--text-muted);
   font-size: var(--font-size-caption);
   text-align: center;
@@ -1696,7 +1581,7 @@ onUnmounted(() => {
 .card-footer {
   grid-area: footer;
   padding: var(--space-sm) var(--space-lg);
-  color: var(--text-placeholder);
+  color: var(--text-muted);
   background: var(--color-surface);
   border-top: 1px solid var(--border-default);
 }
@@ -1715,7 +1600,6 @@ onUnmounted(() => {
 }
 
 .login-button:focus-visible,
-.social-btn:focus-visible,
 .forgot-link:focus-visible,
 .register-link:focus-visible,
 .cancel-btn:focus-visible,
