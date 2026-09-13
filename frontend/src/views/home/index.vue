@@ -166,22 +166,33 @@
             <h3 class="card-title">{{ t('home.popularBooks') }}</h3>
           </div>
           <div class="popular-books-list">
-            <div class="popular-book-item" v-for="(book, index) in popularBooks" :key="index" @click="goToBookDetail(book.id)">
-              <div class="book-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</div>
-              <div class="book-cover">
-                <div class="cover-placeholder" :style="{ background: book.coverColor }">
+            <button
+              class="popular-book-item"
+              :class="'ranked-' + (index + 1)"
+              v-for="(book, index) in popularBooks"
+              :key="index"
+              :aria-label="`查看《${book.title}》详情`"
+              @click="goToBookDetail(book.id)"
+            >
+              <!-- 封面 + 排名徽章叠加 -->
+              <div class="book-cover-wrap">
+                <div class="book-rank-badge" :class="'rank-' + (index + 1)">
+                  <span class="rank-num">{{ index + 1 }}</span>
+                </div>
+                <div class="book-cover" :style="{ background: book.coverColor }">
                   <el-icon><Notebook /></el-icon>
                 </div>
               </div>
+              <!-- 信息区 -->
               <div class="book-info">
                 <div class="book-title">{{ book.title }}</div>
                 <div class="book-author">{{ book.author }}</div>
+                <div class="book-meta">
+                  <el-icon><View /></el-icon>
+                  <span>{{ book.borrowCount }}</span>
+                </div>
               </div>
-              <div class="book-borrow-count">
-                <el-icon><View /></el-icon>
-                <span>{{ book.borrowCount }}</span>
-              </div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -195,7 +206,11 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useNotificationStore } from '@/stores/notification'
-import * as echarts from 'echarts'
+import * as echarts from '@/utils/echarts'
+import { notionChartColors, notionFontFamily } from '@/utils/echarts-tech-theme'
+
+const C = notionChartColors
+const F = notionFontFamily
 import {
   Reading,
   CircleCheck,
@@ -294,13 +309,14 @@ const getTimeAgo = (dateStr: string) => {
 
 const popularBooks = ref<any[]>([])
 
+// Notion sticker palette — decorative only, never used for CTAs/structure
 const coverColors = [
-  'linear-gradient(135deg, #8b6f47 0%, #a88d66 100%)',
-  'linear-gradient(135deg, #4a5d6a 0%, #6a7d8a 100%)',
-  'linear-gradient(135deg, #5a8a6e 0%, #7aaa8e 100%)',
-  'linear-gradient(135deg, #c9a86c 0%, #d9b87c 100%)',
-  'linear-gradient(135deg, #4a7a9a 0%, #6a9aba 100%)',
-  'linear-gradient(135deg, #a85a5a 0%, #c87a7a 100%)'
+  'linear-gradient(135deg, #d6b6f6 0%, #b386e3 100%)', // accent-purple
+  'linear-gradient(135deg, #ff64c8 0%, #d93fa5 100%)', // accent-pink
+  'linear-gradient(135deg, #62aef0 0%, #3b8dd6 100%)', // accent-sky
+  'linear-gradient(135deg, #2a9d99 0%, #1f7a77 100%)', // accent-teal
+  'linear-gradient(135deg, #dd5b00 0%, #b34800 100%)', // accent-orange
+  'linear-gradient(135deg, #1aae39 0%, #148a2c 100%)'  // accent-green
 ]
 
 const fetchPopularBooks = async () => {
@@ -377,28 +393,23 @@ const initTrendChart = () => {
 
   trendChart = echarts.init(trendChartRef.value)
 
-  const NOTION_BORDER = '#e6e6e6'
-  const NOTION_MUTED = '#615d59'
-  const NOTION_BLUE = '#0075de'
-  const NOTION_GREEN = '#1a7f37'
-
   const option = {
     tooltip: {
       trigger: 'axis',
       backgroundColor: '#ffffff',
-      borderColor: NOTION_BORDER,
+      borderColor: C.axisLine,
       borderWidth: 1,
       textStyle: {
-        color: '#000000',
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+        color: C.textPrimary,
+        fontFamily: F
       }
     },
     legend: {
       data: ['借阅', '归还'],
       top: 0,
       textStyle: {
-        color: NOTION_MUTED,
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+        color: C.axisLabel,
+        fontFamily: F
       }
     },
     grid: {
@@ -414,19 +425,19 @@ const initTrendChart = () => {
       data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
       axisLine: {
         lineStyle: {
-          color: NOTION_BORDER
+          color: C.axisLine
         }
       },
       axisLabel: {
-        color: NOTION_MUTED,
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+        color: C.axisLabel,
+        fontFamily: F
       }
     },
     yAxis: {
       type: 'value',
       splitLine: {
         lineStyle: {
-          color: NOTION_BORDER,
+          color: C.axisLine,
           type: 'dashed'
         }
       },
@@ -437,8 +448,8 @@ const initTrendChart = () => {
         show: false
       },
       axisLabel: {
-        color: NOTION_MUTED,
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif'
+        color: C.axisLabel,
+        fontFamily: F
       }
     },
     series: [
@@ -449,11 +460,11 @@ const initTrendChart = () => {
         stack: 'Total',
         data: [12, 19, 15, 25, 18, 22, 24],
         lineStyle: {
-          color: NOTION_BLUE,
+          color: C.primary,
           width: 2
         },
         itemStyle: {
-          color: NOTION_BLUE
+          color: C.primary
         },
         areaStyle: {
           color: {
@@ -476,11 +487,11 @@ const initTrendChart = () => {
         stack: 'Total',
         data: [8, 12, 10, 18, 14, 16, 18],
         lineStyle: {
-          color: NOTION_GREEN,
+          color: C.success,
           width: 2
         },
         itemStyle: {
-          color: NOTION_GREEN
+          color: C.success
         },
         areaStyle: {
           color: {
@@ -576,7 +587,7 @@ onUnmounted(() => {
 .home-page {
   position: relative;
   min-height: 100%;
-  padding: 32px;
+  padding: var(--space-xxl);
   background: var(--surface-page);
 }
 
@@ -585,7 +596,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 28px;
+  margin-bottom: var(--space-xl);
 }
 
 .welcome-section {
@@ -594,9 +605,10 @@ onUnmounted(() => {
     font-size: var(--font-size-heading-1);
     font-weight: var(--font-weight-heading);
     color: var(--text-primary);
-    margin: 0 0 6px 0;
+    margin: 0 0 var(--space-xxs) 0;
     line-height: var(--line-height-heading-1);
-    letter-spacing: var(--letter-spacing-default);
+    letter-spacing: var(--letter-spacing-heading-1);
+    font-feature-settings: var(--font-feature-settings);
   }
 
   .welcome-subtitle {
@@ -619,12 +631,14 @@ onUnmounted(() => {
 
   .current-time {
     font-family: var(--font-family-base);
-    font-size: 22px;
+    font-size: var(--font-size-heading-3);
     font-weight: 600;
     color: var(--text-primary);
-    line-height: 1.2;
-    margin-bottom: 4px;
+    line-height: var(--line-height-heading-3);
+    letter-spacing: var(--letter-spacing-heading-3);
+    margin-bottom: var(--space-xxs);
     font-variant-numeric: tabular-nums;
+    font-feature-settings: var(--font-feature-settings);
   }
 
   .current-date {
@@ -639,18 +653,18 @@ onUnmounted(() => {
 .stats-section {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xxl);
 }
 
 .stat-card {
   background: var(--surface-panel);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
-  padding: 20px 22px;
+  padding: var(--space-lg);
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-md);
   transition: box-shadow var(--transition-base), border-color var(--transition-base);
 
   &:hover {
@@ -679,7 +693,7 @@ onUnmounted(() => {
   }
   &--purple {
     .stat-icon {
-      background: #f1edff;
+      background: var(--color-accent-purple-soft);
       color: var(--color-accent-purple-deep);
     }
   }
@@ -707,14 +721,16 @@ onUnmounted(() => {
     font-size: 32px;
     font-weight: 700;
     color: var(--text-primary);
-    line-height: 1.1;
-    margin-bottom: 2px;
+    line-height: 1.04;
+    letter-spacing: var(--letter-spacing-heading-2);
+    margin-bottom: var(--space-xxs);
     font-variant-numeric: tabular-nums;
+    font-feature-settings: var(--font-feature-settings);
   }
 
   .stat-label {
     font-family: var(--font-family-base);
-    font-size: 13px;
+    font-size: var(--font-size-caption);
     color: var(--text-muted);
     font-weight: var(--font-weight-body);
   }
@@ -723,15 +739,16 @@ onUnmounted(() => {
 .stat-trend {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: var(--space-xxs);
   font-family: var(--font-family-base);
-  font-size: 12px;
+  font-size: var(--font-size-eyebrow);
   font-weight: 600;
   color: var(--color-success);
-  padding: 4px 8px;
+  padding: var(--space-xxs) var(--space-xs);
   background: var(--color-success-soft);
   border-radius: var(--radius-sm);
   font-variant-numeric: tabular-nums;
+  font-feature-settings: var(--font-feature-settings);
 
   &.negative {
     color: var(--color-danger);
@@ -743,19 +760,19 @@ onUnmounted(() => {
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
-  gap: 24px;
+  gap: var(--space-lg);
 }
 
 .grid-main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-lg);
 }
 
 .grid-sidebar {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-lg);
 }
 
 .content-card {
@@ -774,7 +791,7 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 22px;
+  padding: var(--space-md) var(--space-lg);
   border-bottom: 1px solid var(--border-default);
 
   .card-title {
@@ -783,13 +800,15 @@ onUnmounted(() => {
     font-weight: var(--font-weight-title);
     color: var(--text-primary);
     margin: 0;
+    letter-spacing: var(--letter-spacing-title);
+    font-feature-settings: var(--font-feature-settings);
   }
 }
 
 .view-all-btn {
   font-family: var(--font-family-base);
   font-size: var(--font-size-caption);
-  padding: 4px 8px;
+  padding: var(--space-xxs) var(--space-xs);
   color: var(--color-primary);
 
   &:hover {
@@ -798,7 +817,7 @@ onUnmounted(() => {
 }
 
 .chart-container {
-  padding: 20px 22px;
+  padding: var(--space-lg);
 
   .chart {
     width: 100%;
@@ -808,14 +827,14 @@ onUnmounted(() => {
 
 // ============ Activities ============
 .activities-list {
-  padding: 6px 0;
+  padding: var(--space-xxs) 0;
 }
 
 .activity-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 22px;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
   transition: background var(--transition-fast);
 
   &:hover {
@@ -851,7 +870,7 @@ onUnmounted(() => {
     font-family: var(--font-family-base);
     font-size: var(--font-size-body-md);
     color: var(--text-primary);
-    margin-bottom: 2px;
+    margin-bottom: var(--space-xxs);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -872,16 +891,16 @@ onUnmounted(() => {
 .quick-actions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 18px 20px;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
 }
 
 .quick-action-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 18px 14px;
+  gap: var(--space-xs);
+  padding: var(--space-md) var(--space-sm);
   background: var(--color-canvas-soft);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
@@ -890,12 +909,12 @@ onUnmounted(() => {
   font-family: var(--font-family-base);
 
   &:hover {
-    background: #eeeeec;
+    background: var(--color-accent-hover);
     border-color: var(--color-ink-faint);
   }
 
   &:active {
-    background: #e8e7e5;
+    background: var(--color-accent-hover-active);
   }
 
   .action-icon {
@@ -916,79 +935,138 @@ onUnmounted(() => {
   }
 }
 
-// ============ Popular Books ============
+// ============ Popular Books — Cover-Card Ranking ============
 .popular-books-list {
-  padding: 6px 0;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }
 
 .popular-book-item {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  transition: background var(--transition-fast);
+  align-items: stretch;
+  gap: var(--space-md);
+  padding: var(--space-sm);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
   cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
 
   &:hover {
     background: var(--color-canvas-soft);
+    border-color: var(--border-default);
+  }
+
+  &:active {
+    transform: scale(0.995);
+  }
+
+  // Rank 1 visual emphasis — paper-soft background + subtle shadow
+  &.ranked-1 {
+    background: var(--color-canvas-soft);
+    border-color: var(--border-default);
+
+    .book-cover {
+      box-shadow: var(--shadow-soft);
+    }
+
+    .book-rank-badge {
+      width: 26px;
+      height: 26px;
+      font-size: 14px;
+    }
   }
 }
 
-.book-rank {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-family-base);
-  font-size: 12px;
-  font-weight: 700;
+// Cover + rank badge stacking container
+.book-cover-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 56px;
+  height: 76px;
+}
+
+.book-cover {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  color: rgba(255, 255, 255, 0.95);
+  transition: box-shadow var(--transition-fast);
+  // Notion hairline on decorative cover
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
 
+// Absolute-stacked rank badge — sticker palette decoration only
+.book-rank-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-surface);
+  z-index: 1;
+  box-shadow: var(--shadow-soft);
+
+  .rank-num {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-eyebrow);
+    font-weight: 700;
+    line-height: 1;
+    font-feature-settings: var(--font-feature-settings);
+  }
+
+  // Sticker palette colors (decorative, no structural role)
   &.rank-1 {
-    background: #fff4dc;
-    color: #b35900;
+    background: var(--color-accent-orange);
+    color: #fff;
   }
   &.rank-2 {
-    background: #e9e9e7;
-    color: #5f5f5c;
+    background: var(--color-accent-teal);
+    color: #fff;
   }
   &.rank-3 {
-    background: #f3e3d3;
-    color: #8c4a1f;
+    background: var(--color-accent-purple-deep);
+    color: #fff;
   }
   &.rank-4 {
     background: var(--color-canvas-soft);
     color: var(--text-muted);
+    border-color: var(--border-default);
+    box-shadow: none;
+    width: 20px;
+    height: 20px;
+
+    .rank-num {
+      font-size: 11px;
+    }
   }
 }
 
-.book-cover {
-  flex-shrink: 0;
-}
-
-.cover-placeholder {
-  width: 40px;
-  height: 52px;
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.9);
-  flex-shrink: 0;
-}
-
+// Info column
 .book-info {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-xxs);
 
   .book-title {
     font-family: var(--font-family-base);
     font-size: var(--font-size-body-md);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 2px;
+    letter-spacing: var(--letter-spacing-title);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -998,17 +1076,27 @@ onUnmounted(() => {
     font-family: var(--font-family-base);
     font-size: var(--font-size-caption);
     color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-}
 
-.book-borrow-count {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-caption);
-  color: var(--text-muted);
-  flex-shrink: 0;
+  .book-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-eyebrow);
+    font-weight: 600;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: var(--font-feature-settings);
+    line-height: 1;
+
+    .el-icon {
+      font-size: 12px;
+    }
+  }
 }
 
 // ============ Fade-in animation (opacity only, no blur) ============
@@ -1025,6 +1113,13 @@ onUnmounted(() => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-fade-in-up {
+    animation: none;
+    opacity: 1;
   }
 }
 
@@ -1071,7 +1166,7 @@ onUnmounted(() => {
 
 @media (max-width: 768px) {
   .home-page {
-    padding: 20px;
+    padding: var(--space-lg);
   }
 
   .stats-section {
@@ -1080,7 +1175,7 @@ onUnmounted(() => {
 
   .page-header {
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-md);
 
     .date-section {
       text-align: left;

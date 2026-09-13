@@ -167,12 +167,15 @@ onMounted(() => {
   .user-avatar {
     position: relative;
     z-index: 1;
-    width: 112px !important;
-    height: 112px !important;
-    font-size: 48px !important;
-    background: var(--color-surface) !important;
-    color: var(--text-primary) !important;
-    border: 1px solid var(--border-default) !important;
+
+    :deep(.el-avatar) {
+      width: 112px;
+      height: 112px;
+      font-size: 48px;
+      background: var(--color-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-default);
+    }
   }
 }
 
@@ -244,7 +247,7 @@ onMounted(() => {
   gap: 16px;
 
   .stat-card {
-    transition: all var(--transition-base);
+    transition: transform var(--transition-base), border-color var(--transition-base);
 
     &:hover {
       transform: translateY(-4px);

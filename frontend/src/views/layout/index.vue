@@ -114,7 +114,7 @@
       <el-header class="tech-header">
         <div class="header-inner">
           <div class="header-left">
-            <button class="tech-collapse-btn" @click="isCollapse = !isCollapse">
+            <button class="tech-collapse-btn" aria-label="切换侧边栏" :aria-expanded="!isCollapse" @click="isCollapse = !isCollapse">
               <el-icon :size="20">
                 <Fold v-if="!isCollapse" />
                 <Expand v-else />
@@ -134,7 +134,7 @@
           <div class="header-right">
             <div class="tech-header-actions">
               <el-dropdown @command="handleLanguageChange" trigger="click">
-                <button class="tech-action-btn lang-btn">
+                <button class="tech-action-btn lang-btn" aria-label="切换语言">
                   <el-icon><Translate /></el-icon>
                   <span class="btn-text">{{ currentLanguageLabel }}</span>
                 </button>
@@ -152,7 +152,7 @@
                 </template>
               </el-dropdown>
 
-              <button class="tech-action-btn notification-btn">
+              <button class="tech-action-btn notification-btn" aria-label="通知">
                 <el-icon><Bell /></el-icon>
                 <span class="notification-badge">3</span>
               </button>
@@ -160,9 +160,9 @@
 
             <div class="tech-user-section">
               <el-dropdown @command="handleCommand" trigger="click">
-                <div class="tech-user-dropdown">
+                <button class="tech-user-dropdown" aria-label="用户菜单">
                   <div class="user-avatar-wrapper">
-                    <el-avatar :size="40" icon="UserFilled" />
+                    <el-avatar :size="40" :icon="UserFilled" />
                   </div>
                   <div class="user-info" v-show="!isMobile">
                     <div class="user-name">{{ userStore.userInfo?.username || 'User' }}</div>
@@ -172,7 +172,7 @@
                     </div>
                   </div>
                   <el-icon class="dropdown-arrow"><ArrowDown /></el-icon>
-                </div>
+                </button>
                 <template #dropdown>
                   <el-dropdown-menu class="tech-user-dropdown-menu">
                     <el-dropdown-item command="profile" class="dropdown-item">
@@ -210,6 +210,21 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
+import {
+  HomeFilled,
+  Notebook,
+  User,
+  UserFilled,
+  Reading,
+  Bell,
+  DataLine,
+  PieChart,
+  Setting,
+  Fold,
+  Expand,
+  ArrowDown,
+  SwitchButton
+} from '@element-plus/icons-vue'
 
 const { t, locale } = useI18n()
 const router = useRouter()
@@ -590,6 +605,13 @@ onUnmounted(() => {
 .tech-page-transition-leave-to {
   opacity: 0;
   transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tech-page-transition-enter-active,
+  .tech-page-transition-leave-active {
+    transition: none;
+  }
 }
 
 @media (max-width: 768px) {

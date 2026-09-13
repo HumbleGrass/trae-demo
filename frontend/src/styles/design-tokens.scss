@@ -58,10 +58,31 @@
   --focus-ring-color: rgba(0, 117, 222, 0.2);
   --overlay-scrim: rgba(0, 0, 0, 0.45);
 
+  /* Decorative surface accents */
+  --color-accent-purple-soft: #{notion.$color-accent-purple-soft};
+  --color-accent-orange-soft: #{notion.$color-accent-orange-soft};
+  --color-accent-orange: #{notion.$color-accent-orange};
+  --color-accent-neutral-soft: #{notion.$color-accent-neutral-soft};
+  --color-accent-neutral: #{notion.$color-accent-neutral};
+  --color-accent-brown-soft: #{notion.$color-accent-brown-soft};
+  --color-accent-brown: #{notion.$color-accent-brown};
+  --color-accent-hover: #{notion.$color-accent-hover};
+  --color-accent-hover-active: #{notion.$color-accent-hover-active};
+
   /* Typography */
   --font-family-base: #{notion.$font-family-base};
   --font-feature-settings: "lnum" 1, "locl" 1;
-  --letter-spacing-default: 0;
+  --letter-spacing-default: #{notion.$letter-spacing-default};
+  --letter-spacing-display-1: #{notion.$letter-spacing-display-1};
+  --letter-spacing-display-2: #{notion.$letter-spacing-display-2};
+  --letter-spacing-heading-1: #{notion.$letter-spacing-heading-1};
+  --letter-spacing-heading-2: #{notion.$letter-spacing-heading-2};
+  --letter-spacing-heading-3: #{notion.$letter-spacing-heading-3};
+  --letter-spacing-title: #{notion.$letter-spacing-title};
+  --letter-spacing-button: #{notion.$letter-spacing-button};
+  --letter-spacing-body: #{notion.$letter-spacing-body};
+  --letter-spacing-caption: #{notion.$letter-spacing-caption};
+  --letter-spacing-eyebrow: #{notion.$letter-spacing-eyebrow};
   --font-size-display-1: #{notion.$font-size-display-1};
   --font-size-display-2: #{notion.$font-size-display-2};
   --font-size-heading-1: #{notion.$font-size-heading-1};

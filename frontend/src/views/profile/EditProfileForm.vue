@@ -246,7 +246,7 @@ const saveProfile = async () => {
     :deep(.el-form-item__label) {
       font-family: var(--font-family-base);
       font-size: 13px;
-      color: var(--text-primary) !important;
+      color: var(--text-primary);
       font-weight: 500;
     }
   }

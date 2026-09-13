@@ -54,6 +54,8 @@
                 <el-input
                   v-model="form.username"
                   placeholder="请输入用户名"
+                  autocomplete="username"
+                  spellcheck="false"
                   class="tech-input"
                   @input="loginErrors.username = ''"
                 />
@@ -74,6 +76,7 @@
                   v-model="form.password"
                   type="password"
                   placeholder="请输入密码"
+                  autocomplete="current-password"
                   show-password
                   class="tech-input"
                   @input="loginErrors.password = ''"
@@ -88,9 +91,10 @@
             </div>
 
             <button
-              type="button"
+              type="submit"
               class="login-button"
               :disabled="loading"
+              aria-label="登录"
               @click="handleLogin"
             >
               <span v-if="!loading" class="btn-content">
@@ -317,6 +321,11 @@ const registerRules: FormRules = {
 
 // 打字机动画
 const startTyping = () => {
+  // 尊重 prefers-reduced-motion — 直接显示完整文本
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    typingText.value = fullText
+    return
+  }
   typingInterval = window.setInterval(() => {
     if (typingIndex < fullText.length) {
       typingText.value += fullText[typingIndex]
@@ -508,7 +517,7 @@ onUnmounted(() => {
   font-size: var(--font-size-heading-1);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-heading-1);
-  letter-spacing: 0;
+  letter-spacing: var(--letter-spacing-heading-1);
   text-shadow: none;
 }
 

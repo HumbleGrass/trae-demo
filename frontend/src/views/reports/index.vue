@@ -106,6 +106,10 @@ import { getBorrows } from '@/api/borrow'
 import Chart from '@/components/Chart/index.vue'
 import TechPageLayout from '@/components/layout/TechPageLayout.vue'
 import TechCard from '@/components/common/TechCard.vue'
+import { notionChartColors, notionFontFamily, getNotionPieColors } from '@/utils/echarts-tech-theme'
+
+const C = notionChartColors
+const F = notionFontFamily
 
 const loading = ref(false)
 
@@ -122,8 +126,8 @@ const borrowTrendOptions = ref<any>({
     text: '',
     left: 'center',
     textStyle: {
-      color: '#000000',
-      fontFamily: 'Inter, sans-serif',
+      color: C.textPrimary,
+      fontFamily: F,
       fontSize: 16,
       fontWeight: 700
     }
@@ -131,12 +135,12 @@ const borrowTrendOptions = ref<any>({
   tooltip: {
     trigger: 'axis',
     backgroundColor: '#ffffff',
-    borderColor: '#e6e6e6',
+    borderColor: C.axisLine,
     borderWidth: 1,
     padding: [12, 16],
     textStyle: {
-      color: '#31302e',
-      fontFamily: 'Inter, sans-serif',
+      color: C.textSecondary,
+      fontFamily: F,
       fontSize: 13
     }
   },
@@ -151,11 +155,11 @@ const borrowTrendOptions = ref<any>({
     type: 'category',
     data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月'],
     axisLine: {
-      lineStyle: { color: '#e6e6e6' }
+      lineStyle: { color: C.axisLine }
     },
     axisLabel: {
-      color: '#615d59',
-      fontFamily: 'Inter, sans-serif'
+      color: C.axisLabel,
+      fontFamily: F
     }
   },
   yAxis: {
@@ -163,12 +167,12 @@ const borrowTrendOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: {
-      color: '#615d59',
-      fontFamily: 'Inter, sans-serif'
+      color: C.axisLabel,
+      fontFamily: F
     },
     splitLine: {
-      lineStyle: { 
-        color: '#e6e6e6',
+      lineStyle: {
+        color: C.axisLine,
         type: 'dashed' as const
       }
     }
@@ -179,11 +183,11 @@ const borrowTrendOptions = ref<any>({
     type: 'line',
     smooth: true,
     lineStyle: {
-      color: '#0075de',
+      color: C.primary,
       width: 3
     },
     itemStyle: {
-      color: '#0075de',
+      color: C.primary,
       borderColor: '#ffffff',
       borderWidth: 2
     },
@@ -206,15 +210,15 @@ const categoryPieOptions = ref<any>({
     trigger: 'item',
     formatter: '{b}: {c} ({d}%)',
     backgroundColor: '#ffffff',
-    borderColor: '#e6e6e6'
+    borderColor: C.axisLine
   },
   legend: {
     orient: 'vertical',
     right: 20,
     top: 'center',
     textStyle: {
-      color: '#31302e',
-      fontFamily: 'Inter, sans-serif'
+      color: C.textSecondary,
+      fontFamily: F
     }
   },
   series: [{
@@ -233,8 +237,8 @@ const categoryPieOptions = ref<any>({
         show: true,
         fontSize: 14,
         fontWeight: 'bold',
-        fontFamily: 'Inter, sans-serif',
-        color: '#0075de'
+        fontFamily: F,
+        color: C.primary
       }
     },
     data: [
@@ -244,7 +248,7 @@ const categoryPieOptions = ref<any>({
       { value: 484, name: '经济管理' },
       { value: 300, name: '艺术设计' }
     ],
-    color: ['#0075de', '#391c57', '#1a7f37', '#9a6700', '#cf222e']
+    color: getNotionPieColors()
   }]
 })
 
@@ -253,7 +257,7 @@ const monthlyBorrowOptions = ref<any>({
   tooltip: {
     trigger: 'axis',
     backgroundColor: '#ffffff',
-    borderColor: '#e6e6e6'
+    borderColor: C.axisLine
   },
   grid: {
     left: '3%',
@@ -266,11 +270,11 @@ const monthlyBorrowOptions = ref<any>({
     type: 'category',
     data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
     axisLine: {
-      lineStyle: { color: '#e6e6e6' }
+      lineStyle: { color: C.axisLine }
     },
     axisLabel: {
-      color: '#615d59',
-      fontFamily: 'Inter, sans-serif',
+      color: C.axisLabel,
+      fontFamily: F,
       rotate: 30
     }
   },
@@ -279,12 +283,12 @@ const monthlyBorrowOptions = ref<any>({
     axisLine: { show: false },
     axisTick: { show: false },
     axisLabel: {
-      color: '#615d59',
-      fontFamily: 'Inter, sans-serif'
+      color: C.axisLabel,
+      fontFamily: F
     },
     splitLine: {
-      lineStyle: { 
-        color: '#e6e6e6',
+      lineStyle: {
+        color: C.axisLine,
         type: 'dashed' as const
       }
     }
@@ -300,8 +304,8 @@ const monthlyBorrowOptions = ref<any>({
         type: 'linear',
         x: 0, y: 0, x2: 0, y2: 1,
         colorStops: [
-          { offset: 0, color: '#0075de' },
-          { offset: 1, color: '#62aef0' }
+          { offset: 0, color: C.primary },
+          { offset: 1, color: C.accentSky }
         ]
       }
     }

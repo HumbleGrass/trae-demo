@@ -263,7 +263,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-soft);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
 
   &:hover {
     transform: scale(1.02) translateY(-4px);
@@ -394,7 +394,7 @@ onMounted(() => {
 }
 
 .stat-card {
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), border-color var(--transition-base);
 
   &:hover {
     transform: translateY(-4px);

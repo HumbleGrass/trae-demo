@@ -136,7 +136,7 @@ svg {
   font-size: var(--font-size-heading-2);
   font-weight: var(--font-weight-heading);
   line-height: var(--line-height-heading-2);
-  letter-spacing: 0;
+  letter-spacing: var(--letter-spacing-heading-2);
   color: var(--text-primary);
 }
 

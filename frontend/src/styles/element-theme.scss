@@ -1,3 +1,11 @@
+/**
+ * Element Plus 编译期主题变量（Notion 风格）
+ *
+ * 本文件由 vite.config.ts 的 css.preprocessorOptions.scss.additionalData
+ * 注入到每个 SCSS 编译单元（包括按需加载的 Element Plus 组件样式源码），
+ * 使 theme-chalk 在编译期读取下方自定义变量。
+ * 颜色/尺寸取值与 src/styles/_notion-values.scss 对齐。
+ */
 @use './notion-values' as notion;
 
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
@@ -183,5 +191,3 @@
     'border-radius': notion.$radius-full
   )
 );
-
-@use 'element-plus/theme-chalk/src/index.scss' as *;

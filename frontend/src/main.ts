@@ -2,16 +2,23 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { MonitoringSDK } from '@monitoring/sdk-js'
 import { createVueIntegration } from '@monitoring/sdk-js-vue'
+import { ElLoading } from 'element-plus'
 import App from './App.vue'
 import router from './router'
 import i18n from './locales'
-import ElementPlus from 'element-plus'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
 import '@fontsource/inter/400.css'
 import '@fontsource/inter/500.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
-import './styles/element-overrides.scss'
+
+// Element Plus 按需引入：模板中的 el-* 组件与样式由 unplugin-vue-components
+// 在编译期自动注入（主题变量见 src/styles/element-theme.scss）。
+// 这里只补齐脚本中直接调用的组件样式（ElMessage/ElMessageBox）与 v-loading 指令。
+import 'element-plus/es/components/message/style/index'
+import 'element-plus/es/components/message-box/style/index'
+import 'element-plus/es/components/loading/style/index'
+
 import './styles/design-tokens.scss'
 import './styles/index.scss'
 import './styles/element-adjustments.scss'
@@ -35,29 +42,10 @@ const pinia = createPinia()
 
 createVueIntegration(sdk, { app })
 
-for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component)
-}
+// v-loading 指令（按需引入后不再随全量插件自动注册）
+app.use(ElLoading)
 
 app.use(pinia)
 app.use(router)
 app.use(i18n)
-app.use(ElementPlus, {
-  size: 'default',
-  zIndex: 3000,
-  // 全局配置按钮主题
-  button: {
-    autoInsertSpace: false
-  },
-  // 全局配置表单主题
-  form: {
-    labelPosition: 'right',
-    size: 'default'
-  },
-  // 全局配置消息提示时长
-  message: {
-    duration: 3000
-  }
-})
-
 app.mount('#app')

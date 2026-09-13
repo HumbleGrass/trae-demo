@@ -6,7 +6,7 @@
  * 本文件作为主题常量的参考来源和手动使用时的工具。
  */
 
-import * as echarts from 'echarts'
+import * as echarts from '@/utils/echarts'
 
 export const notionChartColors = {
   textPrimary: '#000000',

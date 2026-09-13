@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import * as echarts from 'echarts'
+import * as echarts from '@/utils/echarts'
 import EmptyState from '@/components/common/EmptyState.vue'
 
 interface Props {
@@ -232,8 +232,8 @@ defineExpose({ resize: resizeChart })
   position: relative;
   width: 100%;
 
-  > div:first-child {
-    width: 100% !important;
+  :deep(> div:first-child) {
+    width: 100%;
   }
 }
 

@@ -81,91 +81,6 @@ const handleConfirm = () => {
 </script>
 
 <style lang="scss" scoped>
-@media not all {
-.tech-modal {
-  :deep(.el-dialog) {
-    background: var(--color-surface);
-    border: 1px solid var(--border-default);
-    border-radius: 4px;
-    overflow: visible;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  }
-
-  :deep(.el-dialog__header) {
-    display: none;
-  }
-
-  :deep(.el-dialog__body) {
-    padding: 0 !important;
-  }
-
-  :deep(.el-dialog__footer) {
-    padding: 0;
-    border-top: 1px solid var(--border-default);
-  }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 32px 32px 24px;
-
-  &__icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 2px;
-    color: var(--color-primary);
-    border: 1px solid var(--color-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    svg {
-      width: 28px;
-      height: 28px;
-    }
-  }
-
-  &__text {
-    flex: 1;
-    min-width: 0;
-  }
-}
-
-.modal-title {
-  font-family: var(--font-family-base);
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0 0 4px 0;
-  letter-spacing: 0.05em;
-}
-
-.modal-subtitle {
-  font-family: var(--font-family-base);
-  font-size: 13px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.modal-content {
-  padding: 0 32px 24px;
-}
-
-.modal-footer {
-  padding: 20px 32px 32px;
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  background: var(--color-surface);
-}
-}
-</style>
-
-<style lang="scss" scoped>
 .tech-modal {
   :deep(.el-dialog__header) {
     display: none;
@@ -210,7 +125,7 @@ const handleConfirm = () => {
   font-family: var(--font-family-base);
   font-size: var(--font-size-title);
   font-weight: var(--font-weight-title);
-  letter-spacing: 0;
+  letter-spacing: var(--letter-spacing-title);
 }
 
 .modal-subtitle {
