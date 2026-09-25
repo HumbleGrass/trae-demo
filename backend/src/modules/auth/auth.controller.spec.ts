@@ -63,13 +63,14 @@ describe('AuthController', () => {
       expect(service.register).toHaveBeenCalledWith(dto);
     });
 
-    it('should register user with specified role', async () => {
+    it('should register user with optional profile fields', async () => {
       const dto: RegisterDto = {
         username: 'adminuser',
         password: 'password123',
-        role: 'ADMIN' as any,
+        email: 'admin@example.com',
+        phone: '13800138000',
       };
-      const expectedResult = { user: { ...mockUser, role: 'ADMIN' }, access_token: 'jwt_token' };
+      const expectedResult = { user: { ...mockUser, ...dto }, access_token: 'jwt_token' };
       mockAuthService.register.mockResolvedValue(expectedResult);
 
       const result = await controller.register(dto);

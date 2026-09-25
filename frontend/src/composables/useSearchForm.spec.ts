@@ -4,7 +4,7 @@ import { useSearchForm } from './useSearchForm'
 describe('useSearchForm', () => {
   it('initializes with empty form', () => {
     const { form } = useSearchForm<{ keyword: string; category: string }>()
-    expect(form.value).toEqual({})
+    expect(form).toEqual({})
   })
 
   it('initializes with initial values', () => {
@@ -12,7 +12,7 @@ describe('useSearchForm', () => {
       keyword: 'test',
       category: 'tech'
     })
-    expect(form.value).toEqual({ keyword: 'test', category: 'tech' })
+    expect(form).toEqual({ keyword: 'test', category: 'tech' })
   })
 
   it('returns clean values without empty strings', () => {
@@ -40,13 +40,13 @@ describe('useSearchForm', () => {
     })
     setField('keyword', 'modified')
     reset()
-    expect(form.value).toEqual({ keyword: 'initial', category: 'initial' })
+    expect(form).toEqual({ keyword: 'initial', category: 'initial' })
   })
 
   it('resets form to empty if no initial values', () => {
     const { form, setField, reset } = useSearchForm<{ keyword: string }>()
     setField('keyword', 'test')
     reset()
-    expect(form.value).toEqual({})
+    expect(form).toEqual({})
   })
 })

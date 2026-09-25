@@ -41,7 +41,7 @@ describe('Pagination', () => {
     const wrapper = mount(Pagination, {
       props: {
         total: 100,
-        pageSize: 20
+        limit: 20
       }
     })
     expect(wrapper.vm.totalPages).toBe(5)

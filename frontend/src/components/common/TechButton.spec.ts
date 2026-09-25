@@ -27,7 +27,7 @@ describe('TechButton', () => {
     const wrapper = mount(TechButton, {
       props: { loading: true }
     })
-    expect(wrapper.find('.el-icon-loading').exists()).toBe(true)
+    expect(wrapper.find('.is-loading').exists()).toBe(true)
   })
 
   it('applies correct variant class', () => {

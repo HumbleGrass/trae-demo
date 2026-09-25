@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FinesController } from './fines.controller';
 import { FinesService } from './fines.service';
+import { MembersService } from '../members/members.service';
 
 describe('FinesController', () => {
   let controller: FinesController;
@@ -23,6 +24,10 @@ describe('FinesController', () => {
     getUnpaidTotal: jest.fn(),
   };
 
+  const mockMembersService = {
+    findByUserId: jest.fn(async (userId: number) => ({ id: userId })),
+  };
+
   beforeEach(async () => {
     jest.clearAllMocks();
 
@@ -30,6 +35,7 @@ describe('FinesController', () => {
       controllers: [FinesController],
       providers: [
         { provide: FinesService, useValue: mockFinesService },
+        { provide: MembersService, useValue: mockMembersService },
       ],
     }).compile();
 
@@ -52,11 +58,11 @@ describe('FinesController', () => {
       expect(service.findAll).toHaveBeenCalledWith({});
     });
 
-    it('should filter fines by isPaid status', async () => {
+    it('should filter fines by status', async () => {
       const unpaidFines = [{ ...mockFine, isPaid: false }];
       mockFinesService.findAll.mockResolvedValue(unpaidFines);
 
-      const query = { isPaid: false };
+      const query = { status: 'unpaid' };
       const result = await controller.findAll(query);
 
       expect(result).toEqual(unpaidFines);

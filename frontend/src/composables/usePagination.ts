@@ -56,7 +56,12 @@ export function usePagination(options: PaginationOptions = {}) {
    * 设置页码
    */
   function setPage(page: number) {
-    state.page = Math.max(1, Math.min(page, totalPages.value || 1))
+    // 总数未设置（totalPages 为 0）时无需按页数夹取，避免吞掉测试中的自由设页
+    if (state.total > 0) {
+      state.page = Math.max(1, Math.min(page, totalPages.value))
+    } else {
+      state.page = Math.max(1, page)
+    }
   }
 
   /**

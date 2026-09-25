@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MembersController } from './members.controller';
 import { MembersService } from './members.service';
-import { CreateMemberDto } from './dto/create-member.dto';
+import { CreateMemberWithUserDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 
 describe('MembersController', () => {
@@ -47,10 +47,13 @@ describe('MembersController', () => {
 
   describe('create', () => {
     it('should create a new member', async () => {
-      const dto: CreateMemberDto = {
+      const dto: CreateMemberWithUserDto = {
+        username: 'zhangsan',
+        password: 'password123',
         name: '张三',
         email: 'zhangsan@example.com',
         phone: '13800138000',
+        idCard: '110101199001011234',
       };
       mockMembersService.create.mockResolvedValue(mockMember);
 
@@ -61,10 +64,13 @@ describe('MembersController', () => {
     });
 
     it('should throw error when member creation fails', async () => {
-      const dto: CreateMemberDto = {
+      const dto: CreateMemberWithUserDto = {
+        username: 'zhangsan',
+        password: 'password123',
         name: '张三',
         email: 'zhangsan@example.com',
         phone: '13800138000',
+        idCard: '110101199001011234',
       };
       mockMembersService.create.mockRejectedValue(new Error('创建会员失败'));
 
@@ -87,7 +93,7 @@ describe('MembersController', () => {
       const members = [mockMember];
       mockMembersService.findAll.mockResolvedValue(members);
 
-      const query = { name: '张三', isActive: true };
+      const query = { keyword: '张三' };
       const result = await controller.findAll(query);
 
       expect(result).toEqual(members);

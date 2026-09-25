@@ -280,8 +280,9 @@ const fetchData = async () => {
       ...getCleanValues()
     }
     const res: any = await getMembers(params)
+    // 兼容历史包裹形状（{ data: { data: [], total } }）与当前裸形状（{ data: [], total }）
     tableData.value = res.data?.data || res.data || []
-    setTotal(res.data?.total || 0)
+    setTotal(res.total || 0)
   } catch (error) {
     ElMessage.error('获取会员列表失败')
   } finally {

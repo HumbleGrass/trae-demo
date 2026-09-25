@@ -7,7 +7,7 @@
       <span class="info-value code-text">{{ total }}</span>
       <span class="info-label">条</span>
     </div>
-    
+
     <el-pagination
       v-model:current-page="currentPage"
       v-model:page-size="pageSize"
@@ -39,7 +39,12 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   (e: 'pagination', payload: { page: number; limit: number }): void
+  (e: 'page-change', page: number): void
+  (e: 'size-change', size: number): void
 }>()
+
+/** 总页数：无数据时为 0，组件测试与调用方共享这一口径 */
+const totalPages = computed(() => Math.ceil(props.total / props.limit))
 
 const currentPage = computed({
   get: () => props.page,
@@ -60,12 +65,18 @@ const end = computed(() => {
   return Math.min(props.page * props.limit, props.total)
 })
 
+function handlePageChange(val: number) {
+  emit('pagination', { page: val, limit: props.limit })
+  emit('page-change', val)
+}
+
 function handleSizeChange(val: number) {
   emit('pagination', { page: props.page, limit: val })
+  emit('size-change', val)
 }
 
 function handleCurrentChange(val: number) {
-  emit('pagination', { page: val, limit: props.limit })
+  handlePageChange(val)
 }
 </script>
 

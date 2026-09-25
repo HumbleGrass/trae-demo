@@ -24,8 +24,8 @@ describe('TechCard', () => {
     expect(wrapper.text()).toContain('Card Footer')
   })
 
-  it('applies glass-card class', () => {
+  it('applies tech-card class', () => {
     const wrapper = mount(TechCard)
-    expect(wrapper.find('.glass-card').exists()).toBe(true)
+    expect(wrapper.find('.tech-card').exists()).toBe(true)
   })
 })

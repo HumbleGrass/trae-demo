@@ -33,6 +33,7 @@ const slots = useSlots()
 
 const btnType = computed(() => props.variant === 'primary' ? 'primary' : '')
 const btnClass = computed(() => ({
+  'tech-btn-primary': props.variant === 'primary',
   'tech-btn--secondary': props.variant === 'secondary',
   'tech-btn--success': props.variant === 'success',
   'tech-btn--warning': props.variant === 'warning',

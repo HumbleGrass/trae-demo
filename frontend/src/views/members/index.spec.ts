@@ -1,14 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
 import MembersPage from '@/views/members/index.vue'
 
-// Mock API
+// Mock API：返回裸响应包裹，列表为 { data: [], total }
 vi.mock('@/api/members', () => ({
   getMembers: vi.fn().mockResolvedValue({
+    code: 200,
+    message: 'ok',
     data: {
-      list: [
-        { id: 1, name: '张三', email: 'zhangsan@example.com', phone: '13800138000', status: 'active' }
+      data: [
+        { id: 1, name: '张三', email: 'zhangsan@example.com', phone: '13800138000', status: 'active', borrowLimit: 5 }
       ],
       total: 1
     }
@@ -17,53 +18,54 @@ vi.mock('@/api/members', () => ({
 
 describe('MembersPage Integration Test', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
+    vi.clearAllMocks()
   })
 
   it('loads members on mount', async () => {
     const wrapper = mount(MembersPage)
-    await wrapper.vm.$nextTick()
-    
-    // 验证页面加载后显示会员列表
+    await flushAll()
+
     expect(wrapper.find('.tech-table').exists()).toBe(true)
     expect(wrapper.text()).toContain('张三')
   })
 
   it('searches members by keyword', async () => {
     const wrapper = mount(MembersPage)
-    await wrapper.vm.$nextTick()
-    
-    // 模拟搜索操作
+    await flushAll()
+
     const searchInput = wrapper.find('input')
     await searchInput.setValue('张三')
-    await wrapper.find('.search-btn').trigger('click')
-    
-    // 验证搜索后页面内容
-    await wrapper.vm.$nextTick()
+    await wrapper.find('button').trigger('click')
+    await flushAll()
+
     expect(wrapper.text()).toContain('张三')
   })
 
-  it('opens create member dialog', async () => {
+  it('opens member edit dialog', async () => {
     const wrapper = mount(MembersPage)
-    await wrapper.vm.$nextTick()
-    
-    // 点击新增会员按钮
-    const addButton = wrapper.find('button:has-text("添加会员")')
-    if (addButton.exists()) {
-      await addButton.trigger('click')
-      
-      // 验证对话框打开
-      await wrapper.vm.$nextTick()
-      expect(wrapper.find('.el-dialog').exists()).toBe(true)
-      expect(wrapper.find('text=新增会员').exists()).toBe(true)
-    }
+    await flushAll()
+
+    // 会员页面通过行内「编辑」按钮打开编辑弹窗（模板无「添加会员」入口）
+    const buttons = wrapper.findAll('button')
+    const editButton = buttons.find((b) => b.text().includes('编辑'))
+    expect(editButton).toBeTruthy()
+    await editButton!.trigger('click')
+    await flushAll()
+
+    expect(wrapper.find('.el-dialog').exists()).toBe(true)
+    expect(wrapper.text()).toContain('members.editMember')
   })
 
   it('handles pagination', async () => {
     const wrapper = mount(MembersPage)
-    await wrapper.vm.$nextTick()
-    
-    // 验证分页组件存在
+    await flushAll()
+
     expect(wrapper.find('.el-pagination').exists()).toBe(true)
   })
 })
+
+/** 冲刷微任务队列，让挂载后的异步数据加载与渲染完成 */
+async function flushAll() {
+  await new Promise((resolve) => setTimeout(resolve, 0))
+  await new Promise((resolve) => setTimeout(resolve, 0))
+}

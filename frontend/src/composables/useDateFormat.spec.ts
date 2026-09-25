@@ -23,8 +23,10 @@ describe('useDateFormat', () => {
 
   it('checks if date is overdue', () => {
     const { isOverdue } = useDateFormat()
-    const pastDate = new Date('2026-04-01')
-    const futureDate = new Date('2026-04-20')
+    const now = Date.now()
+    // 用相对当前时间构造，避免固定历史日期受测试运行时间影响
+    const pastDate = new Date(now - 24 * 60 * 60 * 1000)
+    const futureDate = new Date(now + 24 * 60 * 60 * 1000)
     expect(isOverdue(pastDate)).toBe(true)
     expect(isOverdue(futureDate)).toBe(false)
   })
@@ -49,7 +51,6 @@ describe('useDateFormat', () => {
     const { getRenewDueDate } = useDateFormat()
     const borrowDate = new Date('2026-04-01')
     const renewDate = getRenewDueDate(borrowDate, 30)
-    const expectedDate = new Date('2026-05-01')
-    expect(renewDate.toDateString()).toBe(expectedDate.toDateString())
+    expect(renewDate).toBe('2026-05-01')
   })
 })

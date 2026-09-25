@@ -3,7 +3,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FinesService } from './fines.service';
 import { OverdueFine, FineStatus } from '../../entities/overdue-fine.entity';
-import { BorrowRecord } from '../../entities/borrow-record.entity';
+import { BorrowRecord, BorrowStatus } from '../../entities/borrow-record.entity';
 import { NotFoundException } from '@nestjs/common';
 
 describe('FinesService', () => {
@@ -17,7 +17,7 @@ describe('FinesService', () => {
     bookId: 1,
     borrowDate: new Date(),
     dueDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-    status: 'returned',
+    status: BorrowStatus.RETURNED,
   };
 
   const mockFine: Partial<OverdueFine> = {
@@ -29,20 +29,23 @@ describe('FinesService', () => {
     status: FineStatus.UNPAID,
   };
 
+  // 所有用例共享同一个 queryBuilder 实例，避免断言命不中每次新建的对象
+  const mockQueryBuilder = {
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    orderBy: jest.fn().mockReturnThis(),
+    getCount: jest.fn().mockResolvedValue(1),
+    getMany: jest.fn().mockResolvedValue([mockFine]),
+  };
+
   const mockFineRepository = {
     create: jest.fn(),
     save: jest.fn(),
     findOne: jest.fn(),
     find: jest.fn(),
-    createQueryBuilder: jest.fn(() => ({
-      leftJoinAndSelect: jest.fn().mockReturnThis(),
-      andWhere: jest.fn().mockReturnThis(),
-      skip: jest.fn().mockReturnThis(),
-      take: jest.fn().mockReturnThis(),
-      orderBy: jest.fn().mockReturnThis(),
-      getCount: jest.fn().mockResolvedValue(1),
-      getMany: jest.fn().mockResolvedValue([mockFine]),
-    })),
+    createQueryBuilder: jest.fn(() => mockQueryBuilder),
   };
 
   const mockBorrowRepository = {
@@ -110,9 +113,9 @@ describe('FinesService', () => {
       expect(result).toEqual(mockFine);
       expect(mockFineRepository.create).toHaveBeenCalledWith({
         borrowRecordId: 1,
-        overdueDays: expect.any(Number),
+        memberId: 1,
         fineAmount: expect.any(Number),
-        status: FineStatus.UNPAID,
+        fineDate: expect.any(Date),
       });
     });
 
@@ -225,14 +228,15 @@ describe('FinesService', () => {
   describe('create', () => {
     it('应该成功创建罚款记录', async () => {
       const createFineDto = {
+        memberId: 1,
         borrowRecordId: 1,
-        overdueDays: 5,
         fineAmount: 2.5,
       };
       mockFineRepository.create.mockReturnValue({ ...mockFine, ...createFineDto });
       mockFineRepository.save.mockResolvedValue({ ...mockFine, ...createFineDto });
 
       const result = await service.create(createFineDto);
+      expect(result).toEqual({ ...mockFine, ...createFineDto });
       expect(mockFineRepository.create).toHaveBeenCalledWith(createFineDto);
       expect(mockFineRepository.save).toHaveBeenCalled();
     });

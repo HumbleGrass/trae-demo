@@ -1,72 +1,70 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
 import BooksPage from '@/views/books/index.vue'
 
-// Mock API
+// Mock API：真实后端返回裸形状 { code, message, data }，books 列表为 { data: [], total }
 vi.mock('@/api/books', () => ({
   getBooks: vi.fn().mockResolvedValue({
+    code: 200,
+    message: 'ok',
     data: {
-      list: [
-        { id: 1, title: 'JavaScript高级程序设计', author: 'Nicholas C. Zakas', isbn: '9787115428028', quantity: 10 }
+      data: [
+        { id: 1, title: 'JavaScript高级程序设计', author: 'Nicholas C. Zakas', isbn: '9787115428028', quantity: 10, availableQuantity: 3 }
       ],
       total: 1
     }
-  }),
-  getBookCategories: vi.fn().mockResolvedValue({
-    data: [
-      { id: 1, name: '技术' },
-      { id: 2, name: '文学' }
-    ]
   })
 }))
 
 describe('BooksPage Integration Test', () => {
   beforeEach(() => {
-    setActivePinia(createPinia())
+    vi.clearAllMocks()
   })
 
   it('loads books on mount', async () => {
     const wrapper = mount(BooksPage)
-    await wrapper.vm.$nextTick()
-    
-    // 验证页面加载后显示图书列表
+    await flushAll()
+
     expect(wrapper.find('.tech-table').exists()).toBe(true)
     expect(wrapper.text()).toContain('JavaScript高级程序设计')
   })
 
   it('searches books by keyword', async () => {
     const wrapper = mount(BooksPage)
-    await wrapper.vm.$nextTick()
-    
-    // 模拟搜索操作
+    await flushAll()
+
     const searchInput = wrapper.find('input')
     await searchInput.setValue('JavaScript')
-    await wrapper.find('.search-btn').trigger('click')
-    
-    // 验证搜索后页面内容
-    await wrapper.vm.$nextTick()
+    await wrapper.find('button').trigger('click')
+    await flushAll()
+
     expect(wrapper.text()).toContain('JavaScript高级程序设计')
   })
 
   it('opens create book dialog', async () => {
     const wrapper = mount(BooksPage)
-    await wrapper.vm.$nextTick()
-    
-    // 点击新增图书按钮
-    await wrapper.find('button:has-text("添加图书")').trigger('click')
-    
-    // 验证对话框打开
-    await wrapper.vm.$nextTick()
+    await flushAll()
+
+    // 点击「添加图书」按钮（i18n 中文文案）
+    const addButton = wrapper.findAll('button').find((b) => b.text().includes('添加图书'))
+    expect(addButton).toBeTruthy()
+    await addButton!.trigger('click')
+    await flushAll()
+
     expect(wrapper.find('.el-dialog').exists()).toBe(true)
-    expect(wrapper.find('text=新增图书').exists()).toBe(true)
+    expect(wrapper.text()).toContain('添加图书')
   })
 
   it('handles pagination', async () => {
     const wrapper = mount(BooksPage)
-    await wrapper.vm.$nextTick()
-    
-    // 验证分页组件存在
+    await flushAll()
+
     expect(wrapper.find('.el-pagination').exists()).toBe(true)
   })
 })
+
+/** 冲刷微任务队列，让挂载后的异步数据加载与渲染完成 */
+async function flushAll() {
+  await new Promise((resolve) => setTimeout(resolve, 0))
+  await new Promise((resolve) => setTimeout(resolve, 0))
+}

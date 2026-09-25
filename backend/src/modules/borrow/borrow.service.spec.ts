@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { BorrowService } from './borrow.service';
 import { BorrowRecord, BorrowStatus } from '../../entities/borrow-record.entity';
 import { Book } from '../../entities/book.entity';
@@ -20,7 +20,7 @@ describe('BorrowService', () => {
     title: '测试书籍',
     author: '测试作者',
     isbn: '1234567890',
-    available: 5,
+    availableQuantity: 5,
     quantity: 10,
   };
 
@@ -41,20 +41,23 @@ describe('BorrowService', () => {
     renewCount: 0,
   };
 
+  // 所有用例共享同一个 queryBuilder 实例，避免断言命不中每次新建的对象
+  const mockQueryBuilder = {
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    orderBy: jest.fn().mockReturnThis(),
+    getCount: jest.fn().mockResolvedValue(1),
+    getMany: jest.fn().mockResolvedValue([mockBorrowRecord]),
+  };
+
   const mockBorrowRepository = {
     create: jest.fn(),
     save: jest.fn(),
     findOne: jest.fn(),
     count: jest.fn(),
-    createQueryBuilder: jest.fn(() => ({
-      leftJoinAndSelect: jest.fn().mockReturnThis(),
-      andWhere: jest.fn().mockReturnThis(),
-      skip: jest.fn().mockReturnThis(),
-      take: jest.fn().mockReturnThis(),
-      orderBy: jest.fn().mockReturnThis(),
-      getCount: jest.fn().mockResolvedValue(1),
-      getMany: jest.fn().mockResolvedValue([mockBorrowRecord]),
-    })),
+    createQueryBuilder: jest.fn(() => mockQueryBuilder),
   };
 
   const mockBooksService = {
@@ -65,6 +68,21 @@ describe('BorrowService', () => {
   const mockMembersService = {
     findOne: jest.fn(),
     getCurrentBorrowCount: jest.fn(),
+  };
+
+  // BorrowService.create/returnBook 走 dataSource.transaction，mock 出事务管理器
+  const mockDataSource = {
+    transaction: jest.fn(async (work) => work({
+      findOne: jest.fn(async (entity: any) => {
+        if (entity === Book) return { ...mockBook };
+        if (entity === Member) return { ...mockMember };
+        return null;
+      }),
+      count: jest.fn(async () => 0),
+      increment: jest.fn(async () => undefined),
+      create: jest.fn((_entity: any, data: any) => ({ renewCount: 0, ...data })),
+      save: jest.fn(async (record: any) => record),
+    })),
   };
 
   beforeEach(async () => {
@@ -91,6 +109,10 @@ describe('BorrowService', () => {
           provide: MembersService,
           useValue: mockMembersService,
         },
+        {
+          provide: DataSource,
+          useValue: mockDataSource,
+        },
       ],
     }).compile();
 
@@ -106,29 +128,40 @@ describe('BorrowService', () => {
     const createBorrowDto = { bookId: 1 };
 
     it('应该成功借书', async () => {
-      mockBooksService.findOne.mockResolvedValue(mockBook);
-      mockMembersService.findOne.mockResolvedValue(mockMember);
-      mockMembersService.getCurrentBorrowCount.mockResolvedValue(0);
-      mockBooksService.updateStock.mockResolvedValue({ ...mockBook, available: 4 });
-      mockBorrowRepository.create.mockReturnValue(mockBorrowRecord);
-      mockBorrowRepository.save.mockResolvedValue(mockBorrowRecord);
-
+      // 事务管理器返回借阅记录，mockDataSource 内部 findOne 返回 mockBook / mockMember
       const result = await service.create(1, createBorrowDto);
-      expect(result).toEqual(mockBorrowRecord);
-      expect(mockBooksService.updateStock).toHaveBeenCalledWith(1, -1);
+      expect(result).toEqual({
+        memberId: 1,
+        bookId: 1,
+        renewCount: 0,
+        borrowDate: expect.any(Date),
+        dueDate: expect.any(Date),
+        status: BorrowStatus.BORROWED,
+      });
+      expect(mockDataSource.transaction).toHaveBeenCalled();
     });
 
     it('应该抛出BadRequestException当库存不足', async () => {
-      mockBooksService.findOne.mockResolvedValue({ ...mockBook, available: 0 });
+      mockBook.availableQuantity = 0;
 
       await expect(service.create(1, createBorrowDto)).rejects.toThrow(BadRequestException);
       await expect(service.create(1, createBorrowDto)).rejects.toThrow('该书籍库存不足');
+      mockBook.availableQuantity = 5;
     });
 
     it('应该抛出BadRequestException当超借阅上限', async () => {
-      mockBooksService.findOne.mockResolvedValue(mockBook);
-      mockMembersService.findOne.mockResolvedValue(mockMember);
-      mockMembersService.getCurrentBorrowCount.mockResolvedValue(5);
+      mockBook.availableQuantity = 5;
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        findOne: jest.fn(async (entity: any) => {
+          if (entity === Book) return { ...mockBook };
+          if (entity === Member) return { ...mockMember };
+          return null;
+        }),
+        count: jest.fn(async () => 5),
+        increment: jest.fn(),
+        create: jest.fn(),
+        save: jest.fn(),
+      }));
 
       await expect(service.create(1, createBorrowDto)).rejects.toThrow(BadRequestException);
       await expect(service.create(1, createBorrowDto)).rejects.toThrow('已达借阅上限（5本）');
@@ -138,28 +171,34 @@ describe('BorrowService', () => {
   describe('returnBook', () => {
     it('应该成功还书', async () => {
       const borrowedRecord = { ...mockBorrowRecord, status: BorrowStatus.BORROWED };
-      mockBorrowRepository.findOne.mockResolvedValue(borrowedRecord);
-      mockBorrowRepository.save.mockResolvedValue({
-        ...borrowedRecord,
-        status: BorrowStatus.RETURNED,
-        actualReturnDate: expect.any(Date),
-      });
-      mockBooksService.updateStock.mockResolvedValue({ ...mockBook, available: 6 });
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        findOne: jest.fn(async () => borrowedRecord),
+        increment: jest.fn(),
+        save: jest.fn(async (record: any) => record),
+      }));
 
       const result = await service.returnBook(1, 1);
       expect(result.status).toBe(BorrowStatus.RETURNED);
-      expect(mockBooksService.updateStock).toHaveBeenCalledWith(1, 1);
+      expect(mockDataSource.transaction).toHaveBeenCalled();
     });
 
     it('应该抛出NotFoundException当借阅记录不存在', async () => {
-      mockBorrowRepository.findOne.mockResolvedValue(null);
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        findOne: jest.fn(async () => null),
+        increment: jest.fn(),
+        save: jest.fn(),
+      }));
 
       await expect(service.returnBook(1, 999)).rejects.toThrow(NotFoundException);
     });
 
     it('应该抛出BadRequestException当书籍已归还', async () => {
       const returnedRecord = { ...mockBorrowRecord, status: BorrowStatus.RETURNED };
-      mockBorrowRepository.findOne.mockResolvedValue(returnedRecord);
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        findOne: jest.fn(async () => returnedRecord),
+        increment: jest.fn(),
+        save: jest.fn(),
+      }));
 
       await expect(service.returnBook(1, 1)).rejects.toThrow(BadRequestException);
       await expect(service.returnBook(1, 1)).rejects.toThrow('该书籍已归还');

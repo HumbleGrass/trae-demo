@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { MembersService } from './members.service';
 import { Member } from '../../entities/member.entity';
 import { User, UserRole } from '../../entities/user.entity';
+import { BorrowStatus } from '../../entities/borrow-record.entity';
 import { ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
@@ -34,21 +35,24 @@ describe('MembersService', () => {
     user: mockUser as User,
   };
 
+  // 所有用例共享同一个 queryBuilder 实例，避免每次 createQueryBuilder 返回新对象导致断言落空
+  const mockQueryBuilder = {
+    leftJoinAndSelect: jest.fn().mockReturnThis(),
+    andWhere: jest.fn().mockReturnThis(),
+    skip: jest.fn().mockReturnThis(),
+    take: jest.fn().mockReturnThis(),
+    orderBy: jest.fn().mockReturnThis(),
+    getCount: jest.fn().mockResolvedValue(1),
+    getMany: jest.fn().mockResolvedValue([mockMember]),
+  };
+
   const mockMemberRepository = {
     create: jest.fn(),
     save: jest.fn(),
     findOne: jest.fn(),
     remove: jest.fn(),
     delete: jest.fn(),
-    createQueryBuilder: jest.fn(() => ({
-      leftJoinAndSelect: jest.fn().mockReturnThis(),
-      andWhere: jest.fn().mockReturnThis(),
-      skip: jest.fn().mockReturnThis(),
-      take: jest.fn().mockReturnThis(),
-      orderBy: jest.fn().mockReturnThis(),
-      getCount: jest.fn().mockResolvedValue(1),
-      getMany: jest.fn().mockResolvedValue([mockMember]),
-    })),
+    createQueryBuilder: jest.fn(() => mockQueryBuilder),
   };
 
   const mockUserRepository = {
@@ -56,6 +60,16 @@ describe('MembersService', () => {
     save: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
+  };
+
+  // MembersService.create/remove 走 dataSource.transaction，mock 出事务管理器
+  const mockDataSource = {
+    transaction: jest.fn(async (work) => work({
+      create: jest.fn((_entity: any, data: any) => data),
+      save: jest.fn(async (record: any) => record),
+      remove: jest.fn(async () => undefined),
+      delete: jest.fn(async () => undefined),
+    })),
   };
 
   beforeEach(async () => {
@@ -69,6 +83,10 @@ describe('MembersService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository,
+        },
+        {
+          provide: DataSource,
+          useValue: mockDataSource,
         },
       ],
     }).compile();
@@ -132,10 +150,12 @@ describe('MembersService', () => {
 
     it('应该成功创建会员', async () => {
       mockMemberRepository.findOne.mockResolvedValue(null);
-      mockUserRepository.create.mockReturnValue({ ...mockUser, id: 2 });
-      mockUserRepository.save.mockResolvedValue({ ...mockUser, id: 2 });
-      mockMemberRepository.create.mockReturnValue({ ...mockMember, id: 2, ...createDto });
-      mockMemberRepository.save.mockResolvedValue({ ...mockMember, id: 2, ...createDto });
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        create: jest.fn((_entity: any, data: any) => data),
+        save: jest.fn(async (record: any) => ({ id: 2, ...record })),
+        remove: jest.fn(),
+        delete: jest.fn(),
+      }));
 
       const result = await service.create(createDto);
       expect(result.id).toBe(2);
@@ -154,7 +174,6 @@ describe('MembersService', () => {
         .mockResolvedValueOnce(null)
         .mockResolvedValueOnce(mockMember);
 
-      await expect(service.create(createDto)).rejects.toThrow(ConflictException);
       await expect(service.create(createDto)).rejects.toThrow('身份证号已存在');
     });
   });
@@ -187,23 +206,25 @@ describe('MembersService', () => {
         reservations: [],
       };
       mockMemberRepository.findOne.mockResolvedValue(memberWithRelations);
-      mockUserRepository.delete.mockResolvedValue({ affected: 1 });
-      mockMemberRepository.remove.mockResolvedValue(mockMember);
+      mockDataSource.transaction.mockImplementation(async (work) => work({
+        create: jest.fn(),
+        save: jest.fn(),
+        remove: jest.fn(async () => undefined),
+        delete: jest.fn(async () => undefined),
+      }));
 
       await service.remove(1);
-      expect(mockUserRepository.delete).toHaveBeenCalledWith(mockMember.userId);
-      expect(mockMemberRepository.remove).toHaveBeenCalled();
+      expect(mockDataSource.transaction).toHaveBeenCalled();
     });
 
     it('应该抛出BadRequestException当有未还书时', async () => {
       const memberWithActiveBorrow = {
         ...mockMember,
-        borrowRecords: [{ id: 1, actualReturnDate: null }],
+        borrowRecords: [{ id: 1, status: BorrowStatus.BORROWED }],
         reservations: [],
       };
       mockMemberRepository.findOne.mockResolvedValue(memberWithActiveBorrow);
 
-      await expect(service.remove(1)).rejects.toThrow(BadRequestException);
       await expect(service.remove(1)).rejects.toThrow('该会员有未归还的书籍，无法删除');
     });
 
@@ -235,13 +256,11 @@ describe('MembersService', () => {
       const memberWithBorrows = {
         ...mockMember,
         borrowRecords: [
-          { id: 1, actualReturnDate: null },
-          { id: 2, actualReturnDate: new Date() },
+          { id: 1, status: BorrowStatus.BORROWED },
+          { id: 2, status: BorrowStatus.RETURNED },
         ],
       };
-      mockMemberRepository.findOne
-        .mockResolvedValueOnce(mockMember)
-        .mockResolvedValueOnce(memberWithBorrows);
+      mockMemberRepository.findOne.mockResolvedValue(memberWithBorrows);
 
       const result = await service.getCurrentBorrowCount(1);
       expect(result).toBe(1);

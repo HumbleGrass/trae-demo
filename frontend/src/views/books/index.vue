@@ -317,8 +317,9 @@ const fetchData = async () => {
       ...getCleanValues()
     }
     const res: any = await getBooks(params)
-    tableData.value = res.data.data || res.data || []
-    setTotal(res.data.total || 0)
+    // 兼容历史包裹形状（{ data: { data: [], total } }）与当前裸形状（{ data: [], total }）
+    tableData.value = res.data?.data || res.data || []
+    setTotal(res.total || 0)
   } catch (error) {
     ElMessage.error('获取图书列表失败')
   } finally {

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BorrowController } from './borrow.controller';
 import { BorrowService } from './borrow.service';
+import { MembersService } from '../members/members.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 
 describe('BorrowController', () => {
@@ -23,8 +24,11 @@ describe('BorrowController', () => {
     findByMember: jest.fn(),
     returnBook: jest.fn(),
     renew: jest.fn(),
-    findAll: jest.fn(),
     calculateOverdue: jest.fn(),
+  };
+
+  const mockMembersService = {
+    findByUserId: jest.fn(async (userId: number) => ({ id: userId })),
   };
 
   beforeEach(async () => {
@@ -34,6 +38,7 @@ describe('BorrowController', () => {
       controllers: [BorrowController],
       providers: [
         { provide: BorrowService, useValue: mockBorrowService },
+        { provide: MembersService, useValue: mockMembersService },
       ],
     }).compile();
 
