@@ -285,3 +285,17 @@ JWT 过期：路由守卫会本地校验 token 过期时间并自动跳登录页
 
 ### 4. 前后端端口对不上
 后端默认 **3030**（不是 3000），前端代理 `/api` → `localhost:3030`。若修改后端 `PORT`，需同步改 `frontend/vite.config.mts` 的 proxy target。
+
+## Agent skills
+
+### Issue tracker
+
+问题以本地 Markdown 文件形式存放在 `.scratch/<feature>/` 下。参见 `docs/agents/issue-tracker.md`。
+
+### Domain docs
+
+单上下文布局：仓库根目录一个 `CONTEXT.md` 加 `docs/adr/`。参见 `docs/agents/domain.md`。
+
+### Triage labels
+
+分诊角色到标签字符串的映射见 `docs/agents/triage-labels.md`（默认五个标准标签）。
