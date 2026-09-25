@@ -142,7 +142,7 @@
                 <span class="date-text code-text">{{ formatDate(row.borrowDate) }}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="dueDate" label="应还日期" width="140">
+            <el-table-column prop="dueDate" label="应还日期" width="170">
               <template #default="{ row }">
                 <div class="due-date-cell" :class="{ overdue: isOverdue(row) }">
                   <span class="date-text code-text">{{ formatDate(row.dueDate) }}</span>
@@ -725,12 +725,23 @@ onMounted(async () => {
 }
 
 .search-form {
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .search-input-group {
   flex: 1;
+  flex-wrap: wrap;
   gap: 12px;
+
+  // el-select 无固有宽度，缺少最小宽度会塌缩成仅剩箭头的窄框
+  .tech-select-wrapper {
+    min-width: 180px;
+  }
+
+  .tech-select {
+    width: 100%;
+  }
 }
 
 .table-header {
@@ -871,6 +882,7 @@ onMounted(async () => {
 .date-text {
   font-size: 14px;
   color: var(--text-secondary);
+  white-space: nowrap;
 }
 
 .due-date-cell {
@@ -889,6 +901,8 @@ onMounted(async () => {
     display: inline-flex;
     align-items: center;
     gap: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
     font-size: 11px;
     padding: 3px 8px;
     background: var(--color-danger-soft);

@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { flushPromises, mount } from '@vue/test-utils'
 import ElementPlus from 'element-plus'
@@ -8,7 +8,7 @@ import LoginPage from './index.vue'
 const source = readFileSync(resolve(process.cwd(), 'src/views/login/index.vue'), 'utf8')
 const mainSource = readFileSync(resolve(process.cwd(), 'src/main.ts'), 'utf8')
 const fontTokens = readFileSync(resolve(process.cwd(), 'src/styles/_notion-values.scss'), 'utf8')
-const loginFormSource = source.match(/<el-form[\s\S]*?class="login-form"[\s\S]*?<\/el-form>/)?.[0] ?? ''
+const loginFormSource = source.match(/<el-form[\s\S]*?class="auth-form login-form"[\s\S]*?<\/el-form>/)?.[0] ?? ''
 
 const { loginActionMock, logoutActionMock } = vi.hoisted(() => ({
   loginActionMock: vi.fn(),
@@ -32,28 +32,28 @@ vi.mock('@/stores/user', () => ({
 
 vi.mock('@/api/auth/index', () => ({ register: vi.fn() }))
 
-describe('staff login page layout contract', () => {
+describe('glass login page layout contract', () => {
   beforeEach(() => {
     loginActionMock.mockReset()
     logoutActionMock.mockReset()
+    localStorage.clear()
   })
 
-  it('uses the editorial split layout on desktop', () => {
-    expect(source).toContain('class="login-card login-card--editorial"')
+  it('renders the full-bleed four-layer background stack', () => {
+    for (const layer of ['bg-layer bg-base', 'bg-layer bg-photo', 'bg-layer bg-scrim', 'bg-layer bg-bloom']) {
+      expect(source).toContain(`class="${layer}"`)
+    }
+    expect(source).toContain("url('/images/login-bg.jpg')")
+    expect(existsSync(resolve(process.cwd(), 'public/images/login-bg.jpg'))).toBe(true)
+  })
+
+  it('centres a single frosted-glass card on the page', () => {
     expect(source).toMatch(
-      /\.login-card--editorial\s*\{[\s\S]*grid-template-columns:\s*minmax\(0, 42fr\) minmax\(0, 58fr\)/
+      /\.login-page\s*\{[\s\S]*display:\s*flex;[\s\S]*align-items:\s*center;[\s\S]*justify-content:\s*center;[\s\S]*min-height:\s*100vh/
     )
-  })
-
-  it('collapses the editorial layout to one column on mobile', () => {
+    expect(source).toMatch(/\.auth-card\s*\{[\s\S]*width:\s*min\(100%, 420px\)/)
     expect(source).toMatch(
-      /@media \(max-width: 768px\)[\s\S]*\.login-card--editorial\s*\{[\s\S]*grid-template-columns:\s*1fr/
-    )
-  })
-
-  it('constrains login dialogs to the mobile viewport', () => {
-    expect(source).toMatch(
-      /:global\(\.tech-dialog\.el-dialog\)\s*\{[\s\S]*width:\s*min\(480px, calc\(100vw - 32px\)\)/
+      /\.auth-card\s*\{[\s\S]*-webkit-backdrop-filter:\s*blur\(24px\) saturate\(180%\);[\s\S]*backdrop-filter:\s*blur\(24px\) saturate\(180%\)/
     )
   })
 
@@ -79,13 +79,21 @@ describe('staff login page layout contract', () => {
     expect(source).not.toContain('.social-btn')
   })
 
-  it('uses accessible secondary actions and footer contrast', () => {
-    expect(source).toContain('<button type="button" class="forgot-link"')
-    expect(source).toContain('<button type="button" class="register-link"')
+  it('uses accessible secondary actions', () => {
+    expect(source).toContain('<button type="button" class="link-btn forgot-link"')
+    expect(source).toContain('<button type="button" class="link-btn register-link"')
+  })
+
+  it('styles glass dialogs and constrains them to the mobile viewport', () => {
+    expect(source).toContain('class="glass-dialog"')
+    expect(source).toContain('modal-class="glass-overlay"')
     expect(source).toMatch(
-      /\.forgot-link,[\s\S]*\.register-link\s*\{[\s\S]*min-height:\s*var\(--control-height-lg\)/
+      /:global\(\.glass-dialog\.el-dialog\)\s*\{[\s\S]*width:\s*min\(400px, calc\(100vw - 32px\)\)/
     )
-    expect(source).toMatch(/\.card-footer\s*\{[\s\S]*color:\s*var\(--text-muted\)/)
+  })
+
+  it('respects reduced motion preferences', () => {
+    expect(source).toMatch(/@media \(prefers-reduced-motion: reduce\)/)
   })
 
   it('loads Inter globally without declaring unavailable NotionInter', () => {
@@ -121,6 +129,20 @@ describe('staff login page layout contract', () => {
     expect(logoutActionMock).not.toHaveBeenCalled()
     expect(wrapper.text()).toContain('login.usernameRequired')
     expect(wrapper.text()).toContain('login.passwordRequired')
+    wrapper.unmount()
+  })
+
+  it('restores the remembered username without persisting passwords', async () => {
+    localStorage.setItem('zhiyuege.remember', 'alice')
+
+    const wrapper = mount(LoginPage, {
+      global: { plugins: [ElementPlus] }
+    })
+    await flushPromises()
+
+    const usernameInput = wrapper.get('#login-username').element as HTMLInputElement
+    expect(usernameInput.value).toBe('alice')
+    expect(localStorage.getItem('zhiyuege.password')).toBeNull()
     wrapper.unmount()
   })
 })
