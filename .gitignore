@@ -122,3 +122,6 @@ test-results/
 
 # Test screenshots
 test_screenshots/
+
+# ZCode 编辑器配置文件
+.zcodeignore
