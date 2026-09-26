@@ -121,4 +121,4 @@ playwright-report/
 test-results/
 
 # Test screenshots
-test-screenshots/
+test_screenshots/
