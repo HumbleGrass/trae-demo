@@ -124,7 +124,7 @@
                   查看
                 </TechButton>
                 <TechButton 
-                  v-if="row.status === 'PENDING'"
+                  v-if="row.status === 'pending'"
                   variant="danger" 
                   size="small"
                   :icon="Delete"
@@ -167,19 +167,18 @@ const searchParams = reactive<Record<string, any>>({})
 
 const searchFields = [
   { prop: 'status', label: '预约状态', type: 'select' as const, placeholder: '选择状态', options: [
-    { label: '待处理', value: 'PENDING' },
-    { label: '已确认', value: 'CONFIRMED' },
-    { label: '已完成', value: 'COMPLETED' },
-    { label: '已取消', value: 'CANCELLED' }
+    { label: '待处理', value: 'pending' },
+    { label: '已完成', value: 'fulfilled' },
+    { label: '已取消', value: 'cancelled' }
   ]},
   { prop: 'keyword', label: '搜索关键词', type: 'input' as const, placeholder: '搜索书名或会员名' }
 ]
 
 const stats = computed(() => ({
   total: reservations.value.length,
-  pending: reservations.value.filter(r => r.status === 'PENDING').length,
-  active: reservations.value.filter(r => ['PENDING', 'CONFIRMED'].includes(r.status)).length,
-  completed: reservations.value.filter(r => r.status === 'COMPLETED').length
+  pending: reservations.value.filter(r => r.status === 'pending').length,
+  active: reservations.value.filter(r => ['pending', 'fulfilled'].includes(r.status)).length,
+  completed: reservations.value.filter(r => r.status === 'fulfilled').length
 }))
 
 const pagination = reactive({
