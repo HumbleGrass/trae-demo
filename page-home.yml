@@ -1,0 +1,208 @@
+- generic [ref=e76]:
+  - complementary [ref=e77]:
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - img [ref=e82]
+        - generic [ref=e88]:
+          - heading "知阅阁 知阅阁 知阅阁" [level=1] [ref=e89]
+          - paragraph [ref=e90]: LIBRARY SYSTEM
+      - navigation [ref=e92]:
+        - generic [ref=e93]:
+          - paragraph [ref=e94]: layout.navigation
+          - menubar [ref=e95]:
+            - menuitem "首页" [ref=e96] [cursor=pointer]:
+              - img [ref=e98]
+              - generic [ref=e100]: 首页
+            - paragraph [ref=e102]: layout.management
+            - menuitem "图书管理" [ref=e103] [cursor=pointer]:
+              - img [ref=e105]
+              - generic [ref=e108]: 图书管理
+            - menuitem "会员管理" [ref=e109] [cursor=pointer]:
+              - img [ref=e111]
+              - generic [ref=e113]: 会员管理
+            - paragraph [ref=e115]: layout.operations
+            - menuitem "借阅管理" [ref=e116] [cursor=pointer]:
+              - img [ref=e118]
+              - generic [ref=e121]: 借阅管理
+            - menuitem "预约管理" [ref=e122] [cursor=pointer]:
+              - img [ref=e124]
+              - generic [ref=e128]: 预约管理
+            - paragraph [ref=e130]: layout.analytics
+            - menuitem "统计报表" [ref=e131] [cursor=pointer]:
+              - img [ref=e133]
+              - generic [ref=e135]: 统计报表
+            - menuitem "数据分析" [ref=e136] [cursor=pointer]:
+              - img [ref=e138]
+              - generic [ref=e141]: 数据分析
+            - menuitem "系统设置" [ref=e142] [cursor=pointer]:
+              - img [ref=e144]
+              - generic [ref=e146]: 系统设置
+      - generic [ref=e148]:
+        - generic [ref=e149]: 主题
+        - button "科技" [ref=e150] [cursor=pointer]:
+          - generic [ref=e152]: 科技
+  - generic [ref=e153]:
+    - generic [ref=e155]:
+      - generic [ref=e156]:
+        - button [ref=e157] [cursor=pointer]:
+          - img [ref=e159]
+        - navigation "面包屑" [ref=e162]:
+          - generic [ref=e163]:
+            - link [ref=e164]:
+              - img [ref=e166]
+            - text: /
+          - link "首页" [ref=e169]
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - generic [ref=e172]: 23:19:30
+          - generic [ref=e173]: 2026/04/26
+        - generic [ref=e174]:
+          - button "中文" [ref=e176] [cursor=pointer]:
+            - generic [ref=e178]: 中文
+          - button "3" [ref=e179] [cursor=pointer]:
+            - img [ref=e181]
+            - generic [ref=e185]: "3"
+        - button "admin layout.admin" [ref=e188] [cursor=pointer]:
+          - img [ref=e192]
+          - generic [ref=e195]:
+            - generic [ref=e196]: admin
+            - generic [ref=e197]: layout.admin
+          - img [ref=e200]
+    - main [ref=e202]:
+      - generic [ref=e204]:
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - heading "知阅阁 知阅阁 知阅阁" [level=1] [ref=e207]:
+              - generic [ref=e208]: 知阅阁 知阅阁 知阅阁
+            - paragraph [ref=e209]: 夜深了，早点休息
+          - generic [ref=e211]:
+            - generic [ref=e212]: 23:19:30
+            - generic [ref=e213]: 2026年4月26日星期日
+        - generic [ref=e214]:
+          - generic [ref=e215]:
+            - img [ref=e219]
+            - generic [ref=e223]:
+              - generic [ref=e224]: "0"
+              - generic [ref=e225]: 今日借阅
+            - generic [ref=e226]:
+              - img [ref=e228]
+              - generic [ref=e230]: +12%
+          - generic [ref=e231]:
+            - img [ref=e235]
+            - generic [ref=e239]:
+              - generic [ref=e240]: "0"
+              - generic [ref=e241]: 今日归还
+            - generic [ref=e242]:
+              - img [ref=e244]
+              - generic [ref=e246]: +8%
+          - generic [ref=e247]:
+            - img [ref=e251]
+            - generic [ref=e254]:
+              - generic [ref=e255]: "0"
+              - generic [ref=e256]: 逾期数量
+            - generic [ref=e257]:
+              - img [ref=e259]
+              - generic [ref=e261]: "-3%"
+          - generic [ref=e262]:
+            - img [ref=e266]
+            - generic [ref=e270]:
+              - generic [ref=e271]: "10"
+              - generic [ref=e272]: 图书总数
+            - generic [ref=e273]:
+              - img [ref=e275]
+              - generic [ref=e277]: +5%
+        - generic [ref=e278]:
+          - generic [ref=e279]:
+            - generic [ref=e281]:
+              - heading "借阅趋势" [level=3] [ref=e282]
+              - radiogroup "radio-group" [ref=e284]:
+                - generic [ref=e285]:
+                  - radio "本周" [checked] [ref=e286]
+                  - generic [ref=e287] [cursor=pointer]: 本周
+                - generic [ref=e288]:
+                  - radio "本月" [ref=e289]
+                  - generic [ref=e290] [cursor=pointer]: 本月
+            - generic [ref=e295]:
+              - generic [ref=e296]:
+                - heading "最近动态" [level=3] [ref=e297]
+                - button "查看全部" [ref=e298] [cursor=pointer]:
+                  - generic [ref=e299]:
+                    - text: 查看全部
+                    - img [ref=e301]
+              - generic [ref=e303]:
+                - generic [ref=e304]:
+                  - img [ref=e307]
+                  - generic [ref=e310]:
+                    - generic [ref=e311]: 管理员借阅了《围城》
+                    - generic [ref=e312]: 2026/4/12
+                  - generic [ref=e314]: 借阅
+                - generic [ref=e315]:
+                  - img [ref=e318]
+                  - generic [ref=e321]:
+                    - generic [ref=e322]: 管理员借阅了《西游记》
+                    - generic [ref=e323]: 2026/3/30
+                  - generic [ref=e325]: 借阅
+                - generic [ref=e326]:
+                  - img [ref=e329]
+                  - generic [ref=e332]:
+                    - generic [ref=e333]: 管理员归还了《围城》
+                    - generic [ref=e334]: 2026/3/30
+                  - generic [ref=e336]: 归还
+                - generic [ref=e337]:
+                  - img [ref=e340]
+                  - generic [ref=e343]:
+                    - generic [ref=e344]: 管理员借阅了《西游记》
+                    - generic [ref=e345]: 2026/3/30
+                  - generic [ref=e347]: 借阅
+                - generic [ref=e348]:
+                  - img [ref=e351]
+                  - generic [ref=e354]:
+                    - generic [ref=e355]: 管理员归还了《三国演义》
+                    - generic [ref=e356]: 2026/3/30
+                  - generic [ref=e358]: 归还
+          - generic [ref=e359]:
+            - generic [ref=e360]:
+              - heading "快捷操作" [level=3] [ref=e362]
+              - generic [ref=e363]:
+                - button "借书" [ref=e364] [cursor=pointer]:
+                  - img [ref=e367]
+                  - generic [ref=e370]: 借书
+                - button "添加图书" [ref=e372] [cursor=pointer]:
+                  - img [ref=e375]
+                  - generic [ref=e377]: 添加图书
+                - button "添加会员" [ref=e379] [cursor=pointer]:
+                  - img [ref=e382]
+                  - generic [ref=e384]: 添加会员
+                - button "查看报表" [ref=e386] [cursor=pointer]:
+                  - img [ref=e389]
+                  - generic [ref=e391]: 查看报表
+            - generic [ref=e393]:
+              - heading "热门图书" [level=3] [ref=e395]
+              - generic [ref=e396]:
+                - generic [ref=e397] [cursor=pointer]:
+                  - generic [ref=e398]: "1"
+                  - img [ref=e402]
+                  - generic [ref=e405]:
+                    - generic [ref=e406]: 围城
+                    - generic [ref=e407]: 钱钟书
+                  - generic [ref=e408]:
+                    - img [ref=e410]
+                    - generic [ref=e412]: "2"
+                - generic [ref=e413] [cursor=pointer]:
+                  - generic [ref=e414]: "2"
+                  - img [ref=e418]
+                  - generic [ref=e421]:
+                    - generic [ref=e422]: 西游记
+                    - generic [ref=e423]: 吴承恩
+                  - generic [ref=e424]:
+                    - img [ref=e426]
+                    - generic [ref=e428]: "2"
+                - generic [ref=e429] [cursor=pointer]:
+                  - generic [ref=e430]: "3"
+                  - img [ref=e434]
+                  - generic [ref=e437]:
+                    - generic [ref=e438]: 三国演义
+                    - generic [ref=e439]: 罗贯中
+                  - generic [ref=e440]:
+                    - img [ref=e442]
+                    - generic [ref=e444]: "1"

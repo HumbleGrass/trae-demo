@@ -1,0 +1,193 @@
+/**
+ * Element Plus 编译期主题变量（Notion 风格）
+ *
+ * 本文件由 vite.config.ts 的 css.preprocessorOptions.scss.additionalData
+ * 注入到每个 SCSS 编译单元（包括按需加载的 Element Plus 组件样式源码），
+ * 使 theme-chalk 在编译期读取下方自定义变量。
+ * 颜色/尺寸取值与 src/styles/_notion-values.scss 对齐。
+ */
+@use './notion-values' as notion;
+
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'white': notion.$color-on-primary,
+    'black': notion.$color-ink,
+    'primary': ('base': notion.$color-primary),
+    'success': ('base': notion.$color-success),
+    'warning': ('base': notion.$color-warning),
+    'danger': ('base': notion.$color-danger),
+    'error': ('base': notion.$color-danger),
+    'info': ('base': notion.$color-info)
+  ),
+  $text-color: (
+    'primary': notion.$color-ink,
+    'regular': notion.$color-ink-secondary,
+    'secondary': notion.$color-ink-muted,
+    'placeholder': notion.$color-ink-faint,
+    'disabled': notion.$color-ink-faint
+  ),
+  $border-color: (
+    '': notion.$color-hairline,
+    'light': notion.$color-hairline,
+    'lighter': notion.$color-hairline,
+    'extra-light': notion.$color-canvas-soft,
+    'dark': notion.$color-ink-faint,
+    'darker': notion.$color-ink-muted
+  ),
+  $fill-color: (
+    '': notion.$color-canvas-soft,
+    'light': notion.$color-canvas-soft,
+    'lighter': notion.$color-canvas-soft,
+    'extra-light': notion.$color-canvas-soft,
+    'dark': notion.$color-hairline,
+    'darker': notion.$color-hairline,
+    'blank': notion.$color-surface
+  ),
+  $bg-color: (
+    '': notion.$color-surface,
+    'page': notion.$color-canvas-soft,
+    'overlay': notion.$color-surface
+  ),
+  $border-radius: (
+    'base': notion.$radius-xs,
+    'small': notion.$radius-xs,
+    'round': notion.$radius-full,
+    'circle': 100%
+  ),
+  $box-shadow: (
+    '': notion.$shadow-elevated,
+    'light': notion.$shadow-soft,
+    'lighter': notion.$shadow-soft,
+    'dark': notion.$shadow-elevated
+  ),
+  $font-family: ('': notion.$font-family-base),
+  $font-size: (
+    'extra-large': notion.$font-size-title,
+    'large': 18px,
+    'medium': notion.$font-size-body-md,
+    'base': notion.$font-size-caption,
+    'small': 13px,
+    'extra-small': notion.$font-size-eyebrow
+  ),
+  $common-component-size: (
+    'large': notion.$control-height-lg,
+    'default': notion.$control-height-md,
+    'small': notion.$control-height-sm
+  ),
+  $overlay-color: (
+    '': rgba(0, 0, 0, 0.45),
+    'light': rgba(0, 0, 0, 0.32),
+    'lighter': rgba(0, 0, 0, 0.18)
+  ),
+  $button: ('font-weight': 500),
+  $button-border-radius: (
+    'large': notion.$radius-md,
+    'default': notion.$radius-md,
+    'small': notion.$radius-sm
+  ),
+  $button-font-size: (
+    'large': notion.$font-size-body-md,
+    'default': notion.$font-size-caption,
+    'small': 13px
+  ),
+  $button-padding-vertical: (
+    'large': 10px,
+    'default': 7px,
+    'small': 5px
+  ),
+  $button-padding-horizontal: (
+    'large': 20px,
+    'default': 14px,
+    'small': 10px
+  ),
+  $input: ('border-radius': notion.$radius-xs),
+  $input-font-size: (
+    'large': notion.$font-size-body-md,
+    'default': notion.$font-size-body-sm,
+    'small': notion.$font-size-caption
+  ),
+  $select-option: ('height': 36px),
+  $select-wrapper-padding: (
+    'large': 8px 14px,
+    'default': 6px 12px,
+    'small': 4px 8px
+  ),
+  $table: (
+    'header-bg-color': notion.$color-canvas-soft,
+    'header-text-color': notion.$color-ink-muted,
+    'row-hover-bg-color': notion.$color-canvas-soft
+  ),
+  $table-font-size: (
+    'large': notion.$font-size-body-sm,
+    'default': notion.$font-size-body-sm,
+    'small': notion.$font-size-caption
+  ),
+  $table-padding: (
+    'large': 14px 0,
+    'default': 12px 0,
+    'small': 8px 0
+  ),
+  $table-cell-padding: (
+    'large': 0 16px,
+    'default': 0 16px,
+    'small': 0 12px
+  ),
+  $pagination: (
+    'border-radius': notion.$radius-sm,
+    'button-width': 32px,
+    'button-height': 32px,
+    'item-gap': 8px
+  ),
+  $dialog: (
+    'box-shadow': notion.$shadow-elevated,
+    'border-radius': notion.$radius-xl,
+    'padding-primary': notion.$space-lg
+  ),
+  $messagebox: (
+    'border-radius': notion.$radius-xl,
+    'box-shadow': notion.$shadow-elevated,
+    'padding-primary': notion.$space-md
+  ),
+  $notification: (
+    'radius': notion.$radius-lg,
+    'shadow': notion.$shadow-elevated,
+    'border-color': notion.$color-hairline
+  ),
+  $card: (
+    'border-color': notion.$color-hairline,
+    'border-radius': notion.$radius-lg,
+    'padding': notion.$space-lg,
+    'bg-color': notion.$color-surface
+  ),
+  $menu: (
+    'item-height': 40px,
+    'sub-item-height': 36px,
+    'item-font-size': notion.$font-size-caption,
+    'base-level-padding': notion.$space-md,
+    'level-padding': notion.$space-md,
+    'icon-width': 20px
+  ),
+  $tag: (
+    'font-size': notion.$font-size-eyebrow,
+    'border-radius': notion.$radius-sm,
+    'border-radius-rounded': notion.$radius-full
+  ),
+  $tag-height: (
+    'large': 28px,
+    'default': 24px,
+    'small': 20px
+  ),
+  $tag-padding: (
+    'large': 10px,
+    'default': 8px,
+    'small': 6px
+  ),
+  $form: (
+    'label-font-size': notion.$font-size-caption,
+    'inline-content-width': 220px
+  ),
+  $avatar: (
+    'bg-color': notion.$color-primary,
+    'border-radius': notion.$radius-full
+  )
+);

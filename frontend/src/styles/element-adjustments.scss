@@ -1,0 +1,86 @@
+/* Details that Element Plus does not expose through Sass maps.
+ *
+ * Element Plus 组件样式改为按需注入后会晚于本文件加载，
+ * 统一挂在 :root 下提升优先级，保证与 theme-chalk 同名规则竞争时
+ * 不受样式加载顺序影响。
+ */
+
+:root {
+
+  .el-button {
+    letter-spacing: 0;
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .el-button--primary:not(.is-link):not(.is-text) {
+    border-radius: var(--radius-full);
+  }
+
+  .el-button:focus-visible,
+  .el-input__wrapper:focus-within,
+  .el-select__wrapper.is-focused,
+  .el-textarea__inner:focus {
+    box-shadow: var(--shadow-focus);
+  }
+
+  .el-input__wrapper,
+  .el-select__wrapper,
+  .el-textarea__inner {
+    box-shadow: 0 0 0 1px var(--border-default) inset;
+  }
+
+  .el-input__wrapper:hover,
+  .el-select__wrapper:hover,
+  .el-textarea__inner:hover {
+    box-shadow: 0 0 0 1px var(--color-ink-faint) inset;
+  }
+
+  .el-card,
+  .el-table,
+  .el-dialog,
+  .el-message-box,
+  .el-notification,
+  .el-popper.is-light {
+    border-color: var(--border-default);
+  }
+
+  .el-table th.el-table__cell {
+    font-size: var(--font-size-eyebrow);
+    font-weight: var(--font-weight-title);
+    letter-spacing: 0.125px;
+  }
+
+  .el-table td.el-table__cell {
+    font-size: var(--font-size-body-sm);
+  }
+
+  .el-dialog,
+  .el-message-box,
+  .el-notification,
+  .el-popper.is-light {
+    box-shadow: var(--shadow-overlay-elevated);
+  }
+
+  .el-dropdown-menu,
+  .el-select-dropdown__list {
+    padding: var(--space-xxs);
+  }
+
+  .el-dropdown-menu__item,
+  .el-select-dropdown__item {
+    border-radius: var(--radius-sm);
+  }
+
+  .el-pagination button,
+  .el-pagination .el-pager li {
+    border: 1px solid transparent;
+  }
+
+  .el-pagination .el-pager li.is-active {
+    border-color: var(--color-primary);
+  }
+}
