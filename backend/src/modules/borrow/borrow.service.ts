@@ -6,6 +6,8 @@ import { Book } from '../../entities/book.entity';
 import { Member } from '../../entities/member.entity';
 import { BooksService } from '../books/books.service';
 import { MembersService } from '../members/members.service';
+import { FinesService } from '../fines/fines.service';
+import { ReservationsService } from '../reservations/reservations.service';
 import { CreateBorrowDto } from './dto/create-borrow.dto';
 import { BorrowQueryDto } from './dto/borrow-query.dto';
 
@@ -25,6 +27,8 @@ export class BorrowService {
     private booksService: BooksService,
     private membersService: MembersService,
     private dataSource: DataSource,
+    private finesService: FinesService,
+    private reservationsService: ReservationsService,
   ) {}
 
   async create(memberId: number, createBorrowDto: CreateBorrowDto): Promise<BorrowRecord> {
@@ -69,7 +73,7 @@ export class BorrowService {
   }
 
   async returnBook(memberId: number, borrowId: number): Promise<BorrowRecord> {
-    return this.dataSource.transaction(async (manager) => {
+    const savedRecord = await this.dataSource.transaction(async (manager) => {
       const borrowRecord = await manager.findOne(BorrowRecord, {
         where: { id: borrowId, memberId },
         relations: ['member'],
@@ -91,6 +95,12 @@ export class BorrowService {
 
       return manager.save(borrowRecord);
     });
+
+    // 归还后自动计算逾期费用，并通知排队中的预约者
+    await this.finesService.generateFineForReturn(borrowId);
+    await this.reservationsService.notifyFirstInQueue(savedRecord.bookId);
+
+    return savedRecord;
   }
 
   async renew(memberId: number, borrowId: number): Promise<BorrowRecord> {

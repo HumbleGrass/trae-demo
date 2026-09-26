@@ -7,12 +7,16 @@ import { Book } from '../../entities/book.entity';
 import { Member } from '../../entities/member.entity';
 import { BooksModule } from '../books/books.module';
 import { MembersModule } from '../members/members.module';
+import { FinesModule } from '../fines/fines.module';
+import { ReservationsModule } from '../reservations/reservations.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([BorrowRecord, Book, Member]),
     BooksModule,
     MembersModule,
+    FinesModule,
+    ReservationsModule,
   ],
   controllers: [BorrowController],
   providers: [BorrowService],

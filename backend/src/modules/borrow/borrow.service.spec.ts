@@ -6,6 +6,8 @@ import { BorrowRecord, BorrowStatus } from '../../entities/borrow-record.entity'
 import { Book } from '../../entities/book.entity';
 import { Member } from '../../entities/member.entity';
 import { BooksService } from '../books/books.service';
+import { FinesService } from '../fines/fines.service';
+import { ReservationsService } from '../reservations/reservations.service';
 import { MembersService } from '../members/members.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
@@ -65,6 +67,14 @@ describe('BorrowService', () => {
     updateStock: jest.fn(),
   };
 
+  const mockFinesService = {
+    generateFineForReturn: jest.fn().mockResolvedValue(null),
+  };
+
+  const mockReservationsService = {
+    notifyFirstInQueue: jest.fn().mockResolvedValue(null),
+  };
+
   const mockMembersService = {
     findOne: jest.fn(),
     getCurrentBorrowCount: jest.fn(),
@@ -108,6 +118,14 @@ describe('BorrowService', () => {
         {
           provide: MembersService,
           useValue: mockMembersService,
+        },
+        {
+          provide: FinesService,
+          useValue: mockFinesService,
+        },
+        {
+          provide: ReservationsService,
+          useValue: mockReservationsService,
         },
         {
           provide: DataSource,
@@ -180,6 +198,8 @@ describe('BorrowService', () => {
       const result = await service.returnBook(1, 1);
       expect(result.status).toBe(BorrowStatus.RETURNED);
       expect(mockDataSource.transaction).toHaveBeenCalled();
+      expect(mockFinesService.generateFineForReturn).toHaveBeenCalledWith(1);
+      expect(mockReservationsService.notifyFirstInQueue).toHaveBeenCalledWith(1);
     });
 
     it('应该抛出NotFoundException当借阅记录不存在', async () => {
