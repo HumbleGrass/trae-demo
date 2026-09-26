@@ -22,8 +22,11 @@ export class AnalyticsController {
   @Get('borrow-trend')
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
-  getBorrowTrend(@Query('months') months?: number) {
-    return this.analyticsService.getBorrowTrend(months || 6);
+  getBorrowTrend(
+    @Query('months') months?: number,
+    @Query('groupBy') groupBy?: 'month' | 'week',
+  ) {
+    return this.analyticsService.getBorrowTrend(months || 6, groupBy || 'month');
   }
 
   @Get('reader-demographics')

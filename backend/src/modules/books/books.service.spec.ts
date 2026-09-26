@@ -3,7 +3,8 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BooksService } from './books.service';
 import { Book } from '../../entities/book.entity';
-import { ConflictException, NotFoundException } from '@nestjs/common';
+import { BorrowRecord, BorrowStatus } from '../../entities/borrow-record.entity';
+import { ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
 
 describe('BooksService', () => {
   let service: BooksService;
@@ -41,6 +42,10 @@ describe('BooksService', () => {
     createQueryBuilder: jest.fn(() => queryBuilder),
   };
 
+  const mockBorrowRepository = {
+    count: jest.fn().mockResolvedValue(0),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -48,6 +53,10 @@ describe('BooksService', () => {
         {
           provide: getRepositoryToken(Book),
           useValue: mockRepository,
+        },
+        {
+          provide: getRepositoryToken(BorrowRecord),
+          useValue: mockBorrowRepository,
         },
       ],
     }).compile();
@@ -169,9 +178,18 @@ describe('BooksService', () => {
     it('应该成功删除书籍', async () => {
       mockRepository.findOne.mockResolvedValue(mockBook);
       mockRepository.remove.mockResolvedValue(mockBook);
+      mockBorrowRepository.count.mockResolvedValue(0);
 
       await service.remove(1);
       expect(mockRepository.remove).toHaveBeenCalledWith(mockBook);
+    });
+
+    it('应该抛出BadRequestException当存在未归还借阅记录', async () => {
+      mockRepository.findOne.mockResolvedValue(mockBook);
+      mockBorrowRepository.count.mockResolvedValue(1);
+
+      await expect(service.remove(1)).rejects.toThrow(BadRequestException);
+      await expect(service.remove(1)).rejects.toThrow('该书籍存在未归还的借阅记录，无法删除');
     });
 
     it('应该抛出NotFoundException当删除不存在的书籍', async () => {

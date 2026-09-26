@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, In } from 'typeorm';
 import { Book } from '../../entities/book.entity';
+import { BorrowRecord, BorrowStatus } from '../../entities/borrow-record.entity';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { BookQueryDto } from './dto/book-query.dto';
@@ -11,6 +12,8 @@ export class BooksService {
   constructor(
     @InjectRepository(Book)
     private bookRepository: Repository<Book>,
+    @InjectRepository(BorrowRecord)
+    private borrowRepository: Repository<BorrowRecord>,
   ) {}
 
   async create(createBookDto: CreateBookDto): Promise<Book> {
@@ -84,8 +87,27 @@ export class BooksService {
     return this.bookRepository.save(book);
   }
 
+  /**
+   * 删除书籍
+   * @param id - 书籍 ID
+   * @throws NotFoundException 书籍不存在时抛出
+   * @throws BadRequestException 存在未归还借阅记录时抛出
+   */
   async remove(id: number): Promise<void> {
     const book = await this.findOne(id);
+
+    // 删除前校验是否存在未归还的借阅记录（借阅中或已逾期），避免删除正在外借的书籍
+    const activeBorrowCount = await this.borrowRepository.count({
+      where: { bookId: id, status: BorrowStatus.BORROWED },
+    });
+    const overdueBorrowCount = await this.borrowRepository.count({
+      where: { bookId: id, status: BorrowStatus.OVERDUE },
+    });
+
+    if (activeBorrowCount > 0 || overdueBorrowCount > 0) {
+      throw new BadRequestException('该书籍存在未归还的借阅记录，无法删除');
+    }
+
     await this.bookRepository.remove(book);
   }
 

@@ -41,17 +41,27 @@ export class AnalyticsService {
       .getMany();
   }
 
-  async getBorrowTrend(months = 6): Promise<any[]> {
+  /**
+   * 获取借阅趋势（按月或按周聚合）
+   * @param months - 统计最近几个月的数据，默认 6 个月
+   * @param groupBy - 聚合维度，month（月，默认）或 week（周）
+   * @returns 按时间聚合后的借阅次数列表
+   */
+  async getBorrowTrend(months = 6, groupBy: 'month' | 'week' = 'month'): Promise<any[]> {
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - months);
 
+    // 周维度按「年-周」聚合（ISO 周），月维度按「年-月」聚合
+    const dateFormat = groupBy === 'week' ? '%Y-%u' : '%Y-%m';
+    const label = groupBy === 'week' ? 'week' : 'month';
+
     const result = await this.borrowRepository
       .createQueryBuilder('borrow')
-      .select('DATE_FORMAT(borrow.borrowDate, "%Y-%m")', 'month')
+      .select(`DATE_FORMAT(borrow.borrowDate, "${dateFormat}")`, label)
       .addSelect('COUNT(*)', 'count')
       .where('borrow.borrowDate >= :startDate', { startDate })
-      .groupBy('month')
-      .orderBy('month', 'ASC')
+      .groupBy(label)
+      .orderBy(label, 'ASC')
       .getRawMany();
 
     return result;
